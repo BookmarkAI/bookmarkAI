@@ -53,7 +53,7 @@ const sf = [
       url: "https://www.sfchronicle.com/sf/article/sfnext-poll-sentiment-17435794.php",
       title: "How fed up are San Franciscans with the city's problems? New S.F. Chronicle poll finds pervasive gloom",
       description: "San Francisco has long seen skirmishes among factions of its overwhelmingly Democratic electorate, but fissures are widening,",
-      image: sf1,
+      image: sf1
     },
     {
       url: "https://www.tastingtable.com/1303053/best-restaurants-san-francisco-ranked/",
@@ -79,12 +79,12 @@ const lancedb = [
   {
     url: "https://lancedb.github.io/lancedb/",
     title: "LanceDB Documentation",
-    description: "LanceDB is an open-source database for vector-search built with persistent storage, which greatly simplifies retrevial, filtering and management of embeddings.",
+    description: "LanceDB is an open-source database for vector-search built with persistent storage, which greatly simplifies retrevial, filtering and management of embeddings."
   }
 ]
 
 const image_list = [
-   mckinsey, gen1, gen2, , lancedb1, lancedb2, gen3,  sf1, gen4, sf2
+   mckinsey, gen1, gen2, lancedb1, lancedb2, gen3,  sf1, gen4, sf2
 ]
 
 

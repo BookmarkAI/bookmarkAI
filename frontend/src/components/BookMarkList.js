@@ -10,33 +10,33 @@ const demo = {
     image: mckinsey
 }
 
-export default function BookMarkList(props) {
-    const { genAI, lance } = props;
+function BookMarkList(props) {
+    const { style, spacing } = props;
   return (
     <Grid
     container
-    spacing={4}
+    spacing={spacing}
     justify="center"
-    sx={{pt: 5, pr: 20}}
+    sx={style}
     >
 
-        {!lance && <Grid item xs={12} sm={6} md={4}>
+        {<Grid item xs={12} sm={6} md={4}>
             <BookMarkCard title={demo.title} description={demo.description} image={demo.image} url={demo.url}/> 
         </Grid>}
 
-        {!genAI && !lance && sf.map((doc) => (
+        {sf.map((doc) => (
             <Grid item xs={12} sm={6} md={4}>
                 <BookMarkCard title={doc.title} description={doc.description} image={doc.image} url={doc.url}/> 
             </Grid>
         ))}
 
-        {!lance && generative_ai.map((doc) => (
+        { generative_ai.map((doc) => (
             <Grid item xs={12} sm={6} md={4}>
                 <BookMarkCard title={doc.title} description={doc.description} image={doc.image} url={doc.url}/> 
             </Grid>
         ))}
 
-        {!genAI && lancedb.map((doc) => (
+        {lancedb.map((doc) => (
             <Grid item xs={12} sm={6} md={4}>
                 <BookMarkCard title={doc.title} description={doc.description} image={doc.image} url={doc.url}/> 
             </Grid>
@@ -45,3 +45,19 @@ export default function BookMarkList(props) {
     </Grid>
   );
 };
+
+function DesktopBookMarkList() {
+    const style = {pt: 5, pr: 20}
+    return (
+        <BookMarkList style={style} spacing={4}/>
+    )
+}
+
+function MobileBookMarkList() {
+    const style = {p: 1}
+    return (
+        <BookMarkList style={style} spacing={0}/>
+    )
+}
+
+export { DesktopBookMarkList, MobileBookMarkList};

@@ -1,39 +1,13 @@
-// import * as React from 'react';
-// import Tabs from '@mui/material/Tabs';
-// import Tab from '@mui/material/Tab';
-// import Box from '@mui/material/Box';
 import ChatIcon from '@mui/icons-material/Chat';
 import ArticleIcon from '@mui/icons-material/Article';
 import ImageIcon from '@mui/icons-material/Image';
 import { useNavigate } from 'react-router-dom';
-
-// export default function ColorTabs() {
-//   const [value, setValue] = React.useState('one');
-
-//   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-//     setValue(newValue);
-//   };
-
-//   return (
-//     <Box sx={{ width: '100%' }}>
-//       <Tabs
-//         value={value}
-//         onChange={handleChange}
-//         aria-label="secondary tabs example"
-//       >
-//         <Tab icon={<ChatIcon />} iconPosition="start" label="All" />
-//         <Tab icon={<ArticleIcon />} iconPosition="start" label="Text" />
-//         <Tab icon={<ImageIcon />} iconPosition="start" label="Image" />
-//       </Tabs>
-//     </Box>
-//   );
-// }
-
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
+import FilterDrawer from './Mobile/FilterDrawer';
 
 const AntTabs = styled(Tabs)({
   borderBottom: '1.5px solid #e8e8e8',
@@ -80,8 +54,9 @@ const AntTab = styled((props: StyledTabProps) => <Tab disableRipple {...props} /
 
 
 
-export default function CustomizedTabs() {
+function CustomizedTabs(props) {
   const [value, setValue] = React.useState(0);
+  const { fontsize } = props
   const navigate = useNavigate();
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -90,13 +65,27 @@ export default function CustomizedTabs() {
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ bgcolor: '#fff'}}>
-        <AntTabs value={value} onChange={handleChange} aria-label="ant example" sx={{pl: 36}}>
-          <AntTab onClick={() => navigate('/browse')} sx={{fontSize: "18px"}} icon={<ChatIcon />} iconPosition="start" label="All" />
-          <AntTab onClick={() => navigate('/browse')} sx={{fontSize: "18px"}} icon={<ArticleIcon />} iconPosition="start" label="Text"  />
-          <AntTab onClick={() => navigate('/images')} sx={{fontSize: "18px"}} icon={<ImageIcon />} iconPosition="start" label="Image"/>
+        <AntTabs value={value} onChange={handleChange} aria-label="ant example" >
+          <AntTab onClick={() => navigate('/browse')} sx={{fontSize: fontsize}} icon={<ChatIcon />} iconPosition="start" label="All" />
+          <AntTab onClick={() => navigate('/browse')} sx={{fontSize: fontsize}} icon={<ArticleIcon />} iconPosition="start" label="Text"  />
+          <AntTab onClick={() => navigate('/images')} sx={{fontSize: fontsize}} icon={<ImageIcon />} iconPosition="start" label="Image"/>
         </AntTabs>
-        <Box sx={{ p: 0}} />
       </Box>
     </Box>
   );
 }
+
+
+function DesktopTab() {
+  return (
+    <CustomizedTabs fontsize={"18px"}/>
+  )
+}
+
+function MobileTab() {
+  return (
+    <CustomizedTabs fontsize={"15px"}/>
+  )
+}
+
+export { DesktopTab, MobileTab }

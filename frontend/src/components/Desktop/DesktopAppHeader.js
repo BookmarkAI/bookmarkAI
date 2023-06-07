@@ -6,14 +6,15 @@ import Avatar from '@mui/material/Avatar';
 import ButtonBase from '@mui/material/Button';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useState } from 'react';
-import logo from '../assets/bookmark_logo.png';
+import logo from '../../assets/bookmark_logo.png';
 import Box from '@mui/material/Box';
-import SearchBar from './SearchBar';
-import Tab from './Tab';
+import  { DesktopSearchBar } from '../SearchBar';
+import { DesktopTab } from '../Tab';
 
 
 
-export default function AppHeader() {
+
+export default function DesktopAppHeader() {
   const navigate = useNavigate();
   const [refresh, setRefresh] = useState(false);
 
@@ -36,7 +37,7 @@ export default function AppHeader() {
                         }}
                     />
                 </Box>
-                <SearchBar height={60} refresh={refresh}/>
+                <DesktopSearchBar height={60} width={786} refresh={refresh}/>
             </Box>
             
             <IconButton>
@@ -44,8 +45,8 @@ export default function AppHeader() {
             </IconButton>
 
         </Toolbar>
-        <Toolbar>
-            <Tab/>
+        <Toolbar sx={{ml: 36}}>
+            <DesktopTab/>
         </Toolbar>
     </AppBar>
   );

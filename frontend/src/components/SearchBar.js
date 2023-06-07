@@ -10,6 +10,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import DirectionsIcon from '@mui/icons-material/Directions';
 import { useState, useEffect  } from 'react';
 import { useNavigate, createSearchParams, useSearchParams, useLocation } from 'react-router-dom';
+import { auth, usersRef} from '../fb.js';
+import { doc, updateDoc, arrayUnion } from "firebase/firestore"; 
 
 
 function SearchBar(props) {
@@ -20,15 +22,20 @@ function SearchBar(props) {
 
   const location = useLocation();
   const currentPathname = location.pathname;
+  const user = auth.currentUser;
+  const userRef = doc(usersRef, user.uid);
 
 
   function changeQuery(e){
     setQuery(e.target.value);    
   }
 
-  function keyPress(e){
+  async function keyPress(e){
         if(e.key === 'Enter'){
             e.preventDefault();
+            await updateDoc(userRef, {
+              queries: arrayUnion(query)
+            });
             navigate({
                 pathname: "/search",
                 search: createSearchParams({

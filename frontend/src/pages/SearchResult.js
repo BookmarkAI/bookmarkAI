@@ -2,15 +2,18 @@ import { useSearchParams } from 'react-router-dom'
 import { Typography, Box, Grid, Paper, InputBase, Stack } from '@mui/material';
 import { MuiMarkdown } from 'mui-markdown';
 import { useEffect, useState } from 'react';
-import { Desktop, Mobile } from '../utils/MediaQuery';
-import DesktopChatScreen from '../components/Desktop/DesktopChatScreen';
-import MobileChatScreen from '../components/Mobile/MobileChatScreen';
+import { auth, usersRef} from '../fb.js';
+import { doc, updateDoc, arrayUnion } from "firebase/firestore"; 
+
 
 
 export default function SearchResult() {
+    
     const [searchParams, setSearchParams] = useSearchParams();
-    const q = searchParams.get('q')
-    const [responseMessages, setResponseMessages] = useState([])
+    const q = searchParams.get('q');
+    const [responseMessages, setResponseMessages] = useState([]);
+    const user = auth.currentUser;
+    const userRef = doc(usersRef, user.uid);
 
     useEffect(() => {
         setResponseMessages([])
@@ -35,10 +38,13 @@ export default function SearchResult() {
           };
     }, [searchParams])
 
-    function keyPress(e){
+   async function keyPress(e){
         if(e.key === 'Enter'){
             e.preventDefault();
             setResponseMessages([])
+            await updateDoc(userRef, {
+                queries: arrayUnion(inputValue)
+            });
             setSearchParams({q:inputValue});
             setInputValue('')
         }

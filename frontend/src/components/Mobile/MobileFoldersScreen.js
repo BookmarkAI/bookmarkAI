@@ -25,7 +25,7 @@ export default function MobileFoldersScreen() {
 
             <Box onClick={()=>setSelect(!select)} sx={{mt: 1.5, display: "flex", width: "100%", alignItems: "center", justifyContent:"space-between", background:'linear-gradient(to right, #BB70EE, #87A5ED)'}}>
                 <Typography variant="body2" sx={{pl:1, color: "white", fontWeight: 440}}>
-                Select folders to get insights from ✍️
+                Select folders and ask questions ✍️
                 </Typography>
                 <IconButton onClick={()=>setSelect(!select)}>
                     {!select?

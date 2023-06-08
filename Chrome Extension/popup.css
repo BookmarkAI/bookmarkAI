@@ -9,6 +9,12 @@ button {
     color: white;
 	margin-bottom: 30px;
 }
+a{
+	color:black
+}
+.text-white{
+	color: white;
+}
 img{
 	margin-top: 10px;
 }

@@ -72,7 +72,7 @@ function DesktopSearchBar() {
 function MobileSearchBar() {
   const style = {display: 'flex', alignItems: 'center', justifyContent: 'center', border:1, height: 40, pr: 2, width: '95%', borderColor: "#DFE1E5", borderRadius:10}
   return (
-    <SearchBar fontsize={17} style={style} placeholder={"Search"}/> 
+    <SearchBar fontsize={17} style={style} placeholder={"Search or query"}/> 
   )
 }
 

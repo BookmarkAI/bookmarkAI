@@ -8,7 +8,7 @@ import { Box, Typography, IconButton, Collapse, Button, Toolbar, Grid } from '@m
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp'
 import CssBaseline from "@mui/material/CssBaseline";
-import folder from '../../assets/folder.png'
+import folder from '../../assets/folder/5.png'
 import { useParams } from 'react-router-dom';
 import { createTheme, ThemeProvider } from "@mui/material";
 
@@ -46,12 +46,12 @@ export default function MobileFolderView() {
         
         <CssBaseline/>
         
-            <Box sx={{pl:4, pt: 2}}>
+            <Box sx={{pl:4, pt: 2.5}}>
                 <img 
                     src={folder} 
                     alt="Bookmark Logo"
                     style={{
-                        height: '45px',
+                        height: '40px',
                     }}/>
 
                 <Box sx={{display: "flex", flexDirection: "row",justifyContent: "flex-start", alignItems: "flex-end", mb: 1}}>

@@ -73,7 +73,7 @@ export default function MobileChatScreen(props) {
             </MobileSearchBar>
         </Grid>
         <CopySnackbar open={openSnackbar} setOpen={setOpenSnackbar}/>
-        <MobileTopBar open={open} setOpen={setOpen} onClickText={executeScroll} textClicked={textClicked}/>
+        <MobileTopBar open={open} setOpen={setOpen}/>
         
         {/* <FilterDrawer open={open} setOpen={setOpen}/> */}
         <Grid container>

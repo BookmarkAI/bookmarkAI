@@ -78,9 +78,7 @@ function ScrollToHide01 (props) {
 
 
 export default function BackToTop(props) {
-  const navigate = useNavigate();
-  const [ extended, setExtended ] = useState(false);
-
+  const navigate = useNavigate()
   return (
     <React.Fragment>
         <CssBaseline />

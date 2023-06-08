@@ -7,3 +7,6 @@ class ExtensionDocument(BaseModel):
     raw_text: str
     url: str
     title: Optional[str] = None
+    UID: str
+    image_urls: list
+    

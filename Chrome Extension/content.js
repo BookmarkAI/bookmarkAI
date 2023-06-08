@@ -47,7 +47,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ raw_text: text, url: url })
+            // body: JSON.stringify({ raw_text: text, url: url, UID: request.UID, title: title, image_urls: image_urls })
+            body: JSON.stringify({ raw_text: text, url: url, UID: request.UID, title: title, image_urls: image_urls })
 
         })
         .then(response => response.json())
@@ -61,3 +62,4 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         });
 
 }});
+

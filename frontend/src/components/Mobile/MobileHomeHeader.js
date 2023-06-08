@@ -8,7 +8,7 @@ import { AppBar, Toolbar, IconButton, Avatar, Typography } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import logo from '../../assets/supermark_both.png';
 import MobileFolder from "./MobileFolder";
-
+import MenuIcon from '@mui/icons-material/Menu';
 
 export default function MobileAppHeader(props) {
   const navigate = useNavigate();
@@ -17,6 +17,7 @@ export default function MobileAppHeader(props) {
   function onClickHandler() {
     navigate('/')
   }
+  
 
   return (
     <>
@@ -24,13 +25,7 @@ export default function MobileAppHeader(props) {
     <AppBar elevation={0} sx={{backgroundColor: "rgba(255,255,255,0.8)"}}>
             <Toolbar sx={{display: 'flex', justifyContent: 'space-between'}}>
                 <IconButton onClick={()=>navigate('/')}>
-                <img 
-                    src={logo} 
-                    alt="Bookmark Logo"
-                    style={{
-                        height: '30px'
-                    }}
-                />
+                  <MenuIcon/>
                 </IconButton>
                 <IconButton>
                     <Avatar sx={{width: 30, height: 30}}/>

@@ -6,6 +6,7 @@ import HomeHeader from '../../components/HomeHeader';
 import { createTheme, ThemeProvider } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import MobileFooter from './MobileFooter';
+import MobileHomeHeader from './MobileHomeHeader';
 
 const theme = createTheme({
     components: {
@@ -32,8 +33,8 @@ export default function MobileHomeScreen(props) {
     return(
         <>
     
-        <HomeHeader/>
-        <Grid container spacing={3} sx={{border:0, mt: 10}}>
+        <MobileHomeHeader/>
+        <Grid container spacing={3} sx={{border:0, mt: 15}}>
 
             <Grid item xs={12} sx={{border:0, display: 'flex', justifyContent: 'center'}}>
                 <img 

@@ -1,4 +1,4 @@
-import { AppBar, Toolbar, IconButton, Box } from "@mui/material";
+import { AppBar, Toolbar, IconButton, Box, Collapse } from "@mui/material";
 import HomeIcon from '@mui/icons-material/HomeOutlined';
 import FolderIcon from '@mui/icons-material/FolderOutlined';
 import BookmarkIcon from '@mui/icons-material/BookmarkBorderOutlined';
@@ -8,6 +8,8 @@ import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from "react-router";
 import { Fade, useScrollTrigger } from "@mui/material";
 import { MobileSearchBar } from "../SearchBar";
+import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
+
 
 
 const ScrollToFade02 = props => {
@@ -60,11 +62,10 @@ export default function MobileFooter() {
 
         </AppBar>
         {/* <Box sx={{ position: 'fixed', bottom: 16, right: 20,  zIndex: 2000 }}>
-        <Fab position="fixed" background='linear-gradient(to right, #cd5b95, #9846ca)' sx={{background: 'linear-gradient(to right, #cd5b95, #9846ca)'}} aria-label="add">
-            <AddIcon sx={{color: "white"}} />
-        </Fab>
-    </Box> */}
-
+            <Fab position="fixed" background='linear-gradient(to right, #cd5b95, #9846ca)' sx={{background: 'linear-gradient(to right, #cd5b95, #9846ca)'}} aria-label="add">
+                <ChatBubbleOutlineIcon sx={{color: "white"}} />
+            </Fab>
+        </Box> */}
 
     {/* <ScrollToFade02>
         <Box sx={{ position: 'fixed', bottom: 60, left: 16, zIndex: 2000, width: '80%' }}>

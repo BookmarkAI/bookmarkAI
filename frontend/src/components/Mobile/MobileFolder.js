@@ -1,6 +1,6 @@
 import { Card, Box, CardMedia, IconButton, Typography, Checkbox } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import folder from '../../assets/folder.png'
+import folder from '../../assets/folder/5.png'
 import { useNavigate } from 'react-router';
 
 export default function MobileFolder({title, count, select}){
@@ -15,13 +15,12 @@ export default function MobileFolder({title, count, select}){
             <CardMedia sx={{m: 1}}>
                 <img 
                 src={folder} 
-                alt="Bookmark Logo"
                 style={{
-                    height: '45px',
+                    height: '40px',
                 }}
             />
             </CardMedia>
-            <Box sx={{pl: 1.5}}>
+            <Box sx={{pl: 1}}>
                 <Typography gutterBottom variant="subtitle" component="div"  style={{ lineHeight: "18px" , fontSize: 14, fontWeight: 420}}>
                     {title}
                 </Typography>

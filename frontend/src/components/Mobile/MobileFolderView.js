@@ -70,7 +70,7 @@ export default function MobileFolderView() {
 
             <Box onClick={()=>setSelect(!select)} sx={{display: "flex", width: "100%", alignItems: "center", justifyContent:"space-between", background:'linear-gradient(to right, #BB70EE, #87A5ED)'}}>
                 <Typography variant="body2" sx={{pl:1, color: "white", fontWeight: 440}}>
-                Select bookmarks to get answers from ✍️
+                Select bookmarks and ask a question ✍️
                 </Typography>
                 <IconButton onClick={()=>setSelect(!select)}>
                     {!select?

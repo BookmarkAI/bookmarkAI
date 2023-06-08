@@ -22,10 +22,10 @@ export default function MobileFolder({title, count, select}){
             />
             </CardMedia>
             <Box sx={{pl: 1.5}}>
-                <Typography variant="subtitle">
+                <Typography gutterBottom variant="subtitle" component="div"  style={{ lineHeight: "18px" , fontSize: 14, fontWeight: 420}}>
                     {title}
                 </Typography>
-                <Typography gutterBottom variant="subtitle" component="div"  style={{ fontSize: 14, color: "#808080"}}>
+                <Typography gutterBottom variant="subtitle" component="div"  style={{ fontSize: 12, color: "#808080"}}>
                 {count} bookmarks
                 </Typography>
             </Box>

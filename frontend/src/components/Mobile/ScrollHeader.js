@@ -13,6 +13,7 @@ import Fade from '@mui/material/Fade';
 import { IconButton, Avatar, Slide } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { useNavigate } from 'react-router';
+import { useState } from 'react';
 
 function ScrollTop(props) {
     const { children, window } = props;
@@ -39,6 +40,7 @@ function ScrollTop(props) {
   
     return (
       // <Fade in={trigger}>
+      // onClick={handleClick}
         <Box
           onClick={handleClick}
           role="presentation"
@@ -79,6 +81,7 @@ function ScrollToHide01 (props) {
 
 export default function BackToTop(props) {
   const navigate = useNavigate();
+  const [ extended, setExtended ] = useState(false);
 
   return (
     <React.Fragment>

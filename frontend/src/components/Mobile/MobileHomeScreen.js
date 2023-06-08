@@ -7,6 +7,7 @@ import { createTheme, ThemeProvider } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import MobileFooter from './MobileFooter';
 import MobileHomeHeader from './MobileHomeHeader';
+import FilterDrawer from './FilterDrawer';
 
 const theme = createTheme({
     components: {
@@ -47,11 +48,13 @@ export default function MobileHomeScreen(props) {
             </Grid>
 
             <Grid item xs={12} sx={{ml: 2, mr: 2}}>
-                <MobileSearchBar/>
+                <MobileSearchBar>
+                    <FilterDrawer/>
+                </MobileSearchBar>
             </Grid>
 
             <Grid item xs={12} sx={{border:0, display: 'flex', justifyContent: 'center'}}>
-                <Button onClick={() => navigate('/browse')} sx={{background: 'linear-gradient(to right, #cd5b95, #9846ca)'}} variant="contained">Or Browse It</Button>
+                <Button onClick={() => navigate('/browse')} sx={{background: 'linear-gradient(to right, #cd5b95, #9846ca)'}} variant="contained">Browse</Button>
             </Grid> 
 
         </Grid>

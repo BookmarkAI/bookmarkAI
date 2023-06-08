@@ -90,6 +90,7 @@ export default function MobileBookmarkCard(props) {
     <Box sx={{display: "flex", flexDirection: "column", borderBottom: 0.2, borderColor: "#d3d3d3" }}>
       <Box sx={{ display: "flex", justifyContent: 'space-between', maxWidth: 600}}>
       
+        {/* Code to navigate to the link */}
         <Box onClick={()=>window.location.replace(url)} sx={{ display: "flex"}}>
           <Box sx={{ minWidth: 50, display: "flex", alignItems: "center", justifyContent: "center", ml: 1, mr: 1}}>
             <img

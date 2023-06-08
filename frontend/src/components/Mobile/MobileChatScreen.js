@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { MuiMarkdown } from 'mui-markdown';
 import MobileTopBar from './MobileTopBar';
 import * as React from 'react';
-import FilterDrawer from './FilterDrawer';
 import { MobileSearchBar } from '../SearchBar';
 import { MobileBookMarkList } from "../BookMarkList";
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
@@ -12,6 +11,7 @@ import { useState, useEffect } from 'react';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import CopySnackbar from './CopySnackbar';
 import CssBaseline from "@mui/material/CssBaseline";
+import FilterDrawer from './FilterDrawer';
 
 
 
@@ -66,7 +66,12 @@ export default function MobileChatScreen(props) {
     const navigate = useNavigate();
     return(
         <>
-        <CssBaseline/>
+      
+        <Grid xs={12} sx={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+            <MobileSearchBar>
+                <FilterDrawer/>
+            </MobileSearchBar>
+        </Grid>
         <CopySnackbar open={openSnackbar} setOpen={setOpenSnackbar}/>
         <MobileTopBar open={open} setOpen={setOpen} onClickText={executeScroll} textClicked={textClicked}/>
         

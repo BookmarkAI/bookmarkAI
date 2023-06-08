@@ -1,8 +1,10 @@
 import * as React from 'react';
 import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
+import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
+import TuneIcon from '@mui/icons-material/Tune';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import DirectionsIcon from '@mui/icons-material/Directions';
@@ -19,10 +21,6 @@ function SearchBar(props) {
   const location = useLocation();
   const currentPathname = location.pathname;
 
-  // useEffect(()=>{
-  //   console.log(query)
-  //   setQuery('')
-  // },[refresh])
 
   function changeQuery(e){
     setQuery(e.target.value);    
@@ -56,6 +54,7 @@ function SearchBar(props) {
         placeholder={placeholder}
         inputProps={{ 'aria-label': 'search google maps' }}
       />
+      {props.children}
     </Paper>
   );
 }
@@ -69,10 +68,12 @@ function DesktopSearchBar() {
   )
 }
 
-function MobileSearchBar() {
+function MobileSearchBar(props) {
   const style = {display: 'flex', alignItems: 'center', justifyContent: 'center', border:1, height: 40, pr: 2, width: '95%', borderColor: "#DFE1E5", borderRadius:10}
   return (
-    <SearchBar fontsize={17} style={style} placeholder={"Search or query"}/> 
+    <SearchBar fontsize={17} style={style} placeholder={"Search or query"} {...props}>
+      {props.children}
+    </SearchBar>
   )
 }
 

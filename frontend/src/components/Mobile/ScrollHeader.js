@@ -2,22 +2,16 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import CssBaseline from '@mui/material/CssBaseline';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
 import Fab from '@mui/material/Fab';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import Fade from '@mui/material/Fade';
 import { IconButton, Avatar, Slide, Collapse } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
 import { useNavigate } from 'react-router';
 import { useState } from 'react';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import { MobileSearchBar } from '../SearchBar';
-import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
-import CloseIcon from '@mui/icons-material/Close';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 function ScrollTop(props) {
     const { children, window } = props;
@@ -91,10 +85,10 @@ export default function BackToTop(props) {
     <React.Fragment>
         <CssBaseline />
         <ScrollToHide01 threshold={1}>
-        <AppBar elevation={0} sx={{backgroundColor: "white"}}>
+        <AppBar elevation={0} sx={{backgroundColor: "transparent"}}>
             <Toolbar sx={{display: 'flex', justifyContent: 'space-between'}}>
                 <IconButton onClick={()=>navigate('/')}>
-                    {props.children}
+                  <ArrowBackIcon/>
                 </IconButton>
                 <IconButton>
                     <MoreHorizIcon/>

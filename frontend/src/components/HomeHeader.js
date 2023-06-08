@@ -8,14 +8,12 @@ import Avatar from '@mui/material/Avatar';
 function ResponsiveAppBar() {
 
   return (
-    <AppBar position="static" elevation="0" sx={{pt: 2, backgroundColor: "white"}}>
-        <Toolbar sx={{backgroundColor: "white", justifyContent: 'flex-end'}}>
+    <AppBar sx={{backgroundColor: "transparent"}} position="static" elevation="0">
+        <Toolbar sx={{backgroundColor: "transparent", justifyContent: 'flex-end'}}>
             <IconButton>
-            <Avatar sx={{ width: 50, height: 50 }}/>
+            <Avatar/>
             </IconButton>
-
         </Toolbar>
-
     </AppBar>
   );
 }

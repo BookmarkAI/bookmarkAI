@@ -6,14 +6,15 @@ import Avatar from '@mui/material/Avatar';
 import ButtonBase from '@mui/material/Button';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useState } from 'react';
-import logo from '../assets/bookmark_logo.png';
+import logo from '../../assets/supermark_both.png';
 import Box from '@mui/material/Box';
-import SearchBar from './SearchBar';
-import Tab from './Tab';
+import  { DesktopSearchBar } from '../SearchBar';
+import { DesktopTab } from '../Tab';
 
 
 
-export default function AppHeader() {
+
+export default function DesktopAppHeader() {
   const navigate = useNavigate();
   const [refresh, setRefresh] = useState(false);
 
@@ -22,21 +23,20 @@ export default function AppHeader() {
   }
 
   return (
-    <AppBar position="sticky" elevation="0" sx={{pt: 2, backgroundColor: "white"}}>
-        <Toolbar sx={{backgroundColor: "white", justifyContent: 'space-between'}}>
+    <AppBar position="sticky" elevation="0" sx={{pt: 2, backgroundColor: "transparent"}}>
+        <Toolbar sx={{backgroundColor: "transparent", justifyContent: 'space-between'}}>
             <Box sx={{display: 'flex', pt: 1, alignItems: 'center'}}>
                 <Box onClick={onClickHandler} sx={{mr:3}}>
                     <img 
                         src={logo} 
                         alt="Split.it Logo" 
                         style={{
-                            height: 60,
-                            marginLeft: 5,
-                            marginRight: 10,
+                            height: 55,
+
                         }}
                     />
                 </Box>
-                <SearchBar height={60} refresh={refresh}/>
+                <DesktopSearchBar height={60} width={786} refresh={refresh}/>
             </Box>
             
             <IconButton>
@@ -44,8 +44,8 @@ export default function AppHeader() {
             </IconButton>
 
         </Toolbar>
-        <Toolbar>
-            <Tab/>
+        <Toolbar sx={{ml: 36}}>
+            <DesktopTab/>
         </Toolbar>
     </AppBar>
   );

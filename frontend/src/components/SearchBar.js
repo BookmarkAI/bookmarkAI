@@ -9,8 +9,9 @@ import DirectionsIcon from '@mui/icons-material/Directions';
 import { useState, useEffect  } from 'react';
 import { useNavigate, createSearchParams, useSearchParams, useLocation } from 'react-router-dom';
 
-export default function SearchBar(props) {
-  const { height, refresh } = props;
+
+function SearchBar(props) {
+  const { fontsize, style, placeholder } = props;
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const [query, setQuery] = useState(searchParams.get('q'));
@@ -18,23 +19,20 @@ export default function SearchBar(props) {
   const location = useLocation();
   const currentPathname = location.pathname;
 
-  useEffect(()=>{
-    console.log(query)
-    setQuery('')
-  },[refresh])
+  // useEffect(()=>{
+  //   console.log(query)
+  //   setQuery('')
+  // },[refresh])
 
   function changeQuery(e){
-    setQuery(e.target.value);
-    // setSearchParams({q: query});
-    //     console.log(searchParams.toString())
-    
+    setQuery(e.target.value);    
   }
 
   function keyPress(e){
         if(e.key === 'Enter'){
             e.preventDefault();
             navigate({
-                pathname: location.pathname == "/images" ? "images" : "search",
+                pathname: "/search",
                 search: createSearchParams({
                     q: query
                 }).toString()
@@ -45,19 +43,37 @@ export default function SearchBar(props) {
   return (
     <Paper
       component="form"
-      sx={{display: 'flex', alignItems: 'center', width: 786, height: {height}, border:1, borderColor: "#DFE1E5", borderRadius:20}}
+      sx={style}
     >
-      <IconButton type="button" sx={{ p: '15px', ml:1 }} aria-label="search" disabled>
+      <IconButton type="button"  aria-label="search" disabled>
         <SearchIcon sx={{fontSize:'30px'}}/>
       </IconButton>
       <InputBase
         value={query}
         onChange={changeQuery}
         onKeyDown={keyPress}
-        sx={{ ml: 1, flex: 1, fontSize: 20 }}
-        placeholder="Search Your Own Internet"
+        sx={{ ml: 1, flex: 1, fontSize: fontsize }}
+        placeholder={placeholder}
         inputProps={{ 'aria-label': 'search google maps' }}
       />
     </Paper>
   );
 }
+
+
+
+function DesktopSearchBar() {
+  const style = {display: 'flex', alignItems: 'center', justifyContent: 'center', border:1, pl: 1, pt: 0.8, pb: 0.8, borderColor: "#DFE1E5", borderRadius:20, width: 768}
+  return (
+    <SearchBar fontsize={20} style={style} placeholder={"Search Your Own Internet"}/> 
+  )
+}
+
+function MobileSearchBar() {
+  const style = {display: 'flex', alignItems: 'center', justifyContent: 'center', border:1, height: 40, pr: 2, width: '95%', borderColor: "#DFE1E5", borderRadius:10}
+  return (
+    <SearchBar fontsize={15} style={style} placeholder={"Search"}/> 
+  )
+}
+
+export { DesktopSearchBar, MobileSearchBar }

@@ -7,22 +7,20 @@ import HomeHeader from '../components/HomeHeader';
 import SubjectList from '../components/SubjectList';
 import BookMarkList from '../components/BookMarkList';
 import { useState } from 'react';
+import { Desktop, Mobile } from '../responsive/MediaQuery';
+import DesktopBrowseScreen from '../components/Desktop/DesktopBrowseScreen';
+import MobileBrowseScreen from '../components/Mobile/MobileBrowseScreen';
 
 export default function BrowseScreen(props) {
-    const navigate = useNavigate();
-    const [ genAI, setGenAI ] = useState(false);
-    const [ lance, setLancedb ] = useState(false);
     return(
         <>
-        <Box sx={{ flexGrow: 1 }}>
-        <Grid container spacing={2}>
-            <Grid item xs={2}/>
-            <Grid item xs={10}>
-                <SubjectList setGenAI = { setGenAI } setLancedb = { setLancedb }/>
-                <BookMarkList genAI = { genAI } lance = {lance} />
-            </Grid>
-        </Grid>
-        </Box>
+        <Desktop>
+            <DesktopBrowseScreen/>
+        </Desktop>
+        <Mobile>
+            <MobileBrowseScreen/>
+        </Mobile>
         </>
     )
 }
+

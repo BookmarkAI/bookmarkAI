@@ -40,7 +40,13 @@ export default function MobileBrowseScreen() {
 
         
             <Collapse in={select} >
-                <Box sx={{display: "flex", justifyContent: "space-between", ml: 2, mr: 2}}>
+                <Box onClick={()=>setSelect(!select)} sx={{pt:1, pb: 1, display: "flex", width: "100%", alignItems: "center", justifyContent:"start", background:'linear-gradient(to right, #BB70EE, #87A5ED)'}}>
+                    <Typography variant="body2" sx={{pl:1, color: "white", fontWeight: 440}}>
+                    Select bookmarks and ask a question! ✍️
+                    </Typography>
+                
+                </Box>
+                {/* <Box sx={{display: "flex", justifyContent: "space-between", ml: 2, mr: 2}}>
                     <Button onClick={()=>setSelectAll(!selectAll)} sx={{textTransform:"none"}}>
                         { selectAll ? "Deselect All" : "Select All"}
                     </Button>
@@ -48,7 +54,7 @@ export default function MobileBrowseScreen() {
                     <Button onClick={()=>{setSelect(!select); setSelectAll(false)}} sx={{textTransform: "none"}}>
                         Cancel
                     </Button>
-                </Box>
+                </Box> */}
             </Collapse>
 
         <MobileBookMarkList select={select}/>

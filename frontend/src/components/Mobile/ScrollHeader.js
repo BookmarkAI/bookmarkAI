@@ -99,7 +99,7 @@ export default function BackToTop(props) {
         </Toolbar>
         <ScrollTop {...props}>
           <Fab position="fixed" background='linear-gradient(to right, #cd5b95, #9846ca)' sx={{background: 'linear-gradient(to right, #cd5b95, #9846ca)'}} aria-label="add">
-              <SearchIcon sx={{color: "white"}} />
+              <KeyboardArrowUpIcon sx={{color: "white"}} />
           </Fab>
         </ScrollTop>
       </React.Fragment>

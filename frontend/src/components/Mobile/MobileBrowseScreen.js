@@ -23,7 +23,7 @@ export default function MobileBrowseScreen() {
         <>
         <CssBaseline/>
         <Grid xs={12} sx={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-            <MobileSearchBar>
+            <MobileSearchBar placeholder={"Ask about 12 bookmarks"}>
                 <Box>
                     <IconButton onClick={()=>setSelect(!select)}> 
                         <TuneIcon/>
@@ -47,18 +47,20 @@ export default function MobileBrowseScreen() {
                 </IconButton>
             
             </Box> */}
-
-        
-            <Collapse in={select} >
-                <Box onClick={()=>setSelect(!select)} sx={{pt:1, pb: 1, display: "flex", width: "100%", alignItems: "center", justifyContent:"start", background:'linear-gradient(to right, #BB70EE, #87A5ED)'}}>
+     
+            
+            <Box onClick={()=>setSelect(!select)} sx={{pt:1, pb: 1, display: "flex", width: "100%", alignItems: "center", justifyContent:"start", background:'linear-gradient(to right, #BB70EE, #87A5ED)'}}>
                     <Typography variant="body2" sx={{pl:1, color: "white", fontWeight: 440}}>
                     Select bookmarks and ask a question! ✍️
                     </Typography>
                 
-                </Box>
-                <Box sx={{display: "flex", justifyContent: "space-between", ml: 2, mr: 2}}>
+            </Box>
+
+            <Collapse in={select} >
+                
+                <Box sx={{display: "flex", justifyContent: "space-between"}}>
                     <Button onClick={()=>setSelectAll(!selectAll)} sx={{textTransform:"none"}}>
-                        { selectAll ? "Deselect All" : "Select All"}
+                        Deselect all 12 bookmarks
                     </Button>
 
                     <Button onClick={()=>{setSelect(!select); setSelectAll(false)}} sx={{textTransform: "none"}}>

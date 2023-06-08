@@ -85,7 +85,7 @@ export default function BackToTop(props) {
         <ScrollToHide01 threshold={1}>
         <AppBar elevation={0} sx={{backgroundColor: "transparent"}}>
             <Toolbar sx={{display: 'flex', justifyContent: 'space-between'}}>
-                <IconButton onClick={()=>navigate('/')}>
+                <IconButton onClick={()=>navigate('/browse')}>
                   <ArrowBackIcon/>
                 </IconButton>
                 <IconButton>

@@ -31,9 +31,11 @@ export default function MobileTopBar(props) {
     return(
         <>
         <MobileMenuBar  {...props}/>
+        {props.children}
         <ScrollToSlide01>
             <AppBar sx={{backgroundColor: "white"}}>
                 <MobileMenuBar {...props}/>
+                {props.children}
             </AppBar>
         </ScrollToSlide01>
         </>

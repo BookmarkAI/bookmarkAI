@@ -24,7 +24,7 @@ export default function MobileBrowseScreen() {
         <CssBaseline/>
         <MobileTopBar select={select} setSelect={setSelect} open={open} setOpen={setOpen}/>
 
-            <Box onClick={()=>setSelect(!select)} sx={{display: "flex", width: "100%", alignItems: "center", justifyContent:"space-between", background:'linear-gradient(to right, #BB70EE, #87A5ED)'}}>
+            {/* <Box onClick={()=>setSelect(!select)} sx={{display: "flex", width: "100%", alignItems: "center", justifyContent:"space-between", background:'linear-gradient(to right, #BB70EE, #87A5ED)'}}>
                 <Typography variant="body2" sx={{pl:1, color: "white", fontWeight: 440}}>
                 Select bookmarks to get answers from ✍️
                 </Typography>
@@ -36,18 +36,18 @@ export default function MobileBrowseScreen() {
                     }      
                 </IconButton>
             
-            </Box>
+            </Box> */}
 
         
             <Collapse in={select} >
-                <Box sx={{display: "flex", justifyContent: "space-between"}}>
-                <Button onClick={()=>setSelectAll(!selectAll)} sx={{textTransform:"none"}}>
-                    { selectAll ? "Deselect All" : "Select All"}
-                </Button>
+                <Box sx={{display: "flex", justifyContent: "space-between", ml: 2, mr: 2}}>
+                    <Button onClick={()=>setSelectAll(!selectAll)} sx={{textTransform:"none"}}>
+                        { selectAll ? "Deselect All" : "Select All"}
+                    </Button>
 
-                <Button onClick={()=>{setSelect(!select); setSelectAll(false)}} sx={{textTransform: "none"}}>
-                    Cancel
-                </Button>
+                    <Button onClick={()=>{setSelect(!select); setSelectAll(false)}} sx={{textTransform: "none"}}>
+                        Cancel
+                    </Button>
                 </Box>
             </Collapse>
 

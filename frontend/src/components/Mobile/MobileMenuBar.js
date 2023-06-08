@@ -2,6 +2,20 @@ import { Toolbar, Box, Stack, Button, IconButton, SvgIcon, Icon, Typography } fr
 import TuneIcon from '@mui/icons-material/Tune';
 import FilterDrawer from "./FilterDrawer";
 import * as React from 'react';
+import { styled } from '@mui/system';
+
+const MenuButton = styled(Button)({
+    borderRadius: 20, 
+    borderColor: '#dddddd', 
+    color: '#767676',
+    textTransform: "none",
+    '&:hover': {
+        backgroundColor: '#E5F1FE',
+        borderColor: 'transparent',
+        boxShadow: 'none',
+        color: "#458BE9"
+      },
+});
 
 
 
@@ -21,26 +35,31 @@ export default function MobileMenuBar(props) {
     return(
         <>
        
-            <Toolbar position="sticky" sx={{display: 'flex', justifyContent: 'space-between'}}>
-                <Box sx={{maxWidth: '100%'}}>
+            <Toolbar position="sticky" sx={{display: 'flex', justifyContent: 'space-between', maxWidth: '100vw', overflow: 'auto'}}>
+            
                     <Stack direction="row" spacing={0.5} overflow="scroll" >
-                        <Button onClick={onClickText} sx={{textTransform: "none", borderRadius: 20}} variant={textClicked ? "contained" : "outlined"}>
+                        <MenuButton size="small" onClick={onClickText} sx={{textTransform: "none"}} variant={textClicked ? "contained" : "outlined"}>
                             Links
-                        </Button>
-                        <Button onClick={()=>window.location.replace("https://www.supermark.ai/pricing")} sx={{textTransform: "none", borderRadius: 20}} variant="outlined">
+                        </MenuButton>
+                        <MenuButton size="small" onClick={onClickText} sx={{textTransform: "none"}} variant={textClicked ? "contained" : "outlined"}>
+                            PDF
+                        </MenuButton>
+                        <MenuButton size="small" onClick={()=>window.location.replace("https://www.supermark.ai/pricing")} sx={{ minWidth: 90}} variant="outlined">
                             Images &nbsp; <Typography variant="h7">💎</Typography>
-                        </Button>
-                        <Button onClick={()=>window.location.replace("https://www.supermark.ai/pricing")} sx={{textTransform: "none", borderRadius: 20}} variant="outlined">
+                        </MenuButton>
+                        <MenuButton size="small" onClick={()=>window.location.replace("https://www.supermark.ai/pricing")} sx={{minWidth: 90}} variant="outlined">
                             Videos &nbsp; <Typography variant="h7">💎</Typography>
-                        </Button>
+                        </MenuButton> 
+                        
                     </Stack>
-                </Box>
+
+                    <Box>
+                        <IconButton onClick={toggleSelect(!select)}> 
+                            <TuneIcon/>
+                        </IconButton>
+                    </Box>
                 
-                <Box>
-                <IconButton onClick={toggleOpen(!open)}> 
-                    <TuneIcon/>
-                </IconButton>
-                </Box>
+                
             </Toolbar>
         </>
     )

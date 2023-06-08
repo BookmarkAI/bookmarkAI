@@ -97,6 +97,7 @@ import { MobileSearchBar } from '../../components/SearchBar';
 import HomeHeader from '../../components/HomeHeader';
 import { createTheme, ThemeProvider } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
+import MobileFooter from './MobileFooter';
 
 const theme = createTheme({
     components: {
@@ -145,7 +146,6 @@ export default function MobileHomeScreen(props) {
             </Grid> 
 
         </Grid>
-
 
         </>
     )

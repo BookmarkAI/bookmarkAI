@@ -50,6 +50,10 @@
   }
 }
 
+::-webkit-scrollbar {
+  display: none;
+}
+
 /* Global */
 /* 
 html {

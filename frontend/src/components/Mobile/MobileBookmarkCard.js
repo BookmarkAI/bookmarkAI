@@ -87,21 +87,21 @@ export default function MobileBookmarkCard(props) {
     //     </CardContent>
       
     // </Card>
-    <Box sx={{display: "flex", flexDirection: "column", borderBottom: 0.2, borderColor: "#d3d3d3", backgroundColor: "white"}}>
-      <Box sx={{ display: "flex", justifyContent: 'space-between', maxWidth: 600 }}>
+    <Box sx={{display: "flex", flexDirection: "column", borderBottom: 0.2, borderColor: "#d3d3d3" }}>
+      <Box sx={{ display: "flex", justifyContent: 'space-between', maxWidth: 600}}>
       
         <Box onClick={()=>window.location.replace(url)} sx={{ display: "flex"}}>
-          <Box sx={{ minWidth: 50, display: "flex", alignItems: "center", justifyContent: "end"}}>
+          <Box sx={{ minWidth: 50, display: "flex", alignItems: "center", justifyContent: "center", ml: 1, mr: 1}}>
             <img
               src={getIcon(url)}
               onError={addDefaultSrc}
               style={{
-                height: 30
+                height: 25
             }}
             />
           </Box>
 
-          <CardContent>
+          <Box sx={{ pt: 1, pb: 1}} >
             <Typography gutterBottom variant="subtitle" component="div"  style={{ fontSize: 12, color: "#808080"}}>
             {url ? displayUrl(url) : ""}
             </Typography>
@@ -121,9 +121,10 @@ export default function MobileBookmarkCard(props) {
             </Box> */}
 
     
-          </CardContent>
+          </Box>
         </Box>
         
+
 
         <Box sx={{ mt:3 }}>
           { select ? 

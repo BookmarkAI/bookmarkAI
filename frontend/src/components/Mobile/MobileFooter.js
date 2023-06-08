@@ -59,18 +59,18 @@ export default function MobileFooter() {
             
 
         </AppBar>
-        <Box sx={{ position: 'fixed', bottom: 16, right: 20,  zIndex: 2000 }}>
+        {/* <Box sx={{ position: 'fixed', bottom: 16, right: 20,  zIndex: 2000 }}>
         <Fab position="fixed" background='linear-gradient(to right, #cd5b95, #9846ca)' sx={{background: 'linear-gradient(to right, #cd5b95, #9846ca)'}} aria-label="add">
             <AddIcon sx={{color: "white"}} />
         </Fab>
-    </Box>
+    </Box> */}
 
 
-    <ScrollToFade02>
+    {/* <ScrollToFade02>
         <Box sx={{ position: 'fixed', bottom: 60, left: 16, zIndex: 2000, width: '80%' }}>
             <MobileSearchBar/>
         </Box>
-    </ScrollToFade02>
+    </ScrollToFade02> */}
     </>
     )
 }

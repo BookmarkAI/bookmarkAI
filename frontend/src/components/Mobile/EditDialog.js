@@ -5,6 +5,7 @@ import SelectTags from './SelectTags';
 import { IconButton, AppBar, Toolbar, Typography, Button, Grid, FormControl, Select, MenuItem, InputLabel, Stack } from '@mui/material';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import CloseIcon from '@mui/icons-material/Close';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 export default function EditDialog({title, url}){
     const [ open, setOpen ] = React.useState(false);
@@ -66,7 +67,7 @@ export default function EditDialog({title, url}){
             
         </Dialog>
         <IconButton onClick={()=>setOpen(true)}>  
-            <ModeEditIcon  sx={{color: "#808080"}}/>
+            <MoreVertIcon sx={{color: "#808080"}}/>
         </IconButton>
         </div>
     )

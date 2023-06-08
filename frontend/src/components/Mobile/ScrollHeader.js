@@ -38,15 +38,15 @@ function ScrollTop(props) {
     };
   
     return (
-      <Fade in={trigger}>
+      // <Fade in={trigger}>
         <Box
           onClick={handleClick}
           role="presentation"
-          sx={{ position: 'fixed', bottom: 20, right: 16, zIndex: 2000 }}
+          sx={{ position: 'fixed', bottom: 17, right: 20, zIndex: 2000 }}
         >
           {children}
         </Box>
-      </Fade>
+      // </Fade>
     );
   }
   
@@ -97,11 +97,11 @@ export default function BackToTop(props) {
         </ScrollToHide01>
         <Toolbar id="back-to-top-anchor">
         </Toolbar>
-        {/* <ScrollTop {...props}>
-          <Fab size="small" aria-label="scroll back to top">
-            <KeyboardArrowUpIcon />
+        <ScrollTop {...props}>
+          <Fab position="fixed" background='linear-gradient(to right, #cd5b95, #9846ca)' sx={{background: 'linear-gradient(to right, #cd5b95, #9846ca)'}} aria-label="add">
+              <KeyboardArrowUpIcon sx={{color: "white"}} />
           </Fab>
-        </ScrollTop> */}
+        </ScrollTop>
       </React.Fragment>
   );
 }

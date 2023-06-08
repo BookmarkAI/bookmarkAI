@@ -32,7 +32,7 @@ function SearchBar(props) {
         if(e.key === 'Enter'){
             e.preventDefault();
             navigate({
-                pathname: location.pathname == "/images" ? "images" : "search",
+                pathname: "/search",
                 search: createSearchParams({
                     q: query
                 }).toString()
@@ -70,7 +70,7 @@ function DesktopSearchBar() {
 }
 
 function MobileSearchBar() {
-  const style = {display: 'flex', alignItems: 'center', justifyContent: 'center', border:1, height: 40, width: '95%', borderColor: "#DFE1E5", borderRadius:10}
+  const style = {display: 'flex', alignItems: 'center', justifyContent: 'center', border:1, height: 40, pr: 2, width: '95%', borderColor: "#DFE1E5", borderRadius:10}
   return (
     <SearchBar fontsize={15} style={style} placeholder={"Search"}/> 
   )

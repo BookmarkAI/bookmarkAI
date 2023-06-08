@@ -11,7 +11,27 @@ import mckinsey from "../assets/images/mckinsey.png"
 import lancedb1 from "../assets/images/lancedb/1.png"
 import lancedb2 from "../assets/images/lancedb/2.png"
 
-const generative_ai = [
+
+const folders = [
+  {
+    title: "Folder 1", 
+    count: 10,
+  },
+  {
+    title: "Project 2",
+    count: 14,
+  },
+  {
+    title: "Project 4",
+    count: 16,
+  },
+  {
+    title: "Supermark",
+    count: 5
+  }
+]
+
+const bookmarks = [
     {
      url: "https://www.netguru.com/blog/generative-ai-startups",
      title: "31 Remarkable Generative AI Startups You Simply Can't Ignore",
@@ -45,10 +65,7 @@ const generative_ai = [
       title: "The Future Of Generative AI Beyond ChatGPT",
       description: "Generative tools like ChatGPT and Stable Diffusion have got everyone talking about artificial intelligence (AI) – but where is it headed next?",
       image: gen4
-    }
-]
-
-const sf = [
+    },
     {
       url: "https://www.sfchronicle.com/sf/article/sfnext-poll-sentiment-17435794.php",
       title: "How fed up are San Franciscans with the city's problems? New S.F. Chronicle poll finds pervasive gloom",
@@ -60,10 +77,7 @@ const sf = [
       title: "40 Absolute Best Restaurants In San Francisco, Ranked",
       description: "40 Absolute Best Restaurants In San Francisco, Ranked Static Media BY ISABELLA COOK/UPDATED: JUNE 2, 2023 9:11 AM EST",
       image: sf2
-    }
-]
-
-const lancedb = [
+    },
   {
     url: "https://github.com/lancedb/lancedb",
     title: "lancedb/lancedb: Developer-friendly, serverless vector database for AI applications",
@@ -89,5 +103,5 @@ const image_list = [
 
 
 
-export { generative_ai, sf, image_list, lancedb }
+export {bookmarks, image_list, folders}
 

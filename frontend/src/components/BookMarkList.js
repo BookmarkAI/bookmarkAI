@@ -1,7 +1,12 @@
-import { Card, Grid, Stack, Container, Box } from "@mui/material";
-import BookMarkCard from "./BookMarkCard";
-import { generative_ai, sf, lancedb } from "../services-mock/fake_dataset";
+import { Card, Grid, Collapse, Button, Box, Typography, Toolbar, IconButton} from "@mui/material";
+import MobileBookmarkCard from "./Mobile/MobileBookmarkCard";
+import { bookmarks } from "../services-mock/fake_dataset";
 import mckinsey from "../assets/images/mckinsey.png"
+import Checkbox from "@mui/material/Checkbox";
+import { useState } from "react";
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import { Desktop, Mobile } from '../responsive/MediaQuery'
 
 const demo = {
     title: "What is generative AI?",
@@ -11,7 +16,8 @@ const demo = {
 }
 
 function BookMarkList(props) {
-    const { style, spacing } = props;
+    const { style, spacing, select, topk } = props;
+    
   return (
     <Grid
     container
@@ -20,43 +26,36 @@ function BookMarkList(props) {
     sx={style}
     >
 
-        {<Grid item xs={12} sm={6} md={4}>
-            <BookMarkCard title={demo.title} description={demo.description} image={demo.image} url={demo.url}/> 
-        </Grid>}
+        {bookmarks.map((doc, i) => (
+            topk ? 
 
-        {sf.map((doc) => (
-            <Grid item xs={12} sm={6} md={4}>
-                <BookMarkCard title={doc.title} description={doc.description} image={doc.image} url={doc.url}/> 
+           (i < topk) && <Grid item xs={12} sm={6} md={4}>
+                {/* <Desktop> <MobileBookMarkCard select={select} {...doc}/>  </Desktop> */}
+                <Mobile> <MobileBookmarkCard select={select} {...doc}/> </Mobile>
             </Grid>
+            :
+            <Grid item xs={12} sm={6} md={4}>
+                {/* <Desktop> <MobileBookMarkCard select={select} {...doc}/>  </Desktop> */}
+                <Mobile> <MobileBookmarkCard select={select} {...doc}/> </Mobile>
+            </Grid>
+
+        
         ))}
-
-        { generative_ai.map((doc) => (
-            <Grid item xs={12} sm={6} md={4}>
-                <BookMarkCard title={doc.title} description={doc.description} image={doc.image} url={doc.url}/> 
-            </Grid>
-        ))}
-
-        {lancedb.map((doc) => (
-            <Grid item xs={12} sm={6} md={4}>
-                <BookMarkCard title={doc.title} description={doc.description} image={doc.image} url={doc.url}/> 
-            </Grid>
-        ))
-        }
     </Grid>
   );
 };
 
-function DesktopBookMarkList() {
+function DesktopBookMarkList(props) {
     const style = {pt: 5, pr: 20}
     return (
-        <BookMarkList style={style} spacing={4}/>
+        <BookMarkList style={style} spacing={4} {...props}/>
     )
 }
 
-function MobileBookMarkList() {
+function MobileBookMarkList(props) {
     const style = {p: 1}
     return (
-        <BookMarkList style={style} spacing={0}/>
+        <BookMarkList style={style} spacing={0} {...props}/>
     )
 }
 

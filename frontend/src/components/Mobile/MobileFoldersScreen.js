@@ -4,16 +4,16 @@ import Slide from '@mui/material/Slide';
 import * as React from 'react';
 import MobileTopBar from './MobileTopBar';
 import { useState } from "react";
-import { Box, Typography, IconButton, Collapse, Button, Toolbar } from '@mui/material'
+import { Box, Typography, IconButton, Collapse, Button, Toolbar, Stack, Grid } from '@mui/material'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp'
 import CssBaseline from "@mui/material/CssBaseline";
+import MobileFolder from './MobileFolder';
+import { folders } from '../../services-mock/fake_dataset';
 
 
 
-
-
-export default function MobileBrowseScreen() {
+export default function MobileFoldersScreen() {
     const [ select, setSelect ] = useState(false);
     const [ open, setOpen ] = React.useState(false);
     const [ selectAll, setSelectAll ] = useState(false);
@@ -22,11 +22,10 @@ export default function MobileBrowseScreen() {
     return(
         <>
         <CssBaseline/>
-        <MobileTopBar select={select} setSelect={setSelect} open={open} setOpen={setOpen}/>
 
-            <Box onClick={()=>setSelect(!select)} sx={{display: "flex", width: "100%", alignItems: "center", justifyContent:"space-between", background:'linear-gradient(to right, #BB70EE, #87A5ED)'}}>
+            <Box onClick={()=>setSelect(!select)} sx={{mt: 1.5, display: "flex", width: "100%", alignItems: "center", justifyContent:"space-between", background:'linear-gradient(to right, #BB70EE, #87A5ED)'}}>
                 <Typography variant="body2" sx={{pl:1, color: "white", fontWeight: 440}}>
-                Select bookmarks to get answers from ✍️
+                Select folders to get insights from ✍️
                 </Typography>
                 <IconButton onClick={()=>setSelect(!select)}>
                     {!select?
@@ -51,7 +50,17 @@ export default function MobileBrowseScreen() {
                 </Box>
             </Collapse>
 
-        <MobileBookMarkList select={select}/>
+            {/* Folder List */}
+            <Grid xs={12} sx={{display: "flex", flexDirection: "column", m:1 }}>
+                <Stack spacing={1}>
+                    {folders.map((doc, i) => (              
+                         <MobileFolder {...doc} select={select}/>
+                    ))}
+
+                </Stack>
+            
+            </Grid>
+
         <Toolbar/>
 
         </>

@@ -4,25 +4,69 @@ import Slide from '@mui/material/Slide';
 import * as React from 'react';
 import MobileTopBar from './MobileTopBar';
 import { useState } from "react";
-import { Box, Typography, IconButton, Collapse, Button, Toolbar } from '@mui/material'
+import { Box, Typography, IconButton, Collapse, Button, Toolbar, Grid } from '@mui/material'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp'
 import CssBaseline from "@mui/material/CssBaseline";
+import folder from '../../assets/folder.png'
+import { useParams } from 'react-router-dom';
+import { createTheme, ThemeProvider } from "@mui/material";
+
+const theme = createTheme({
+    components: {
+        MuiCssBaseline: {
+            styleOverrides: (themeParam) => ({
+                body: {
+                    margin: 0,
+                    overflow: 'hidden',
+                    height: '100%'
+                  },
+                  html: {
+                    margin: 0,
+                    height: '100%',
+                    overflow: 'hidden'
+                  }
+
+              }),
+        },
+      },
+});
 
 
 
-
-
-export default function MobileBrowseScreen() {
+export default function MobileFolderView() {
     const [ select, setSelect ] = useState(false);
     const [ open, setOpen ] = React.useState(false);
     const [ selectAll, setSelectAll ] = useState(false);
+    const { id } = useParams();
     
 
     return(
         <>
+        
         <CssBaseline/>
-        <MobileTopBar select={select} setSelect={setSelect} open={open} setOpen={setOpen}/>
+        
+            <Box sx={{pl:4, pt: 2}}>
+                <img 
+                    src={folder} 
+                    alt="Bookmark Logo"
+                    style={{
+                        height: '45px',
+                    }}/>
+
+                <Box sx={{display: "flex", flexDirection: "row",justifyContent: "flex-start", alignItems: "flex-end", mb: 1}}>
+                <Typography variant="h6" sx={{ fontWeight: 450}}>
+                    {id}
+                </Typography>
+                <Typography gutterBottom variant="subtitle" component="div"  style={{ fontSize: 14, color: "#808080"}}>
+                 &nbsp; 10 bookmarks
+                </Typography>
+                </Box>
+            </Box>
+
+            
+        
+            
 
             <Box onClick={()=>setSelect(!select)} sx={{display: "flex", width: "100%", alignItems: "center", justifyContent:"space-between", background:'linear-gradient(to right, #BB70EE, #87A5ED)'}}>
                 <Typography variant="body2" sx={{pl:1, color: "white", fontWeight: 440}}>
@@ -38,6 +82,8 @@ export default function MobileBrowseScreen() {
             
             </Box>
 
+
+                
         
             <Collapse in={select} >
                 <Box sx={{display: "flex", justifyContent: "space-between"}}>
@@ -51,8 +97,14 @@ export default function MobileBrowseScreen() {
                 </Box>
             </Collapse>
 
-        <MobileBookMarkList select={select}/>
+            <Box position="sticky" overflow="auto" height="65vh">
+                <MobileBookMarkList select={select}/>
+            </Box>
+
+        
         <Toolbar/>
+      
+       
 
         </>
     )

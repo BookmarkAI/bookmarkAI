@@ -9,12 +9,12 @@ import Skeleton from '@mui/material/Skeleton';
 import Typography from '@mui/material/Typography';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import TuneIcon from '@mui/icons-material/Tune';
-import { IconButton, Stack } from '@mui/material';
+import { IconButton, Stack, Chip } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 
 const drawerBleeding = 56;
-
 const sampleTags = ["Kyuhee", "Bookmark AI", "Technology", "AI", "Startups", "San Francisco", "GenerativeAI", "Productivity"]
+
 
 interface Props {
   /**
@@ -44,8 +44,9 @@ const Puller = styled(Box)(({ theme }) => ({
 }));
 
 export default function SwipeableEdgeDrawer(props: Props) {
-  const { window } = props;
-  const [open, setOpen] = React.useState(false);
+  const { window, open, setOpen } = props;
+  
+  
 
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
@@ -65,9 +66,7 @@ export default function SwipeableEdgeDrawer(props: Props) {
           },
         }}
       />
-        <IconButton onClick={toggleDrawer(true)}> 
-            <TuneIcon/>
-        </IconButton>
+        
  
       <SwipeableDrawer
         container={container}
@@ -92,37 +91,33 @@ export default function SwipeableEdgeDrawer(props: Props) {
             left: 0
           }}
         >
-          <Puller />
-          <Typography sx={{ p: 2, color: 'text.secondary' }}>Filter By Tag</Typography>
+          <Puller onClick={()=>console.log('test')}/>
+          <Typography sx={{ p: 2, color: 'text.secondary' }}>Filter by tag</Typography>
         </StyledBox>
         <StyledBox
           sx={{
-            px: 2,
+            px: 1,
             pb: 2,
+            pt: 1,
             height: '100%',
             overflow: 'auto',
           }}
         >
             {/* Filter Menu */}
-          <Box sx={{maxWidth: '100%', mt: 2}}>
             <Stack direction="row" spacing={0} sx={{flexWrap: "wrap"}} >
                 {/* Tags */}
                 {sampleTags.map((tag) => (
-                    <Box sx={{m:0.5}}>
-                        <Button sx={{textTransform: "none", borderRadius: 20 }} variant="outlined">
+                    <Box sx={{mt: 0.4, mb: 0.4, ml: 0.5}}>
+                        <Chip label={tag}>
                             {tag}
-                        </Button>
+                        </Chip>
                     </Box>
                 ))}
                 {/* Add Button */}
-                <Box sx={{m:0.5}}>
-                    <Button sx={{textTransform: "none", borderRadius: 20 }} variant="outlined">
-                        <AddIcon/>
-                    </Button>
+                <Box sx={{mt: 0.4, mb: 0.4, ml: 0.5}}>
+                    <Chip onDelete={()=>{console.log("Test")}} deleteIcon={<AddIcon/>} label={"Add"}/>
                 </Box>
             </Stack>
-         </Box>
-
         </StyledBox>
       </SwipeableDrawer>
     </Root>

@@ -7,6 +7,9 @@ import Layout from './pages/Layout';
 import BrowseImages from './pages/BrowseImages';
 import SearchResult from './pages/SearchResult';
 import SourceList from './components/SourceList';
+import { Desktop, Mobile } from './responsive/MediaQuery';
+import MobileFoldersScreen from './components/Mobile/MobileFoldersScreen';
+import MobileFolderView from "./components/Mobile/MobileFolderView";
 
 function App() {
   return (
@@ -17,6 +20,8 @@ function App() {
           <Route path="/browse" element={<BrowseScreen/>}/>
           <Route path="/images" element={<BrowseImages/>}/>
           <Route path="/search" element={<SearchResult/>}/>
+          <Route path="/folders" element={<MobileFoldersScreen/>}/>
+          <Route path="/folder/:id" element={<MobileFolderView/>} />
         </Route>
       </Routes>
     </BrowserRouter>

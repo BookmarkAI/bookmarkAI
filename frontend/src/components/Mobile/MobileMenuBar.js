@@ -38,17 +38,18 @@ export default function MobileMenuBar(props) {
             <Toolbar position="sticky" sx={{display: 'flex', justifyContent: 'space-between', maxWidth: '100vw', overflow: 'auto'}}>
             
                     <Stack direction="row" spacing={0.5} overflow="scroll" >
-                        <MenuButton size="small" onClick={onClickText} sx={{textTransform: "none"}} variant={textClicked ? "contained" : "outlined"}>
+                        {/* <MenuButton size="small" onClick={onClickText} sx={{textTransform: "none"}} variant={textClicked ? "contained" : "outlined"}> */}
+                        <MenuButton size="small" onClick={onClickText} sx={{textTransform: "none"}} variant="outlined">
                             Links
                         </MenuButton>
-                        <MenuButton size="small" onClick={onClickText} sx={{textTransform: "none"}} variant={textClicked ? "contained" : "outlined"}>
+                        <MenuButton size="small" sx={{textTransform: "none"}} variant="outlined">
                             PDF
                         </MenuButton>
-                        <MenuButton size="small" onClick={()=>window.location.replace("https://www.supermark.ai/pricing")} sx={{ minWidth: 90}} variant="outlined">
-                            Images &nbsp; <Typography variant="h7">💎</Typography>
+                        <MenuButton size="small" onClick={()=>window.location.replace("https://www.supermark.ai/pricing")} sx={{ minWidth: 100}} variant="outlined">
+                            Image &nbsp; <Typography variant="h7">💎</Typography>
                         </MenuButton>
                         <MenuButton size="small" onClick={()=>window.location.replace("https://www.supermark.ai/pricing")} sx={{minWidth: 90}} variant="outlined">
-                            Videos &nbsp; <Typography variant="h7">💎</Typography>
+                            Video &nbsp; <Typography variant="h7">💎</Typography>
                         </MenuButton> 
                         
                     </Stack>

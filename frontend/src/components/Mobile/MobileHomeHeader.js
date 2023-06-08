@@ -10,6 +10,7 @@ import logo from '../../assets/supermark_both.png';
 import MobileFolder from "./MobileFolder";
 import MenuIcon from '@mui/icons-material/Menu';
 
+
 export default function MobileAppHeader(props) {
   const navigate = useNavigate();
   const [refresh, setRefresh] = useState(false);

@@ -54,12 +54,12 @@ export default function MobileMenuBar(props) {
                         
                     </Stack>
 
-                    <Box>
+                    {/* <Box>
                         <IconButton onClick={toggleSelect(!select)}> 
                             <TuneIcon/>
                         </IconButton>
                     </Box>
-                
+                 */}
                 
             </Toolbar>
         </>

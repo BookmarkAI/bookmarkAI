@@ -9,8 +9,9 @@ import Skeleton from '@mui/material/Skeleton';
 import Typography from '@mui/material/Typography';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import TuneIcon from '@mui/icons-material/Tune';
-import { IconButton, Stack, Chip } from '@mui/material';
+import { IconButton, Stack, Chip, Grid } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
+import { MobileBookMarkList } from '../BookMarkList';
 
 const drawerBleeding = 56;
 const sampleTags = ["Kyuhee", "Bookmark AI", "Technology", "AI", "Startups", "San Francisco", "GenerativeAI", "Productivity"]
@@ -44,7 +45,8 @@ const Puller = styled(Box)(({ theme }) => ({
 }));
 
 export default function SwipeableEdgeDrawer(props: Props) {
-  const { window, open, setOpen } = props;
+  const { window } = props;
+  const [ open, setOpen ] = React.useState(false);
   
   
 
@@ -67,7 +69,12 @@ export default function SwipeableEdgeDrawer(props: Props) {
         }}
       />
         
- 
+        <Box>
+            <IconButton onClick={()=>setOpen(!open)}> 
+                <TuneIcon/>
+            </IconButton>
+        </Box>
+
       <SwipeableDrawer
         container={container}
         anchor="bottom"
@@ -92,20 +99,26 @@ export default function SwipeableEdgeDrawer(props: Props) {
           }}
         >
           <Puller onClick={()=>console.log('test')}/>
-          <Typography sx={{ p: 2, color: 'text.secondary' }}>Filter by tag</Typography>
+          <Grid xs={12} sx={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+            <Typography sx={{ p: 2, color: 'text.secondary' }}>Select Bookmarks</Typography>
+            {open && <Button onClick={()=>setOpen(false)}>Done</Button>}
+          </Grid>
+          
         </StyledBox>
         <StyledBox
           sx={{
             px: 1,
             pb: 2,
             pt: 1,
+        
             height: '100%',
             overflow: 'auto',
           }}
         >
-            {/* Filter Menu */}
-            <Stack direction="row" spacing={0} sx={{flexWrap: "wrap"}} >
-                {/* Tags */}
+            <Typography sx={{ml: 1, mb: 1}}>
+              Folders
+            </Typography>
+            <Stack direction="row" spacing={0} sx={{flexWrap: "wrap"}} >  
                 {sampleTags.map((tag) => (
                     <Box sx={{mt: 0.4, mb: 0.4, ml: 0.5}}>
                         <Chip label={tag}>
@@ -118,6 +131,13 @@ export default function SwipeableEdgeDrawer(props: Props) {
                     <Chip onDelete={()=>{console.log("Test")}} deleteIcon={<AddIcon/>} label={"Add"}/>
                 </Box>
             </Stack>
+
+            <Typography sx={{mt: 2, ml: 1}}>
+              Bookmarks
+            </Typography>
+
+            <MobileBookMarkList select={true}/> 
+            
         </StyledBox>
       </SwipeableDrawer>
     </Root>

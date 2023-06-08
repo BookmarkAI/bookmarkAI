@@ -1,11 +1,12 @@
-document.getElementById('extractButton').addEventListener('click', () => {
+document.getElementById('extractButton').addEventListener('click', async () => {
   var button = document.getElementById('extractButton');
   button.classList.add('added');
   button.textContent = 'Added to Bookmarks!';
+  uid = await getUID()
   // Send a message to the active tab
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
     let activeTab = tabs[0];
-    chrome.tabs.sendMessage(activeTab.id, { "command": "extractText", "UID": getUID() });
+    chrome.tabs.sendMessage(activeTab.id, { "command": "extractText", "UID": uid });
   });
 });
 
@@ -26,7 +27,7 @@ async function getUID() {
   if (cookies.length == 0) {
     message.hidden = true;
     signin.hidden = false;
-    return null
+    return "null"
   }
   // filter out the user cookie
   checkUserCookie = (cookie) => {
@@ -40,7 +41,7 @@ async function getUID() {
     signin.hidden = false;
     return null
   }
-  return user['uid']
+  return await user['uid']
 }
 
 

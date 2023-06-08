@@ -12,10 +12,8 @@ router = APIRouter()
 
 
 @router.post('/store')
-def store(document):
-    # { raw_text: text, url: url, UID: request.UID, title: title, image_urls: image_urls }
-    # print(f"Received Text: {document.raw_text[:100]}\nUrl: {document.url}\nTitle: {document.title}\nImage Urls: {document.image_urls[0]}")
-    print(document)
+def store(document: ExtensionDocument):
+    print(document.url)
     vectorstore = get_vectorstore('text', OpenAIEmbeddings())
     chunks = CharacterTextSplitter(chunk_size=10000, chunk_overlap=500, separator='.').split_text(document.raw_text)
     print(f'create {len(chunks)} chunks')

@@ -70,7 +70,7 @@ function DesktopSearchBar() {
 
 function MobileSearchBar(props) {
   const { placeholder } = props;
-  const style = {display: 'flex', alignItems: 'center', justifyContent: 'center', border:1, height: 40, pr: 2, width: '95%', borderColor: "#DFE1E5", borderRadius:10}
+  const style = {display: 'flex', alignItems: 'center', justifyContent: 'center', border:1, height: 40, pr: 1, width: '95%', borderColor: "#DFE1E5", borderRadius:10}
   return (
     <SearchBar fontsize={17} style={style} placeholder={placeholder ? placeholder : "Search or query"} {...props}>
       {props.children}

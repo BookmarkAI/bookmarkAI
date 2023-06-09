@@ -31,9 +31,9 @@ function App() {
       });
 
       setUser(user);
-      setCookie(user ?
-        JSON.stringify({ identifier: "userCookie", displayName: user.displayName, uid: user.uid })
-        : JSON.stringify({ identifier: "userCookie", displayName: null, uid: null }));
+      setCookie("userCookie", user ?
+        JSON.stringify({ url: "http://localhost:3000/",displayName: user.displayName, uid: user.uid })
+        : JSON.stringify({ url: "http://localhost:3000/", displayName: null, uid: null }));
 
       // we can basically authenticate the extension by setting a cookie here
       // and accessing it in the extension

@@ -15,11 +15,16 @@ function extractText(node) {
     return text.trim();
 }
 
+// this is the listener for the consoleLog function, simply logs req.message
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    if (request.command === 'consoleLog') {
+        console.log(request.message);
+    }
+});
+
+
 // the extension sends this post req to the backend: 
 // { raw_text: str, url: str, UID: str, title: str, image_urls: str[] }
-
-
-// Listen for messages
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.command === 'extractText') {
         const text = "p"//extractText(document.body);
@@ -54,6 +59,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         .then(response => response.json())
         .then(data => {
             // Process the response from the POST request
+            console.log("data");
             console.log(data);
         })
         .catch(error => {

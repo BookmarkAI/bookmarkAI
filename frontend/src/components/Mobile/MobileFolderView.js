@@ -11,6 +11,8 @@ import CssBaseline from "@mui/material/CssBaseline";
 import folder from '../../assets/folder/5.png'
 import { useParams } from 'react-router-dom';
 import { createTheme, ThemeProvider } from "@mui/material";
+import { MobileSearchBar } from "../SearchBar";
+import TuneIcon from '@mui/icons-material/Tune';
 
 const theme = createTheme({
     components: {
@@ -46,6 +48,16 @@ export default function MobileFolderView() {
         
         <CssBaseline/>
         
+            <Grid xs={12} sx={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                <MobileSearchBar placeholder={"Ask about 12 bookmarks"}>
+                    <Box>
+                        <IconButton onClick={()=>setSelect(!select)}> 
+                            <TuneIcon/>
+                        </IconButton>
+                    </Box>
+                </MobileSearchBar>
+            </Grid>
+
             <Box sx={{pl:4, pt: 2.5}}>
                 <img 
                     src={folder} 

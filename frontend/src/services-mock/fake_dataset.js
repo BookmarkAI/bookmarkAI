@@ -12,6 +12,21 @@ import lancedb1 from "../assets/images/lancedb/1.png"
 import lancedb2 from "../assets/images/lancedb/2.png"
 
 
+const chat_history = [
+  {
+    q: "Can you write a paragraph about design?", 
+    a: "Design is the art of crafting purposeful and aesthetic solutions that blend form and function harmoniously. It is a multidimensional discipline that permeates various aspects of our lives, from architecture and product development to graphic design and user interfaces. Good design transcends mere visual appeal; it is rooted in thoughtful intention, meticulous planning, and a deep understanding of the needs and desires of the intended audience. It seeks to solve problems, enhance experiences, and evoke emotions. Design is a powerful tool that shapes the world around us, influencing how we interact with our environment and how we perceive the world. Whether it's the sleek lines of a modern building, the intuitive layout of a mobile app, or the elegant simplicity of a well-designed logo, design enriches our lives and sparks our imagination.",
+  },
+  {
+    q: "javascript string notation when using variable ",
+    a: "When using a variable within a JavaScript string, you have a few options depending on your specific requirements:"
+  },
+  {
+    q: "i am using material ui and react to build a web app. i am displaying files from folders and users can select on folder from list of folders. Once a user clicks on a folder button, it changes color. When the user click on another folder button, that one get selected & changes color and the one that was clicked before get automatically unclicked. Essentially, it's a single choice list of buttons. How do i code the ui?",
+    a: "To implement a single choice list of buttons in React and Material-UI, you can use the state to keep track of the selected folder and update the button styles accordingly. Here's an example:"
+  }
+]
+
 const folders = [
   {
     title: "Folder 1", 
@@ -103,5 +118,5 @@ const image_list = [
 
 
 
-export {bookmarks, image_list, folders}
+export {bookmarks, image_list, folders, chat_history}
 

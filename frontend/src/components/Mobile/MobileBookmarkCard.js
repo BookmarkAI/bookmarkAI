@@ -1,26 +1,16 @@
 import * as React from 'react';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { IconButton, Box, CardActionArea, CardActions, Collapse, InputLabel } from '@mui/material';
-import placeholder from '../../assets/placeholder.png';
 import { useNavigate } from 'react-router-dom';
-import { Link } from "react-router-dom";
 import icon from '../../assets/favicon.ico';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import Checkbox from '@mui/material/Checkbox';
-import { useState } from 'react';
-import { Book } from '@mui/icons-material';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import Chip from '@mui/material/Chip'
-import ModeEditIcon from '@mui/icons-material/ModeEdit';
-import EditDialog from './EditDialog';
+import { useContext } from 'react';
+import { FileContext } from '../../utils/FileContext';
 
 
-
+  
 
 function displayUrl(url) {
   return url.replace('https://','').split("/")[0]
@@ -64,30 +54,13 @@ function BasicSelect() {
 
 export default function MobileBookmarkCard(props) {
   const { title, description, image, url, select } = props;
+  const { selectedFiles, updateSelectedFiles } = useContext(FileContext);
+
   const navigate = useNavigate();
 
+
   return (
-    // <Card onClick={()=>window.location.replace(url)} sx={{ maxWidth: 600, borderRadius: 5, border:1}} elevation={0}>
-    //     <Box sx={{backgroundColor: "#d3d3d3", display: "flexa"}}>
-
-      
-    //     <img
-    //       src={"https://www.mckinsey.com/favicon.ico"}
-    //     />
-    //     </Box>
-    //     <CardContent>
-    //       <Typography gutterBottom variant="h6" component="div">
-    //         {title ? title : "Title"}
-    //       </Typography>
-
-    //       <Button size="small" color="primary">
-    //         {url ? displayUrl(url) : ""}
-    //       </Button>
- 
-    //     </CardContent>
-      
-    // </Card>
-    <Box sx={{display: "flex", flexDirection: "column", borderBottom: 0.2, borderColor: "#d3d3d3" }}>
+  <>
       <Box sx={{ display: "flex", justifyContent: 'space-between', maxWidth: 600}}>
       
         {/* Code to navigate to the link */}
@@ -127,16 +100,10 @@ export default function MobileBookmarkCard(props) {
         
 
 
-        <Box sx={{ mt:3 }}>
-          { select ? 
-          <Checkbox></Checkbox> 
-          :
-          <EditDialog title={title} url={url}/>
-          }
-        </Box>
+        {props.children}
         
       </Box>
-  </Box>
+ </>
  
     
   );

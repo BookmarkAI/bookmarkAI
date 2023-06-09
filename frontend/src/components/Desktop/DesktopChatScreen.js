@@ -1,46 +1,21 @@
 import { useSearchParams } from 'react-router-dom'
 import { Typography, Box, Grid, Paper, InputBase, Stack } from '@mui/material';
-import SourceList from '../SourceList';
 import { MuiMarkdown } from 'mui-markdown';
 import { useEffect, useState } from 'react';
+import DesktopChatList from './DesktopChatList'
+import DesktopTab from '../Tab';
+import { DesktopBookMarkList } from '../BookMarkList';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
+import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
 
+
+const responseMessages = [{chat_response: "Y Combinator is a renowned startup accelerator and venture capital firm that has played a significant role in shaping the startup landscape. Founded in 2005, Y Combinator provides early-stage funding, mentorship, and a supportive community to startups from various industries. They offer a highly competitive program where selected startups receive seed funding, access to a network of successful entrepreneurs and investors, and guidance from experienced mentors. Y Combinator's rigorous three-month program culminates in a Demo Day, where startups pitch their ideas to a room full of potential investors. Over the years, Y Combinator has nurtured and propelled numerous successful companies, such as Airbnb, Dropbox, Stripe, and Reddit, among many others. Their impact on the startup ecosystem has been substantial, making Y Combinator a revered institution for aspiring entrepreneurs seeking to turn their ideas into thriving businesses."}]
 
 export default function DesktopChatScreen() {
     const [searchParams, setSearchParams] = useSearchParams();
     const q = searchParams.get('q')
-    const [responseMessages, setResponseMessages] = useState([])
 
-    useEffect(() => {
-        setResponseMessages([])
-        const eventSource = new EventSource(`http://localhost:8000/chat?q=${q}`);
-        eventSource.onmessage = (event) => {
-            const msg = JSON.parse(event.data);
-            console.log(msg);
-            if (msg.done) {
-                console.log('Done!');
-                eventSource.close();
-            } else {
-                setResponseMessages((messages) => [...messages, msg]);
-            }
-            
-            console.log(responseMessages.map(mes => mes.chat_response).join(''))
-            console.log(responseMessages.flatMap(mes => mes.documents))
-          };
-
-          // Cleanup on component unmount
-          return () => {
-            eventSource.close();
-          };
-    }, [searchParams])
-
-    function keyPress(e){
-        if(e.key === 'Enter'){
-            e.preventDefault();
-            setResponseMessages([])
-            setSearchParams({q:inputValue});
-            setInputValue('')
-        }
-    }
     const [inputValue, setInputValue] = useState('');
     function handleInputChange(e){
         setInputValue(e.target.value);
@@ -50,57 +25,66 @@ export default function DesktopChatScreen() {
 
     return(
         <>
-        <Box sx={{ flexGrow: 1 }}>
-            <Grid container spacing={2}>
-                <Grid item xs={2}/>
-                <Grid item xs={6} sx={{mt:5}}>
-                     {/* Chat Messages */}
-                    <Paper sx={{height: 700, overflow: 'auto'}} elevation={0}>
-                        <Stack sx={{ mr: 6}} height='50px'>
-                            <Typography variant="h3" gutterBottom>
-                                {q}
-                            </Typography>
+
+            <Grid container spacing={2} sx={{mt: 2}} >
+                <Grid item xs={2.5} sx={{  pr: 3}} >
+                   <Box sx={{ maxHeight: 'calc(100vh - 110px)',pl: 2, overflow: "auto"}}>
+                        <Box> 
+                            <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between"}}>
+                                <Typography variant="h7" sx={{fontWeight: 700, color: "#222222", pl: 1, pb: 1}}> Search History</Typography>
+                            </Box>
+                            <DesktopChatList/>
                             
-                            <Box sx={{ pb: 3, mb: 3}}>
-                                <Typography variant="body1" fontSize='20px' mr={6}>
-                                    <MuiMarkdown>
-                                        {responseMessages.map(mes => mes.chat_response).join('')}
-                                    </MuiMarkdown>
-                                </Typography>   
-                            </Box>    
-                           
-                        </Stack>
-                    </Paper>
-
-                    {/* Chat Bar */}
-                    <Paper
-                        component="form"
-                        position="fixed"
-                        sx={{display: 'flex', position: 'fixed',
-                        bottom: 50,
-                        width: 900, 
-                        alignItems: 'center', 
-                        height: 70, border:1, borderColor: "#DFE1E5"}}
-                    >
-                        <InputBase
-                            sx={{ ml: 1, flex: 1, fontSize: 20, m: 3}}
-                            onKeyDown={keyPress}
-                            placeholder="Send A Message"
-                            inputProps={{ 'aria-label': 'search google maps' }}
-                            value={inputValue}
-                            onChange={handleInputChange}
-                        />
-                    </Paper>
-
+                        </Box>
+                    </Box>
+               
+                    
                 </Grid>
+                <Grid item xs={9.5}>
+                    <DesktopTab/>
+                    <Box sx={{ maxHeight: 'calc(100vh - 110px)', overflow: "auto"}}>
+                    
+                    
+                    
+                        {/* Chat Messages */}
+                        
+                            
+                                
+                        <Box sx={{display: "flex", flexDirection: "column", pb: 2, mt: 2, mb: 3, mr: 8, borderBottom: 1, borderColor: '#bbbbbb'}}>
                 
-                <Grid item xs={4}>
-                    <SourceList 
-                        urls={[...new Set(responseMessages.flatMap(mes => mes.documents.map(doc => doc.metadata.url)))]}
-                    /> 
+                                <Typography variant="body1" fontSize='20px' sx={{mr:1}}>
+                                    💬 &nbsp;
+                                    <MuiMarkdown>
+                                     {responseMessages.map(mes => mes.chat_response).join('')}
+                                    </MuiMarkdown>
+                                </Typography>  
+                                <Box sx={{display: "flex", justifyContent: "flex-end", pr: 2}}>
+                                    <ContentCopyIcon sx={{fontSize:"20px", m: 1}}/> 
+                                    <ThumbUpOffAltIcon sx={{fontSize:"20px", m: 1}}/>
+                                    <ThumbDownOffAltIcon sx={{fontSize:"20px", m: 1}}/>
+                                </Box>
+                                
+                         
+                        </Box>
+
+                        
+                        <Typography variant="h6" sx={{fontWeight: 500}}gutterBottom>
+                            Source Bookmarks
+                        </Typography>
+                        <DesktopBookMarkList grid={true}/>
+
+                    </Box>
                 </Grid>
+                {/* <Grid item xs={3.5}>
+                    <Box sx={{ maxHeight: 'calc(100vh - 110px)', overflow: "auto"}}>
+                        <Typography variant="h6" sx={{fontWeight: 500}}gutterBottom>
+                            Source Bookmarks
+                        </Typography>
+                    </Box>
+                </Grid> */}
+        
             </Grid>
-        </Box>
+       
 
 
        

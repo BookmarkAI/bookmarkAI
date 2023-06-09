@@ -61,10 +61,10 @@ function SearchBar(props) {
 
 
 
-function DesktopSearchBar() {
-  const style = {display: 'flex', alignItems: 'center', justifyContent: 'center', border:1, pl: 1, pt: 0.8, pb: 0.8, borderColor: "#DFE1E5", borderRadius:20, width: 768}
+function DesktopSearchBar({height, width}) {
+  const style = {height, width, display: 'flex', alignItems: 'center', justifyContent: 'center', border:1, pl: 1, pt: 0.8, pb: 0.8, borderColor: "#DFE1E5", borderRadius:20}
   return (
-    <SearchBar fontsize={20} style={style} placeholder={"Search Your Own Internet"}/> 
+    <SearchBar fontsize={18} style={style} placeholder={"Search Your Own Internet"}/> 
   )
 }
 
@@ -72,7 +72,7 @@ function MobileSearchBar(props) {
   const { placeholder } = props;
   const style = {display: 'flex', alignItems: 'center', justifyContent: 'center', border:1, height: 40, pr: 1, width: '95%', borderColor: "#DFE1E5", borderRadius:10}
   return (
-    <SearchBar fontsize={17} style={style} placeholder={placeholder ? placeholder : "Search or query"} {...props}>
+    <SearchBar fontsize={17} style={style} placeholder={"Search"} {...props}>
       {props.children}
     </SearchBar>
   )

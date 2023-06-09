@@ -1,62 +1,101 @@
-import { Card, Grid, Collapse, Button, Box, Typography, Toolbar, IconButton} from "@mui/material";
+import { Grid, Stack, Card, Box } from "@mui/material";
 import MobileBookmarkCard from "./Mobile/MobileBookmarkCard";
 import { bookmarks } from "../services-mock/fake_dataset";
-import mckinsey from "../assets/images/mckinsey.png"
 import Checkbox from "@mui/material/Checkbox";
-import { useState } from "react";
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
-import { Desktop, Mobile } from '../responsive/MediaQuery'
 import DesktopBookmarkCard from "./Desktop/DesktopBookmarkCard";
+import EditDialog from "./Mobile/EditDialog";
+import { useContext } from 'react';
+import { FileContext } from '../utils/FileContext';
 
-const demo = {
-    title: "What is generative AI?",
-    description: "Generative artificial intelligence (AI) describes algorithms (such as ChatGPT) that can be used to create new content, including audio, code, images, text, simulations, and videos.",
-    url: "https://www.mckinsey.com/featured-insights/mckinsey-explainers/what-is-generative-ai",
-    image: mckinsey
-}
 
-function BookMarkList(props) {
-    const { style, spacing, select, topk } = props;
-    
-  return (
-    <Grid
-    container
-    spacing={spacing}
-    justify="center"
-    sx={style}
-    >
 
-        {bookmarks.map((doc, i) => (
-            topk ? 
 
-           (i < topk) && <Grid item xs={12} sm={6} md={4}>
-                <Desktop> <DesktopBookmarkCard select={select} i={i} {...doc}/>  </Desktop>
-                <Mobile> <MobileBookmarkCard select={select} {...doc}/> </Mobile>
-            </Grid>
-            :
-            <Grid item xs={12} sm={6} md={4}>
-                <Desktop> <DesktopBookmarkCard select={select} i={i} {...doc}/>  </Desktop>
-                <Mobile> <MobileBookmarkCard select={select} {...doc}/> </Mobile>
-            </Grid>
-
-        
-        ))}
-    </Grid>
-  );
-};
-
-function DesktopBookMarkList(props) {
-    const style = {pt: 5, pr: 20}
+function DesktopBookMarkList({ spacing, select, topk, grid }) {
+    const style = {pr: 3}
+    const { selectedFiles, updateSelectedFiles } = useContext(FileContext);
     return (
-        <BookMarkList style={style} spacing={0} {...props}/>
+        <>
+        {grid ? 
+            <Grid
+                container
+                spacing={spacing}
+                justify="center"
+                sx={style}
+            >
+
+            {bookmarks.map((doc, i) => (
+                topk ? 
+
+            (i < topk) && <Grid item xs={12} sm={6} md={4}>
+                    <DesktopBookmarkCard select={select} {...doc} i={i}/>
+                </Grid>
+                :
+                <Grid item xs={12} sm={6} md={4} >
+                    <DesktopBookmarkCard select={select} {...doc} i={i}/>
+                </Grid>
+            ))}
+        </Grid>
+        :
+            <Grid
+                container
+                spacing={spacing}
+                justify="center"
+                sx={style}
+                xs={12}
+            >
+
+                {bookmarks.map((doc, i) => (
+                
+                    <Box sx={{width: '48%', m: 0.3, borderBottom: 1,borderColor: "#dddddd"}} >
+                        <MobileBookmarkCard select={select} {...doc}/>
+                    </Box>
+
+                
+                ))}
+            </Grid>
+        }
+    </>
     )
 }
 
-function MobileBookMarkList(props) {
+function MobileBookMarkList({ spacing, select, topk }) {
     const style = {p: 1}
     return (
-        <BookMarkList style={style} spacing={0} {...props}/>
+        <Grid
+            container
+            spacing={spacing}
+            justify="center"
+            sx={style}
+        >
+
+            {bookmarks.map((doc, i) => (
+                topk ? 
+
+            (i < topk) && <Grid item xs={12} sm={6} md={4}>
+                <Box sx={{display: "flex", flexDirection: "column", borderBottom: 0.2, borderColor: "#d3d3d3" }}>
+                    <MobileBookmarkCard select={select} {...doc}/> 
+                    </Box>
+                </Grid>
+                :
+                <Grid item xs={12} sm={6} md={4}>
+                     <Box sx={{display: "flex", flexDirection: "column", borderBottom: 0.2, borderColor: "#d3d3d3" }}>
+                    <MobileBookmarkCard select={select} {...doc}>
+                    <Box sx={{ mt:3 }}>
+                        { select ? 
+                        <Checkbox></Checkbox> 
+                        :
+                        <EditDialog {...doc}/>
+                        }
+                        </Box>
+                    </MobileBookmarkCard>
+                    </Box>
+                    
+                </Grid>
+
+            
+            ))}
+        </Grid>
+        
     )
 }
 

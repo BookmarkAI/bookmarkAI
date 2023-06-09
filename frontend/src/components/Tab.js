@@ -54,41 +54,28 @@ const AntTab = styled((props: StyledTabProps) => <Tab disableRipple {...props} /
 
 
 
-function CustomizedTabs(props) {
+export default function DesktopTab({width}) {
   const [value, setValue] = React.useState(0);
-  const { fontsize } = props
   const navigate = useNavigate();
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
   return (
-    <Box sx={{ width: '100%' }}>
+    <Box sx={{ width: width ? width : '97%' }}>
       <Box sx={{ bgcolor: 'transparent'}}>
         <AntTabs value={value} onChange={handleChange} aria-label="ant example" >
-          <AntTab onClick={() => navigate('/browse')} sx={{fontSize: fontsize}}  label="All" />
-          <AntTab onClick={() => navigate('/browse')} sx={{fontSize: fontsize}}  label="Text"  />
+          <AntTab sx={{fontSize: '17px'}}  label="All" />
+          <AntTab sx={{fontSize: '17px'}}  label="Text"  />
+          <AntTab sx={{fontSize:'17px'}}  label="PDF"  />
+          <AntTab onClick={()=>window.location.replace("https://www.supermark.ai/pricing")} sx={{fontSize: '17px'}}  label="Image  💎"/>
+          <AntTab onClick={()=>window.location.replace("https://www.supermark.ai/pricing")} sx={{fontSize: '17px'}}  label="Video  💎"/>
           
-          <AntTab onClick={() => navigate('/browse')} sx={{fontSize: fontsize}}  label="PDF"  />
-          <AntTab onClick={()=>window.location.replace("https://www.supermark.ai/pricing")} sx={{fontSize: fontsize}}  label="Image  💎"/>
-          <AntTab onClick={()=>window.location.replace("https://www.supermark.ai/pricing")} sx={{fontSize: fontsize}}  label="Video  💎"/>
-        </AntTabs>
+        </AntTabs> 
       </Box>
     </Box>
   );
 }
 
 
-function DesktopTab() {
-  return (
-    <CustomizedTabs fontsize={"18px"}/>
-  )
-}
 
-function MobileTab() {
-  return (
-    <CustomizedTabs fontsize={"15px"}/>
-  )
-}
-
-export { DesktopTab, MobileTab }

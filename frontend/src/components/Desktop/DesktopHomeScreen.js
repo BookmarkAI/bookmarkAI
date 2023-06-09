@@ -50,7 +50,7 @@ export default function DesktopHomeScreen(props) {
                         marginBottom: 20
                     }}
                 />
-                <DesktopSearchBar/>
+                <DesktopSearchBar height={45} width={600}/>
                 <Button onClick={() => navigate('/browse')} size="large" sx={{m:3, background: 'linear-gradient(to right, #cd5b95, #9846ca)'}} variant="contained">Or Browse It</Button>
                 </Box>
             </Box>

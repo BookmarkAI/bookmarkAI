@@ -1,8 +1,9 @@
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, Toolbar, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import SubjectList from '../../components/SubjectList';
 import { useState } from 'react';
 import { DesktopBookMarkList } from '../../components/BookMarkList';
+import { DesktopTab } from '../Tab';
 
 export default function DesktopBrowseScreen(props) {
     const navigate = useNavigate();
@@ -11,14 +12,22 @@ export default function DesktopBrowseScreen(props) {
     return(
         <>
         
-        <Box sx={{ flexGrow: 1 }}>
-        <Grid container spacing={2}>
-            <Grid item xs={2}/>
-            <Grid item xs={10}>
-                <DesktopBookMarkList genAI = { genAI } lance = {lance} />
+        <Toolbar/>
+            <Grid container spacing={2}>
+                <Grid item xs={3} sx={{border:1}}/>
+                <Grid item xs={9} sx={{border: 1}}>
+                    <Typography variant="h4" sx={{fontWeight: 500}}> All Bookmarks</Typography>
+                    <Box sx={{mt: 4}}>
+
+                    
+                        <DesktopTab/>
+                    </Box>
+                
+                    <DesktopBookMarkList genAI = { genAI } lance = {lance} />
+                </Grid>
             </Grid>
-        </Grid>
-        </Box>
+       
+     
         </>
     )
 }

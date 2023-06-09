@@ -15,7 +15,6 @@ export default function DesktopBrowseScreen(props) {
         <Grid container spacing={2}>
             <Grid item xs={2}/>
             <Grid item xs={10}>
-                <SubjectList setGenAI = { setGenAI } setLancedb = { setLancedb }/>
                 <DesktopBookMarkList genAI = { genAI } lance = {lance} />
             </Grid>
         </Grid>

@@ -62,7 +62,7 @@ function SearchBar(props) {
 
 
 function DesktopSearchBar({height, width}) {
-  const style = {height, width, display: 'flex', alignItems: 'center', justifyContent: 'center', border:1, pl: 1, pt: 0.8, pb: 0.8, borderColor: "#DFE1E5", borderRadius:20}
+  const style = {height, width, display: 'flex', alignItems: 'center', justifyContent: 'center', border:1, pl: 1, pr: 3, pt: 0.8, pb: 0.8, borderColor: "#DFE1E5", borderRadius:20}
   return (
     <SearchBar fontsize={18} style={style} placeholder={"Search Your Own Internet"}/> 
   )

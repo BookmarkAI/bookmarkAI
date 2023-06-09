@@ -28,7 +28,7 @@ export default function DesktopChatScreen() {
 
             <Grid container spacing={2} sx={{mt: 2}} >
                 <Grid item xs={2.5} sx={{  pr: 3}} >
-                   <Box sx={{ maxHeight: 'calc(100vh - 110px)',pl: 2, overflow: "auto"}}>
+                   <Box sx={{ maxHeight: 'calc(100vh - 150px)',pl: 2, overflow: "auto"}}>
                         <Box> 
                             <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between"}}>
                                 <Typography variant="h7" sx={{fontWeight: 700, color: "#222222", pl: 1, pb: 1}}> Search History</Typography>
@@ -42,7 +42,7 @@ export default function DesktopChatScreen() {
                 </Grid>
                 <Grid item xs={9.5}>
                     <DesktopTab/>
-                    <Box sx={{ maxHeight: 'calc(100vh - 110px)', overflow: "auto"}}>
+                    <Box sx={{ maxHeight: 'calc(100vh - 150px)', overflow: "auto"}}>
                     
                     
                     

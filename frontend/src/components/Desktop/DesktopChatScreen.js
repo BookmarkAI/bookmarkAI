@@ -50,7 +50,7 @@ export default function DesktopChatScreen() {
                         
                             
                                 
-                        <Box sx={{display: "flex", flexDirection: "column", pb: 2, mt: 2, mb: 3, mr: 8, borderBottom: 1, borderColor: '#bbbbbb'}}>
+                        <Box sx={{display: "flex", flexDirection: "column", pb: 2, mt: 6, mb: 3, mr: 8, borderBottom: 1, borderColor: '#bbbbbb'}}>
                 
                                 <Typography variant="body1" fontSize='20px' sx={{mr:1}}>
                                     💬 &nbsp;

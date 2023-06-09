@@ -23,7 +23,7 @@ export default function DesktopAppHeader() {
   const { selectedFiles, resetSelectedFiles } = useContext(FileContext);
 
   function onClickHandler() {
-    navigate('/')
+    navigate('/browse')
   }
 
   return (

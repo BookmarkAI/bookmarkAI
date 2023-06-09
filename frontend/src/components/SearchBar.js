@@ -10,8 +10,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import DirectionsIcon from '@mui/icons-material/Directions';
 import { useState, useEffect  } from 'react';
 import { useNavigate, createSearchParams, useSearchParams, useLocation } from 'react-router-dom';
-import { auth, usersRef} from '../fb.js';
-import { doc, updateDoc, arrayUnion } from "firebase/firestore"; 
+import { auth, usersRef, db} from '../fb.js';
+import { doc, updateDoc, arrayUnion, collection, setDoc } from "firebase/firestore"; 
 
 
 function SearchBar(props) {
@@ -33,10 +33,11 @@ function SearchBar(props) {
         if(e.key === 'Enter'){
             e.preventDefault();
             if (user.uid !== null) {
-              const userRef = doc(usersRef, user.uid);
-              await updateDoc(userRef, {
-                queries: arrayUnion(query)
-              });
+              const queryRef = doc(collection(db, "users", user.uid, "queries"));
+                await setDoc(queryRef, {
+                    query: query, 
+                    time: new Date()
+                }); 
             }
             
             navigate({

@@ -1,5 +1,6 @@
 document.getElementById('extractButton').addEventListener('click', async () => {
   var button = document.getElementById('extractButton');
+  console.log("TEST2")
   button.classList.add('added');
   button.textContent = 'Added to Bookmarks!';
   uid = await getUID()
@@ -22,7 +23,7 @@ async function getCookies(domain) {
 async function getUID() {
   // reads in a list of json cookies
   var cookies = await getCookies('localhost')
-
+  console.log("TEST")
   // if no cookies, show sign in button
   if (cookies.length == 0) {
     message.hidden = true;
@@ -35,7 +36,8 @@ async function getUID() {
     return cookie.name == 'userCookie'
   }
   user = JSON.parse(decodeURIComponent(cookies.filter(checkUserCookie)[0].value))
-
+  console.log("hello")
+  console.log(user.uid);
   // if user is signed out, show sign in button and hide message
   if (user.uid == null) {
     message.hidden = true;

@@ -32,10 +32,7 @@ export const signInWithGoogle = () => {
       const userRef = doc(usersRef, user.uid);
       const userSnap = await getDoc(userRef);
       if (!userSnap.exists()) {
-        await setDoc(doc(usersRef, user.uid), {
-          queries: [],
-          bookmarks: []
-        });        
+        await setDoc(doc(usersRef, user.uid), {});        
       }
       
     })

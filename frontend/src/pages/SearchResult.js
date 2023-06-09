@@ -2,8 +2,8 @@ import { useSearchParams } from 'react-router-dom'
 import { Typography, Box, Grid, Paper, InputBase, Stack } from '@mui/material';
 import { MuiMarkdown } from 'mui-markdown';
 import { useEffect, useState } from 'react';
-import { auth, usersRef} from '../fb.js';
-import { doc, updateDoc, arrayUnion } from "firebase/firestore"; 
+import { auth, usersRef, db} from '../fb.js';
+import { doc, updateDoc, arrayUnion, setDoc, collection} from "firebase/firestore"; 
 
 
 
@@ -14,6 +14,7 @@ export default function SearchResult() {
     const [responseMessages, setResponseMessages] = useState([]);
     const user = auth.currentUser;
     const userRef = doc(usersRef, user.uid);
+
 
     useEffect(() => {
         setResponseMessages([])
@@ -42,9 +43,13 @@ export default function SearchResult() {
         if(e.key === 'Enter'){
             e.preventDefault();
             setResponseMessages([])
-            await updateDoc(userRef, {
-                queries: arrayUnion(inputValue)
-            });
+            if (user.uid != null) {
+                const queryRef = doc(collection(db, "users", user.uid, "queries"));
+                await setDoc(queryRef, {
+                    query: inputValue, 
+                    time: new Date()
+                }); 
+            }
             setSearchParams({q:inputValue});
             setInputValue('')
         }

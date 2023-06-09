@@ -69,11 +69,11 @@ export default function SwipeableEdgeDrawer(props: Props) {
         }}
       />
         
-        <Box>
+       
             <IconButton onClick={()=>setOpen(!open)}> 
                 <TuneIcon/>
             </IconButton>
-        </Box>
+      
 
       <SwipeableDrawer
         container={container}

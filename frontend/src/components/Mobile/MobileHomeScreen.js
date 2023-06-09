@@ -47,7 +47,7 @@ export default function MobileHomeScreen(props) {
                 />
             </Grid>
 
-            <Grid item xs={12} sx={{ml: 2, mr: 2}}>
+            <Grid item xs={12} sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', ml:1 , mr: 1}}>
                 <MobileSearchBar>
                     <FilterDrawer/>
                 </MobileSearchBar>

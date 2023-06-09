@@ -10,6 +10,8 @@ import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp'
 import CssBaseline from "@mui/material/CssBaseline";
 import MobileFolder from './MobileFolder';
 import { folders } from '../../services-mock/fake_dataset';
+import { MobileSearchBar } from "../SearchBar";
+import TuneIcon from '@mui/icons-material/Tune';
 
 
 
@@ -22,6 +24,15 @@ export default function MobileFoldersScreen() {
     return(
         <>
         <CssBaseline/>
+        <Grid xs={12} sx={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+            <MobileSearchBar placeholder={"Ask about 12 bookmarks"}>
+                <Box>
+                    <IconButton onClick={()=>setSelect(!select)}> 
+                        <TuneIcon/>
+                    </IconButton>
+                </Box>
+            </MobileSearchBar>
+        </Grid>
 
             <Box onClick={()=>setSelect(!select)} sx={{mt: 1.5, display: "flex", width: "100%", alignItems: "center", justifyContent:"space-between", background:'linear-gradient(to right, #BB70EE, #87A5ED)'}}>
                 <Typography variant="body2" sx={{pl:1, color: "white", fontWeight: 440}}>

@@ -7,7 +7,7 @@ import HomeHeader from '../components/HomeHeader';
 import SubjectList from '../components/SubjectList';
 import BookMarkList from '../components/BookMarkList';
 import { useState } from 'react';
-import { Desktop, Mobile } from '../responsive/MediaQuery';
+import { Desktop, Mobile } from '../utils/MediaQuery';
 import DesktopBrowseScreen from '../components/Desktop/DesktopBrowseScreen';
 import MobileBrowseScreen from '../components/Mobile/MobileBrowseScreen';
 

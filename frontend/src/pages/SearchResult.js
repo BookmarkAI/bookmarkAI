@@ -1,9 +1,8 @@
 import { useSearchParams } from 'react-router-dom'
 import { Typography, Box, Grid, Paper, InputBase, Stack } from '@mui/material';
-import SourceList from '../components/SourceList';
 import { MuiMarkdown } from 'mui-markdown';
 import { useEffect, useState } from 'react';
-import { Desktop, Mobile } from '../responsive/MediaQuery';
+import { Desktop, Mobile } from '../utils/MediaQuery';
 import DesktopChatScreen from '../components/Desktop/DesktopChatScreen';
 import MobileChatScreen from '../components/Mobile/MobileChatScreen';
 

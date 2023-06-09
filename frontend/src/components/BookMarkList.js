@@ -7,6 +7,7 @@ import { useState } from "react";
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import { Desktop, Mobile } from '../responsive/MediaQuery'
+import DesktopBookmarkCard from "./Desktop/DesktopBookmarkCard";
 
 const demo = {
     title: "What is generative AI?",
@@ -30,12 +31,12 @@ function BookMarkList(props) {
             topk ? 
 
            (i < topk) && <Grid item xs={12} sm={6} md={4}>
-                {/* <Desktop> <MobileBookMarkCard select={select} {...doc}/>  </Desktop> */}
+                <Desktop> <DesktopBookmarkCard select={select} i={i} {...doc}/>  </Desktop>
                 <Mobile> <MobileBookmarkCard select={select} {...doc}/> </Mobile>
             </Grid>
             :
             <Grid item xs={12} sm={6} md={4}>
-                {/* <Desktop> <MobileBookMarkCard select={select} {...doc}/>  </Desktop> */}
+                <Desktop> <DesktopBookmarkCard select={select} i={i} {...doc}/>  </Desktop>
                 <Mobile> <MobileBookmarkCard select={select} {...doc}/> </Mobile>
             </Grid>
 
@@ -48,7 +49,7 @@ function BookMarkList(props) {
 function DesktopBookMarkList(props) {
     const style = {pt: 5, pr: 20}
     return (
-        <BookMarkList style={style} spacing={4} {...props}/>
+        <BookMarkList style={style} spacing={0} {...props}/>
     )
 }
 

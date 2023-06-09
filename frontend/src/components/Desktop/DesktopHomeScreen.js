@@ -41,7 +41,7 @@ export default function DesktopHomeScreen(props) {
         <Grid container spacing={3} sx={{border:0}}>
             <Grid item xs={12} sx={{border:0}}>
             <Box sx={{flexGrow:1, display: 'flex', justifyContent: 'center', textAlign: 'center'}}>
-                <Box sx={{mt: 30}}>
+                <Box sx={{mt: 20}}>
                 <img 
                     src={logo} 
                     alt="Bookmark Logo"

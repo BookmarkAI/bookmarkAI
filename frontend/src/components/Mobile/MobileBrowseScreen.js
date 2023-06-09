@@ -34,9 +34,9 @@ export default function MobileBrowseScreen() {
 
         <MobileTopBar select={select} setSelect={setSelect} open={open} setOpen={setOpen}/>
 
-            {/* <Box onClick={()=>setSelect(!select)} sx={{display: "flex", width: "100%", alignItems: "center", justifyContent:"space-between", background:'linear-gradient(to right, #BB70EE, #87A5ED)'}}>
+           <Box onClick={()=>setSelect(!select)} sx={{display: "flex", width: "100%", alignItems: "center", justifyContent:"space-between", background:'linear-gradient(to right, #BB70EE, #87A5ED)'}}>
                 <Typography variant="body2" sx={{pl:1, color: "white", fontWeight: 440}}>
-                Select bookmarks to get answers from ✍️
+               12 bookmarks selected ✍️
                 </Typography>
                 <IconButton onClick={()=>setSelect(!select)}>
                     {!select?
@@ -46,15 +46,8 @@ export default function MobileBrowseScreen() {
                     }      
                 </IconButton>
             
-            </Box> */}
-     
-            
-            <Box onClick={()=>setSelect(!select)} sx={{pt:1, pb: 1, display: "flex", width: "100%", alignItems: "center", justifyContent:"start", background:'linear-gradient(to right, #BB70EE, #87A5ED)'}}>
-                    <Typography variant="body2" sx={{pl:1, color: "white", fontWeight: 440}}>
-                    Select bookmarks and ask a question! ✍️
-                    </Typography>
-                
             </Box>
+     
 
             <Collapse in={select} >
                 

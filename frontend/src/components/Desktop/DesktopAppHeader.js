@@ -9,7 +9,7 @@ import { useState } from 'react';
 import logo from '../../assets/supermark_both.png';
 import Box from '@mui/material/Box';
 import  { DesktopSearchBar } from '../SearchBar';
-import { DesktopTab } from '../Tab';
+
 
 
 
@@ -23,30 +23,28 @@ export default function DesktopAppHeader() {
   }
 
   return (
-    <AppBar position="sticky" elevation="0" sx={{pt: 2, backgroundColor: "transparent"}}>
-        <Toolbar sx={{backgroundColor: "transparent", justifyContent: 'space-between'}}>
+    <AppBar position="sticky" elevation="0" sx={{ backgroundColor: "transparent"}}>
+        <Toolbar sx={{backgroundColor: "rgba(255,255,255,0.8)", pt: 2, pb: 2, justifyContent: 'space-between'}}>
             <Box sx={{display: 'flex', pt: 1, alignItems: 'center'}}>
                 <Box onClick={onClickHandler} sx={{mr:3}}>
                     <img 
                         src={logo} 
                         alt="Split.it Logo" 
                         style={{
-                            height: 55,
+                            width: 220
 
                         }}
                     />
                 </Box>
-                <DesktopSearchBar height={60} width={786} refresh={refresh}/>
+                <DesktopSearchBar height={40} width={786} refresh={refresh}/>
             </Box>
             
             <IconButton>
-                <Avatar sx={{ width: 50, height: 50 }}/>
+                <Avatar sx={{ width: 40, height: 40 }}/>
             </IconButton>
 
         </Toolbar>
-        <Toolbar sx={{ml: 36}}>
-            <DesktopTab/>
-        </Toolbar>
+    
     </AppBar>
   );
 }

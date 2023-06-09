@@ -23,7 +23,6 @@ function SearchBar(props) {
   const location = useLocation();
   const currentPathname = location.pathname;
   const user = auth.currentUser;
-  const userRef = doc(usersRef, user.uid);
 
 
   function changeQuery(e){
@@ -33,9 +32,13 @@ function SearchBar(props) {
   async function keyPress(e){
         if(e.key === 'Enter'){
             e.preventDefault();
-            await updateDoc(userRef, {
-              queries: arrayUnion(query)
-            });
+            if (user.uid !== null) {
+              const userRef = doc(usersRef, user.uid);
+              await updateDoc(userRef, {
+                queries: arrayUnion(query)
+              });
+            }
+            
             navigate({
                 pathname: "/search",
                 search: createSearchParams({

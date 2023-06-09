@@ -1,6 +1,7 @@
 import asyncio
-from typing import AsyncIterator, List
+from typing import AsyncIterator, List, Dict, Any
 
+import weaviate
 from langchain import PromptTemplate
 from langchain.callbacks import AsyncIteratorCallbackHandler
 from langchain.callbacks.manager import AsyncCallbackManager
@@ -10,6 +11,8 @@ from langchain.vectorstores import VectorStore, LanceDB
 
 from config import Config
 from models.chat import ChatServiceMessage
+from services.context_service import ContextService
+from utils.db import get_vectorstore
 
 config = Config()
 
@@ -30,8 +33,8 @@ class ConversationService:
     {context}
     """
 
-    def __init__(self, vectorstore: VectorStore):
-        self.vectorstore = vectorstore
+    def __init__(self, context_service: ContextService):
+        self.context_service = context_service
 
     def _get_system_prompt(self) -> str:
         template = PromptTemplate(template=self.__system_prompt, input_variables=[])
@@ -40,11 +43,6 @@ class ConversationService:
     def _get_user_prompt(self, question: str, context: str) -> str:
         template = PromptTemplate(template=self.__base_prompt, input_variables=["question", "context"])
         return template.format(question=question, context=context)
-
-    def get_context(self, message: str) -> List[Document]:
-        retriever = self.vectorstore.as_retriever()
-        docs = retriever.get_relevant_documents(message)
-        return docs
 
     @classmethod
     def _format_context(cls, context: List[Document]) -> str:
@@ -58,7 +56,7 @@ class ConversationService:
             verbose=True,
             callback_manager=AsyncCallbackManager([msg_iterator]),
             streaming=True,
-            model_name=config.smart_llm_model,
+            model_name=config.fast_llm_model,
         )
         msgs: List[List[BaseMessage]] = [[
             SystemMessage(content=self._get_system_prompt()),
@@ -72,10 +70,7 @@ class ConversationService:
         return msg_iterator.aiter()
 
     async def chat(self, message: str):
-        context = self.get_context(message)
-
-        print(context)
-
+        context = self.context_service.get_context(message=message, user_id='user1')
         full_response = ''
 
         token_generator = self._get_message_generator(

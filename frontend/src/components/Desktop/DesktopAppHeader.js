@@ -31,12 +31,12 @@ export default function DesktopAppHeader() {
                         src={logo} 
                         alt="Split.it Logo" 
                         style={{
-                            height: 55,
+                            height: 40,
 
                         }}
                     />
                 </Box>
-                <DesktopSearchBar height={60} width={786} refresh={refresh}/>
+                <DesktopSearchBar height={40} width={786} refresh={refresh}/>
             </Box>
             
             <IconButton>

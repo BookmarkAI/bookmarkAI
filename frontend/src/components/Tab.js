@@ -64,11 +64,14 @@ function CustomizedTabs(props) {
 
   return (
     <Box sx={{ width: '100%' }}>
-      <Box sx={{ bgcolor: '#fff'}}>
+      <Box sx={{ bgcolor: 'transparent'}}>
         <AntTabs value={value} onChange={handleChange} aria-label="ant example" >
-          <AntTab onClick={() => navigate('/browse')} sx={{fontSize: fontsize}} icon={<ChatIcon />} iconPosition="start" label="All" />
-          <AntTab onClick={() => navigate('/browse')} sx={{fontSize: fontsize}} icon={<ArticleIcon />} iconPosition="start" label="Text"  />
-          <AntTab onClick={() => navigate('/images')} sx={{fontSize: fontsize}} icon={<ImageIcon />} iconPosition="start" label="Image"/>
+          <AntTab onClick={() => navigate('/browse')} sx={{fontSize: fontsize}}  label="All" />
+          <AntTab onClick={() => navigate('/browse')} sx={{fontSize: fontsize}}  label="Text"  />
+          
+          <AntTab onClick={() => navigate('/browse')} sx={{fontSize: fontsize}}  label="PDF"  />
+          <AntTab onClick={()=>window.location.replace("https://www.supermark.ai/pricing")} sx={{fontSize: fontsize}}  label="Image  💎"/>
+          <AntTab onClick={()=>window.location.replace("https://www.supermark.ai/pricing")} sx={{fontSize: fontsize}}  label="Video  💎"/>
         </AntTabs>
       </Box>
     </Box>

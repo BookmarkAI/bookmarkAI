@@ -9,3 +9,4 @@ class ExtensionDocument(BaseModel):
     title: str
     UID: str
     image_urls: list
+    timestamp: int

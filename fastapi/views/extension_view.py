@@ -1,4 +1,8 @@
 import logging
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import firestore
+
 from datetime import datetime
 
 import weaviate
@@ -14,6 +18,9 @@ from utils.db import get_vectorstore
 router = APIRouter()
 config = Config()
 log = logging.getLogger(__name__)
+cred = credentials.Certificate('../bookmarkai-c7f69-0e7393f3fe4e.json')
+app = firebase_admin.initialize_app(cred)
+db = firestore.client()
 
 @router.post('/store')
 def store(document: ExtensionDocument):
@@ -33,5 +40,14 @@ def store(document: ExtensionDocument):
                 "url": document.url
             }, "Document")
         batch.flush()
+    
+    firebase_data = {
+        'folder': 'general', 
+        'timestamp': document.timestamp, 
+        'url': document.url, 
+        'title': document.title, 
+        'type': 'url'
+    }
+    db.collection('users').document(document.UID).collection('bookmarks').add(firebase_data)
 
     return {'success': True}

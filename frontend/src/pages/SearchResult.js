@@ -3,7 +3,10 @@ import { Typography, Box, Grid, Paper, InputBase, Stack } from '@mui/material';
 import { MuiMarkdown } from 'mui-markdown';
 import { useEffect, useState } from 'react';
 import { auth, usersRef, db} from '../fb.js';
-import { doc, updateDoc, arrayUnion, setDoc, collection} from "firebase/firestore"; 
+import { doc, setDoc, collection} from "firebase/firestore"; 
+import { Desktop, Mobile } from '../utils/MediaQuery';
+import DesktopChatScreen from '../components/Desktop/DesktopChatScreen.js';
+import MobileChatScreen from '../components/Mobile/MobileChatScreen.js'
 
 
 

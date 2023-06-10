@@ -45,15 +45,26 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         }
 
         const image_urls = img_find()
+        const currentDate = new Date();
+        const timestamp = currentDate.getTime();
 
         // console.log(text); // or you can send this data back using sendResponse
+        const obj = { 
+            raw_text: text,
+            url: url,
+            UID: request.UID,
+            title: title, 
+            image_urls: image_urls, 
+            timestamp: Math.round(timestamp / 1000)
+        }
+        console.log(obj);
 
         return fetch('http://localhost:8000/store', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ raw_text: text, url: url, UID: request.UID, title: title, image_urls: image_urls })
+            body: JSON.stringify(obj)
 
         })
         .then(response => response.json())

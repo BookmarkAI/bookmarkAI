@@ -5,14 +5,14 @@ import BrowseScreen from './pages/BrowseScreen';
 import Layout from './pages/Layout';
 import BrowseImages from './pages/BrowseImages';
 import SearchResult from './pages/SearchResult';
-import { Desktop, Mobile } from './utils/MediaQuery';
+import { Desktop, Mobile } from './utils/MediaQuery.js';
+import {DesktopChatScreen} from './components/Desktop/DesktopChatScreen'
 import MobileFoldersScreen from './components/Mobile/MobileFoldersScreen';
 import MobileFolderView from "./components/Mobile/MobileFolderView";
 import React from 'react';
 import { FileProvider } from './utils/FileContext';
 import SignIn from './components/SignIn';
 import SignInPage from './pages/SignInPage';
-import SourceList from './components/SourceList';
 import Login from './components/SignIn';
 import { useEffect, useState } from 'react';
 import { auth } from './fb';
@@ -54,19 +54,34 @@ function App() {
   console.log(user);
 
   return (
-    <div>
-      <BrowserRouter>
+    <FileProvider>
+    <BrowserRouter>
+      <Desktop>
         <Routes>
-          <Route path="/" element={<Homescreen user={user} />} />
-          <Route element={<Layout />}>
+          <Route path="/" element={<HomeScreen/>} />
+          <Route element={<Layout/>}>
+            <Route path="/browse" element={<BrowseScreen/>}/>
+            <Route path="/images" element={<BrowseImages/>}/>
+            <Route path="/search" element={<SearchResult/>}/>
             <Route path="/signin" element={<SignInPage user={user} />} />
-            <Route path="/browse" element={<BrowseScreen user={user} />} />
-            <Route path="/images" element={<BrowseImages user={user} />} />
-            <Route path="/search" element={<SearchResult user={user} />} />
           </Route>
         </Routes>
-      </BrowserRouter>
-    </div>
+      </Desktop>
+
+      <Mobile>
+        <Routes>
+          <Route path="/" element={<HomeScreen/>} />
+          <Route element={<Layout/>}>
+            <Route path="/browse" element={<BrowseScreen/>}/>
+            <Route path="/images" element={<BrowseImages/>}/>
+            <Route path="/search" element={<SearchResult/>}/>
+            <Route path="/folders" element={<MobileFoldersScreen/>}/>
+            <Route path="/folder/:id" element={<MobileFolderView/>} />
+          </Route>
+        </Routes>
+      </Mobile>
+    </BrowserRouter>
+    </FileProvider>
   );
 }
 

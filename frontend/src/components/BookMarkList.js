@@ -6,6 +6,7 @@ import DesktopBookmarkCard from "./Desktop/DesktopBookmarkCard";
 import EditDialog from "./Mobile/EditDialog";
 import { useContext } from 'react';
 import { FileContext } from '../utils/FileContext';
+import {getAllBookmarksReal} from '../services/service'
 
 
 
@@ -13,6 +14,7 @@ import { FileContext } from '../utils/FileContext';
 function DesktopBookMarkList({ spacing, select, topk, grid }) {
     const style = {pr: 3}
     const { selectedFiles, updateSelectedFiles } = useContext(FileContext);
+    const result = getAllBookmarksReal();
     return (
         <>
         {grid ? 

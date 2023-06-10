@@ -4,7 +4,7 @@ import { real_bookmarks } from "./dataset";
 
 
 export async function getAllBookmarksReal() {
-    if (auth.currentUser.uid != null) {
+    if (auth.currentUser != null) {
         const q = query(collection(db, auth.currentUser.uid));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {

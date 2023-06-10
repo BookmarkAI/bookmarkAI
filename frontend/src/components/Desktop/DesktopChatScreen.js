@@ -10,9 +10,7 @@ import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
 
 
-const responseMessages = [{chat_response: "Y Combinator is a renowned startup accelerator and venture capital firm that has played a significant role in shaping the startup landscape. Founded in 2005, Y Combinator provides early-stage funding, mentorship, and a supportive community to startups from various industries. They offer a highly competitive program where selected startups receive seed funding, access to a network of successful entrepreneurs and investors, and guidance from experienced mentors. Y Combinator's rigorous three-month program culminates in a Demo Day, where startups pitch their ideas to a room full of potential investors. Over the years, Y Combinator has nurtured and propelled numerous successful companies, such as Airbnb, Dropbox, Stripe, and Reddit, among many others. Their impact on the startup ecosystem has been substantial, making Y Combinator a revered institution for aspiring entrepreneurs seeking to turn their ideas into thriving businesses."}]
-
-export default function DesktopChatScreen() {
+export default function DesktopChatScreen({responseMessages}) {
     const [searchParams, setSearchParams] = useSearchParams();
     const q = searchParams.get('q')
 

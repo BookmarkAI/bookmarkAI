@@ -21,20 +21,21 @@ async function getCookies(domain) {
 }
 
 async function getUID() {
-  // reads in a list of json cookies
-  var cookies = await getCookies('localhost')
-  // if no cookies, show sign in button
-  if (cookies.length == 0) {
+  const cookies = await getCookies('localhost');
+
+  const user_cookies = cookies
+    .filter(cookie => cookie.name === 'userCookie')
+    .map(cookie => JSON.parse(decodeURIComponent(cookie.value)))
+    .filter(cookie => cookie.uid !== null);
+  
+  const user = user_cookies[0];
+  
+  if (user_cookies.length === 0) {
     message.hidden = true;
     signin.hidden = false;
     return 'null'
   }
-  // filter out the user cookie
-  // consoleLog((cookies))
-  checkUserCookie = (cookie) => {
-    return cookie.name == 'userCookie'
-  }
-  user = JSON.parse(decodeURIComponent(cookies.filter(checkUserCookie)[0].value))
+  
   // if user is signed out, show sign in button and hide message
   if (user.uid == null) {
     message.hidden = true;
@@ -54,20 +55,20 @@ function consoleLog(message) {
 
 async function setFrontend() {
   // reads in a list of json cookies
-  var cookies = await getCookies('localhost')
+  const cookies = await getCookies('localhost');
 
-  // if no cookies, show sign in button
-  if (cookies.length == 0) {
+  const user_cookies = cookies
+    .filter(cookie => cookie.name === 'userCookie')
+    .map(cookie => JSON.parse(decodeURIComponent(cookie.value)))
+    .filter(cookie => cookie.uid !== null);
+  
+  const user = user_cookies[0];
+  
+  if (user_cookies.length === 0) {
     message.hidden = true;
     signin.hidden = false;
     return
   }
-  // filter out the user cookie
-  // consoleLog((cookies))
-  checkUserCookie = (cookie) => {
-    return cookie.name == 'userCookie'
-  }
-  user = JSON.parse(decodeURIComponent(cookies.filter(checkUserCookie)[0].value))
 
   // if user is signed out, show sign in button and hide message
   if (user.uid == null) {

@@ -48,29 +48,30 @@ export default function DesktopBookmarkCard(props) {
     } else {
         removeSelectedFiles(title);
     }
-    
   }
 
   const navigate = useNavigate();
 
   return (
-    <Box sx={{mr: 2, mb: 2,  background: clicked ? '#dddddd' : "white", borderRadius: 4}} onClick={handleClick}>
+    <Box sx={{mr: 2, mb: 2,  background: clicked ? '#dddddd' : "white", borderRadius: 4}}>
         
-          <Box sx={{background: colorArray[i%colorArray.length], filter: clicked ? "brightness(85%)" : "brightness(100%)", minHeight: 150, mb: 2, borderRadius: 4, display: "flex", justifyContent: "flex-end", alignItems: "flex-start"}}>
+          <Box onClick={handleClick} sx={{background: colorArray[i%colorArray.length], filter: clicked ? "brightness(85%)" : "brightness(100%)", minHeight: 150, mb: 2, borderRadius: 4, display: "flex", justifyContent: "flex-end", alignItems: "flex-start"}}>
             <LaunchIcon onClick={()=>{window.open(url, "_blank")}} sx={{color: "white", m: 2}}/>
           </Box>
 
           <Box sx={{ml: 0.5, mr: 1.5, mt: 1}}>
-            <Typography sx={{overflow: "hidden",
-                textOverflow: "ellipsis",
-                display: "-webkit-box",
-                WebkitLineClamp: "2",
-                WebkitBoxOrient: "vertical",
-                lineHeight: '21px', fontSize: "17px", fontWeight: "540"}} gutterBottom variant="h6" component="div">
-                {title ? title : "Title"}
-            </Typography>
+            <Box onClick={handleClick}>
+              <Typography sx={{overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  display: "-webkit-box",
+                  WebkitLineClamp: "2",
+                  WebkitBoxOrient: "vertical",
+                  lineHeight: '21px', fontSize: "17px", fontWeight: "540"}} gutterBottom variant="h6" component="div">
+                  {title ? title : "Title"}
+              </Typography>
+            </Box>
 
-            <Box sx={{display: "flex", flexDirection: "row",  pt: 2, alignItems: 'center', width: '100%', justifyContent: 'space-between' }}> 
+            <Box sx={{display: "flex", flexDirection: "row",  pt: 1, alignItems: 'center', width: '100%', justifyContent: 'space-between' }}> 
                 <Box sx={{display: "flex", flexDirection: "row", alignItems: "center"}}>    
                     <img
                         src={getIcon(url)}
@@ -85,14 +86,14 @@ export default function DesktopBookmarkCard(props) {
                     </Typography> 
                 </Box> 
 
-           
+              <IconButton>
                 <MoreHorizIcon/>
+              </IconButton>
+                
                 
             </Box>
           </Box>
- 
-
-      
+   
     </Box>
   );
 }

@@ -63,17 +63,15 @@ export default function SwipeableEdgeDrawer(props: Props) {
       <Global
         styles={{
           '.MuiDrawer-root > .MuiPaper-root': {
-            height: `calc(50% - ${drawerBleeding}px)`,
+            height: `calc(90% - ${drawerBleeding}px)`,
             overflow: 'visible',
           },
         }}
       />
         
-       
-            <IconButton onClick={()=>setOpen(!open)}> 
-                <TuneIcon/>
-            </IconButton>
-      
+        <IconButton sx={{p:0.5}} onClick={()=>setOpen(!open)}> 
+          <TuneIcon sx={{fontSize: '21px'}}/>
+        </IconButton>
 
       <SwipeableDrawer
         container={container}

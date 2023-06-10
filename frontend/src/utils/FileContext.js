@@ -1,11 +1,13 @@
 import React, { createContext, useState } from 'react';
 
+// Saves search option: enable/disable chat, and which files to generate content from
 // Create the FileContext
 const FileContext = createContext();
 
 // Create the FileProvider component
 const FileProvider = ({ children }) => {
   const [selectedFiles, setSelectedFiles] = useState([]);
+  const [chatEnabled, setChatEnabled] = useState(true);
 
   // Function to update the selected files
 //   const updateSelectedFiles = (files) => {
@@ -29,12 +31,18 @@ const FileProvider = ({ children }) => {
   const resetSelectedFiles = () => {
     setSelectedFiles([])
   }
+
+  const enableChat = (newChat) =>{
+    setChatEnabled(newChat)
+  }
   // Context value
   const contextValue = {
     selectedFiles,
     updateSelectedFiles,
     removeSelectedFiles,
-    resetSelectedFiles
+    resetSelectedFiles,
+    chatEnabled,
+    enableChat,
   };
 
   return (

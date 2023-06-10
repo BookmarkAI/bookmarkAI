@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import SubjectList from '../../components/SubjectList';
 import { useState } from 'react';
 import { DesktopBookMarkList } from '../../components/BookMarkList';
-import DesktopTab from '../Tab';
+import { BrowseTab } from '../Tab';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import DesktopFolderList from './DesktopFolderList';
 import MobileBookmarkCard from '../Mobile/MobileBookmarkCard';
@@ -44,7 +44,7 @@ export default function DesktopBrowseScreen(props) {
                             }   */}
                         </Box>
                         <Box sx={{mt: 4}}>
-                            <DesktopTab/>
+                            <BrowseTab/>
                         </Box>
                     
                         <Box sx={{mt: 1}}>

@@ -11,39 +11,62 @@ import AddIcon from '@mui/icons-material/Add';
 import { blue } from '@mui/material/colors';
 import TextField from '@mui/material/TextField';
 import CloseIcon from '@mui/icons-material/Close';
+import { auth, usersRef} from '../../fb.js';
+import { doc, updateDoc, arrayUnion } from "firebase/firestore"; 
+import { useState } from 'react';
+import { AuthContext } from '../context/AuthContext.js';
+
 
 const emails = ['username@gmail.com', 'user02@gmail.com'];
 
 function SimpleDialog(props) {
   const { onClose, selectedValue, open } = props;
+  const [newFolderName, setNewFolderName] = useState('');
+  const { user } = React.useContext(AuthContext)
 
-  const handleClose = () => {
+
+  const handleClose = async () => {
     onClose(selectedValue);
+    if (user && newFolderName !== '') {
+      const user = auth.currentUser;
+      const userRef = doc(usersRef, user.uid);
+      await updateDoc(userRef, {
+        folders: arrayUnion(newFolderName)
+      });
+      setNewFolderName('');
+    }
   };
 
-  const handleListItemClick = (value) => {
+ const handleListItemClick = (value) => {
     onClose(value);
   };
 
+  const handleInputChange = (event) => {
+    setNewFolderName(event.target.value);
+  };
+
+
   return (
-    <Dialog onClose={handleClose} open={open}>
-    <DialogTitle>
-        <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Stack>
-                New Folder
-                <Typography>Organize bookmarks using folders</Typography>
-            </Stack>
-            
-            <CloseIcon onClick={handleClose} sx={{pl: 1}}/>
+    <div>
+      (<Dialog onClose={handleClose} open={open}>
+      <DialogTitle>
+          <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+              <Stack>
+                  New Folder
+                  <Typography>Organize bookmarks using folders</Typography>
+              </Stack>
+              
+              <CloseIcon onClick={handleClose} sx={{pl: 1}}/>
+          </Box>
+      </DialogTitle>
+        <Box sx={{p: 3, display: 'flex', flexDirection: 'column'}}>
+          <TextField value = {newFolderName} onChange={handleInputChange} label="Folder Name" variant="outlined"/>
+          <Button onClick={handleClose} sx={{textTransform: 'none', mt: 2,  p: 1.2, borderRadius: 4, background: 'linear-gradient(to right, #cd5b95, #9846ca)'}} variant="contained">
+              Create Folder
+          </Button>
         </Box>
-    </DialogTitle>
-      <Box sx={{p: 3, display: 'flex', flexDirection: 'column'}}>
-        <TextField label="Folder Name" variant="outlined"/>
-        <Button sx={{textTransform: 'none', mt: 2,  p: 1.2, borderRadius: 4, background: 'linear-gradient(to right, #cd5b95, #9846ca)'}} variant="contained">
-            Create Folder
-        </Button>
-      </Box>
-    </Dialog>
+      </Dialog>
+    </div>
   );
 }
 

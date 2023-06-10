@@ -36,7 +36,8 @@ export const signInWithGoogle = () => {
         await setDoc(doc(usersRef, user.uid), {
           "email": user.email,
           "name": user.displayName,
-          "subscription_type": "free"
+          "subscription_type": "free", 
+          "folders": []
         });        
       }
       

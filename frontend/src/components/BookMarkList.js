@@ -7,7 +7,7 @@ import EditDialog from "./Mobile/EditDialog";
 import { useContext } from 'react';
 import { FileContext } from '../utils/FileContext';
 import { FolderContext } from '../utils/FolderContext'; 
-
+import {getAllBookmarksReal} from '../services/service'
 
 
 
@@ -20,10 +20,10 @@ function DesktopBookMarkList({ spacing, select, topk, grid }) {
 
     const filteredBookmarks = selectedFolder
     ? bookmarks.filter((bookmark) => bookmark.folder === selectedFolder)
-    : bookmarks;
+    : bookmarks; 
+    const result = getAllBookmarksReal();
 
-    console.log(selectedFolder)
-    
+  
     return (
         <>
         {grid ? 

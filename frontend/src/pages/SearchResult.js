@@ -67,7 +67,7 @@ export default function SearchResult() {
     return(
         <>
         <Desktop>
-            <DesktopChatScreen/>
+            <DesktopChatScreen urls={[...new Set(responseMessages.flatMap(mes => mes.documents.map(doc => doc.metadata.url)))]} responseMessages={responseMessages}  />
         </Desktop>
 
         <Mobile>

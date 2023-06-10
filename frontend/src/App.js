@@ -13,7 +13,8 @@ import React from 'react';
 import { FileProvider } from './utils/FileContext';
 import { FolderProvider } from './utils/FolderContext';
 import SignInPage from './pages/SignInPage';
-import {AuthProvider} from "./components/context/AuthContext";
+import { AuthProvider } from "./components/context/AuthContext";
+import ProtectedRoute from './utils/ProtectedRoute';
 
 
 
@@ -27,25 +28,23 @@ function App() {
           <Desktop>
             <Routes>
               <Route path="/" element={<HomeScreen/>} />
-              <Route element={<Layout/>}>
-                <Route path="/signin" element={<SignInPage />}/>
-                <Route path="/browse" element={<BrowseScreen/>}/>
-                <Route path="/images" element={<BrowseImages/>}/>
-                <Route path="/search" element={<SearchResult/>}/>
+              <Route path="/login" element={<SignInPage/>}/>
+              <Route element={<ProtectedRoute><Layout/></ProtectedRoute>}>
+                <Route path="/browse" element={<ProtectedRoute><BrowseScreen/></ProtectedRoute>}/>
+                <Route path="/search" element={<ProtectedRoute><SearchResult/></ProtectedRoute>}/>
               </Route>
             </Routes>
           </Desktop>
 
           <Mobile>
             <Routes>
-              <Route path="/" element={<HomeScreen/>} />
-              <Route element={<Layout/>}>
-                <Route path="/signin" element={<SignInPage />}/>
-                <Route path="/browse" element={<BrowseScreen/>}/>
-                <Route path="/images" element={<BrowseImages/>}/>
-                <Route path="/search" element={<SearchResult/>}/>
-                <Route path="/folders" element={<MobileFoldersScreen/>}/>
-                <Route path="/folder/:id" element={<MobileFolderView/>} />
+              <Route path="/" element={<ProtectedRoute><HomeScreen/></ProtectedRoute>} />
+              <Route path="/login" element={<SignInPage />}/>
+              <Route element={<ProtectedRoute><Layout/></ProtectedRoute>}>
+                <Route path="/browse" element={<ProtectedRoute><BrowseScreen/></ProtectedRoute>}/>
+                <Route path="/search" element={<ProtectedRoute><SearchResult/></ProtectedRoute>}/>
+                <Route path="/folders" element={<ProtectedRoute><MobileFoldersScreen/></ProtectedRoute>}/>
+                <Route path="/folder/:id" element={<ProtectedRoute><MobileFolderView/></ProtectedRoute>} />
               </Route>
             </Routes>
           </Mobile>

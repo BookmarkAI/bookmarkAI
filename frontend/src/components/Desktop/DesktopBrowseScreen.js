@@ -12,10 +12,12 @@ import GridViewIcon from '@mui/icons-material/GridView';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import { useContext } from 'react';
 import { FileContext } from '../../utils/FileContext';
+import { FolderContext } from '../../utils/FolderContext';
 
 export default function DesktopBrowseScreen(props) {
     const [ grid, setGrid ] = useState(true);
     const { selectedFiles, resetSelectedFiles } = useContext(FileContext);
+    const { selectedFolder } = useContext(FolderContext);
 
     return(
         <>
@@ -36,7 +38,9 @@ export default function DesktopBrowseScreen(props) {
                 <Grid item xs={9.5}>
                     <Box sx={{ maxHeight: 'calc(100vh - 110px)', overflow: "auto"}}>
                         <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: "space-between", alignItems: "center", pr: 7}}>
-                            <Typography variant="h5" sx={{fontWeight: 550}}> All Bookmarks</Typography>
+                            <Typography variant="h5" sx={{fontWeight: 550}}> 
+                             { selectedFolder ? selectedFolder : "All Bookmarks" }
+                            </Typography>
                             {/* {grid ?
                             <GridViewIcon onClick={()=>setGrid(!grid)} sx={{opacity: 0.7}}/>
                             :

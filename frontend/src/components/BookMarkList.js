@@ -6,6 +6,9 @@ import DesktopBookmarkCard from "./Desktop/DesktopBookmarkCard";
 import EditDialog from "./Mobile/EditDialog";
 import { useContext } from 'react';
 import { FileContext } from '../utils/FileContext';
+import { FolderContext } from '../utils/FolderContext'; 
+
+
 
 
 
@@ -13,6 +16,14 @@ import { FileContext } from '../utils/FileContext';
 function DesktopBookMarkList({ spacing, select, topk, grid }) {
     const style = {pr: 3}
     const { selectedFiles, updateSelectedFiles } = useContext(FileContext);
+    const { selectedFolder } = useContext(FolderContext);
+
+    const filteredBookmarks = selectedFolder
+    ? bookmarks.filter((bookmark) => bookmark.folder === selectedFolder)
+    : bookmarks;
+
+    console.log(selectedFolder)
+    
     return (
         <>
         {grid ? 
@@ -23,7 +34,7 @@ function DesktopBookMarkList({ spacing, select, topk, grid }) {
                 sx={style}
             >
 
-            {bookmarks.map((doc, i) => (
+            {filteredBookmarks.map((doc, i) => (
                 topk ? 
 
             (i < topk) && <Grid item xs={12} sm={6} md={4}>
@@ -44,7 +55,7 @@ function DesktopBookMarkList({ spacing, select, topk, grid }) {
                 xs={12}
             >
 
-                {bookmarks.map((doc, i) => (
+                {filteredBookmarks.map((doc, i) => (
                 
                     <Box sx={{width: '48%', m: 0.3, borderBottom: 1,borderColor: "#dddddd"}} >
                         <MobileBookmarkCard select={select} {...doc}/>

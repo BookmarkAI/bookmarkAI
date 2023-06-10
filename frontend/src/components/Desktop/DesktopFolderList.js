@@ -10,13 +10,9 @@ import SimpleDialogDemo from './DesktopDialog';
 import { FolderContext } from '../../utils/FolderContext';
 
 
-function DesktopFolder(props){
-    const { title } = props;
-   
-    const { selectedFolder, handleFolderSelect } = useContext(FolderContext);
-    const clicked = selectedFolder == title;
-
-
+function StyledButton(props){
+    const { title, clicked, handleClick } = props;
+    
     const getButtonStyles = () => {
     if (!clicked) {
       return {
@@ -51,7 +47,7 @@ function DesktopFolder(props){
         <>
        
         <Box sx={{borderRadius: 3, display:"flex", flexDirection: "row", justifyContent: 'space-between', alignItems: 'flex-end'}}>
-            <Button variant={clicked ? "contained" : "text"} onClick={()=>handleFolderSelect(title)} sx={getButtonStyles()}>   
+            <Button variant={clicked ? "contained" : "text"} onClick={handleClick} sx={getButtonStyles()}>   
                 <Box sx={{display: "flex", flexDirection: "row", alignItems: "center"}}>
                     {props.children}
                     <Typography variant="h7" sx={{ml: 1, fontWeight: clicked? 500: 350, color: clicked? "#3D9DFF": "#333333"}}>
@@ -73,21 +69,44 @@ function DesktopFolder(props){
     )
 }
 
+function DesktopFolder({title}) {
+    const { selectedFolder, handleFolderSelect } = useContext(FolderContext);
+    function handleClick() {
+        handleFolderSelect(title)
+    }
+    return(
+        <StyledButton title={title} clicked={selectedFolder == title} handleClick={handleClick}>
+            <FolderIcon  sx={{ fontSize: 17 }}/>
+        </StyledButton>
+    )
+}
+
+function AllBookmarks(){
+    const { selectedFolder, handleFolderSelect } = useContext(FolderContext);
+    function handleClick() {
+        handleFolderSelect(null)
+    }
+    return(
+        <StyledButton title={"All Bookmarks"} clicked={selectedFolder == null} handleClick={handleClick}>
+            <BookmarkIcon sx={{fontSize: 17}}/>
+        </StyledButton>
+    )
+
+}
+
+
 export default function DesktopFolderList() {
+    const { selectedFolder, handleFolderSelect } = useContext(FolderContext);
     
     return (
         <>
         {/* Folder List */}
       
                 <Stack spacing={0}>
-                    <DesktopFolder title={"All Bookmarks"}>
-                        <BookmarkIcon sx={{fontSize: 17}}/>
-                    </DesktopFolder>
+                    <AllBookmarks/>
                    
                     {folders.map((doc, i) => (              
-                         <DesktopFolder title={doc}>
-                            <FolderIcon  sx={{ fontSize: 17 }}/>
-                         </DesktopFolder>
+                         <DesktopFolder title={doc}/>
                     ))}
 
                     <SimpleDialogDemo/>

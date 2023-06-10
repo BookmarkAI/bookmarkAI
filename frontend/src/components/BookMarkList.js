@@ -7,8 +7,13 @@ import EditDialog from "./Mobile/EditDialog";
 import { useContext } from 'react';
 import { FileContext } from '../utils/FileContext';
 import { FolderContext } from '../utils/FolderContext'; 
+<<<<<<< HEAD
 import { getAllBookmarksReal } from '../services/service'
 import { AuthContext } from "./context/AuthContext";
+=======
+import {getAllBookmarksReal} from '../services/service'
+
+>>>>>>> b414bdc9bc8c6ba1854191f2eec405cafa01d4b8
 
 
 
@@ -26,7 +31,8 @@ function DesktopBookMarkList({ spacing, select, topk, grid }) {
     console.log(selectedFolder)
 
     const result = getAllBookmarksReal();
-    
+  
+
     return (
         <>
         {grid ? 

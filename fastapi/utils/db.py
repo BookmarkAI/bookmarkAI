@@ -1,9 +1,6 @@
 from datetime import datetime
 
-import lancedb
 import weaviate
-from langchain.embeddings.base import Embeddings
-from langchain.vectorstores import VectorStore, LanceDB, Weaviate
 
 from config import Config
 from utils.files import get_root_path

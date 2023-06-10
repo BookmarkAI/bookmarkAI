@@ -15,17 +15,23 @@ function extractText(node) {
     return text.trim();
 }
 
-// Listen for messages
+// this is the listener for the consoleLog function, simply logs req.message
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    if (request.command === 'consoleLog') {
+        console.log(request.message);
+    }
+});
+
+
+// the extension sends this post req to the backend: 
+// { raw_text: str, url: str, UID: str, title: str, image_urls: str[] }
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.command === 'extractText') {
-        const text = extractText(document.body);
+        const text = "p"//extractText(document.body);
         // get the url of the current tab
         const url = window.location.href;
         // get the title of the current tab
         const title = document.title;
-
-
-        console.log(text); // or you can send this data back using sendResponse
 
         function img_find() {
             var imgs = document.getElementsByTagName("img");
@@ -47,12 +53,13 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ raw_text: text, url: url })
+            body: JSON.stringify({ raw_text: text, url: url, UID: request.UID, title: title, image_urls: image_urls })
 
         })
         .then(response => response.json())
         .then(data => {
             // Process the response from the POST request
+            console.log("data");
             console.log(data);
         })
         .catch(error => {
@@ -61,3 +68,4 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         });
 
 }});
+

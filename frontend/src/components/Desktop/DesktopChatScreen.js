@@ -3,7 +3,7 @@ import { Typography, Box, Grid, Paper, InputBase, Stack } from '@mui/material';
 import { MuiMarkdown } from 'mui-markdown';
 import { useEffect, useState } from 'react';
 import DesktopChatList from './DesktopChatList'
-import DesktopTab from '../Tab';
+import { SearchTab } from '../Tab';
 import { DesktopBookMarkList } from '../BookMarkList';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
@@ -41,7 +41,7 @@ export default function DesktopChatScreen() {
                     
                 </Grid>
                 <Grid item xs={9.5}>
-                    <DesktopTab/>
+                    <SearchTab/>
                     <Box sx={{ maxHeight: 'calc(100vh - 150px)', overflow: "auto"}}>
                     
                     

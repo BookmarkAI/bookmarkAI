@@ -5,7 +5,8 @@ import BrowseScreen from './pages/BrowseScreen';
 import Layout from './pages/Layout';
 import BrowseImages from './pages/BrowseImages';
 import SearchResult from './pages/SearchResult';
-import { Desktop, Mobile } from './utils/MediaQuery';
+import { Desktop, Mobile } from './utils/MediaQuery.js';
+import {DesktopChatScreen} from './components/Desktop/DesktopChatScreen'
 import MobileFoldersScreen from './components/Mobile/MobileFoldersScreen';
 import MobileFolderView from "./components/Mobile/MobileFolderView";
 import React from 'react';
@@ -13,7 +14,6 @@ import { FileProvider } from './utils/FileContext';
 import { FolderProvider } from './utils/FolderContext';
 import SignIn from './components/SignIn';
 import SignInPage from './pages/SignInPage';
-import SourceList from './components/SourceList';
 import Login from './components/SignIn';
 import { useEffect, useState } from 'react';
 import { auth } from './fb';

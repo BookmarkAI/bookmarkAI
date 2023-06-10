@@ -2,15 +2,22 @@ import { useSearchParams } from 'react-router-dom'
 import { Typography, Box, Grid, Paper, InputBase, Stack } from '@mui/material';
 import { MuiMarkdown } from 'mui-markdown';
 import { useEffect, useState } from 'react';
+import { auth, usersRef, db} from '../fb.js';
+import { doc, setDoc, collection} from "firebase/firestore"; 
 import { Desktop, Mobile } from '../utils/MediaQuery';
-import DesktopChatScreen from '../components/Desktop/DesktopChatScreen';
-import MobileChatScreen from '../components/Mobile/MobileChatScreen';
+import DesktopChatScreen from '../components/Desktop/DesktopChatScreen.js';
+import MobileChatScreen from '../components/Mobile/MobileChatScreen.js'
+
 
 
 export default function SearchResult() {
+    
     const [searchParams, setSearchParams] = useSearchParams();
-    const q = searchParams.get('q')
-    const [responseMessages, setResponseMessages] = useState([])
+    const q = searchParams.get('q');
+    const [responseMessages, setResponseMessages] = useState([]);
+    const user = auth.currentUser;
+    const userRef = doc(usersRef, user.uid);
+
 
     useEffect(() => {
         setResponseMessages([])
@@ -35,10 +42,17 @@ export default function SearchResult() {
           };
     }, [searchParams])
 
-    function keyPress(e){
+   async function keyPress(e){
         if(e.key === 'Enter'){
             e.preventDefault();
             setResponseMessages([])
+            if (user.uid != null) {
+                const queryRef = doc(collection(db, "users", user.uid, "queries"));
+                await setDoc(queryRef, {
+                    query: inputValue, 
+                    time: new Date()
+                }); 
+            }
             setSearchParams({q:inputValue});
             setInputValue('')
         }

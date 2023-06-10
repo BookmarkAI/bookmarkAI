@@ -55,32 +55,17 @@ function App() {
 
   return (
     <FileProvider>
-    <BrowserRouter>
-      <Desktop>
+      <BrowserRouter>
         <Routes>
-          <Route path="/" element={<HomeScreen/>} />
-          <Route element={<Layout/>}>
-            <Route path="/browse" element={<BrowseScreen/>}/>
-            <Route path="/images" element={<BrowseImages/>}/>
-            <Route path="/search" element={<SearchResult/>}/>
+          <Route path="/" element={<HomeScreen user={user} />} />
+          <Route element={<Layout />}>
             <Route path="/signin" element={<SignInPage user={user} />} />
+            <Route path="/browse" element={<BrowseScreen user={user} />} />
+            <Route path="/images" element={<BrowseImages user={user} />} />
+            <Route path="/search" element={<SearchResult user={user} />} />
           </Route>
         </Routes>
-      </Desktop>
-
-      <Mobile>
-        <Routes>
-          <Route path="/" element={<HomeScreen/>} />
-          <Route element={<Layout/>}>
-            <Route path="/browse" element={<BrowseScreen/>}/>
-            <Route path="/images" element={<BrowseImages/>}/>
-            <Route path="/search" element={<SearchResult/>}/>
-            <Route path="/folders" element={<MobileFoldersScreen/>}/>
-            <Route path="/folder/:id" element={<MobileFolderView/>} />
-          </Route>
-        </Routes>
-      </Mobile>
-    </BrowserRouter>
+      </BrowserRouter>
     </FileProvider>
   );
 }

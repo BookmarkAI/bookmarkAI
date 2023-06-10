@@ -8,6 +8,8 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import FilterDrawer from './Mobile/FilterDrawer';
+import { useContext } from 'react';
+import { FileContext } from '../utils/FileContext';
 
 const AntTabs = styled(Tabs)({
   borderBottom: '1.5px solid #e8e8e8',
@@ -54,7 +56,8 @@ const AntTab = styled((props: StyledTabProps) => <Tab disableRipple {...props} /
 
 
 
-export default function DesktopTab({width}) {
+function DesktopTab(props) {
+  const { width } = props;
   const [value, setValue] = React.useState(0);
   const navigate = useNavigate();
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -65,6 +68,7 @@ export default function DesktopTab({width}) {
     <Box sx={{ width: width ? width : '97%' }}>
       <Box sx={{ bgcolor: 'transparent'}}>
         <AntTabs value={value} onChange={handleChange} aria-label="ant example" >
+          {props.children}
           <AntTab sx={{fontSize: '17px'}}  label="All" />
           <AntTab sx={{fontSize: '17px'}}  label="Text"  />
           <AntTab sx={{fontSize:'17px'}}  label="PDF"  />
@@ -76,6 +80,24 @@ export default function DesktopTab({width}) {
     </Box>
   );
 }
+
+function BrowseTab() {
+  return (
+    <DesktopTab/>
+  )
+}
+
+function SearchTab(props) {
+  const { chatEnabled } = useContext(FileContext)
+  return (
+    <DesktopTab>
+      {chatEnabled && <AntTab sx={{fontSize: '17px'}}  label="Chat" />}
+    </DesktopTab>
+  )
+}
+
+export { BrowseTab, SearchTab }
+
 
 
 

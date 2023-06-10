@@ -24,11 +24,11 @@ export default function MobileBrowseScreen() {
         <CssBaseline/>
         <Grid xs={12} sx={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
             <MobileSearchBar placeholder={"Ask about 12 bookmarks"}>
-                <Box>
-                    <IconButton onClick={()=>setSelect(!select)}> 
-                        <TuneIcon/>
+                
+                    <IconButton sx={{p:0.5}} onClick={()=>setSelect(!select)}> 
+                        <TuneIcon sx={{fontSize: '21px'}}/>
                     </IconButton>
-                </Box>
+              
             </MobileSearchBar>
         </Grid>
 

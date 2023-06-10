@@ -10,6 +10,10 @@ import SearchIcon from '@mui/icons-material/Search';
 import DirectionsIcon from '@mui/icons-material/Directions';
 import { useState, useEffect  } from 'react';
 import { useNavigate, createSearchParams, useSearchParams, useLocation } from 'react-router-dom';
+import CommentsDisabledIcon from '@mui/icons-material/CommentsDisabled';
+import CommentIcon from '@mui/icons-material/Comment';
+import { useContext } from 'react';
+import { FileContext } from '../utils/FileContext';
 
 
 function SearchBar(props) {
@@ -17,6 +21,7 @@ function SearchBar(props) {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const [query, setQuery] = useState(searchParams.get('q'));
+  const { chatEnabled, enableChat } = useContext(FileContext);
 
   const location = useLocation();
   const currentPathname = location.pathname;
@@ -54,7 +59,23 @@ function SearchBar(props) {
         placeholder={placeholder}
         inputProps={{ 'aria-label': 'search google maps' }}
       />
-      {props.children}
+      
+      <Box sx={{display: "flex", alignItems:'center'}}>
+        
+        {chatEnabled ? 
+        <IconButton sx={{p:0.5 }} onClick={()=>enableChat(false)}>
+          <CommentIcon  sx={{fontSize: fontsize + 5}}/>
+        </IconButton> 
+        :
+        <IconButton sx={{ p:0.5  }} onClick={()=>enableChat(true)}>
+          <CommentsDisabledIcon sx={{fontSize: fontsize + 5}}/>  
+        </IconButton>
+        
+        }
+
+        {props.children}
+      </Box>
+
     </Paper>
   );
 }
@@ -62,7 +83,7 @@ function SearchBar(props) {
 
 
 function DesktopSearchBar({height, width}) {
-  const style = {height, width, display: 'flex', alignItems: 'center', justifyContent: 'center', border:1, pl: 1, pr: 3, pt: 0.8, pb: 0.8, borderColor: "#DFE1E5", borderRadius:20}
+  const style = {height, width, display: 'flex', alignItems: 'center', justifyContent: 'center', border:1, pl: 1, pr:2, pt: 0.8, pb: 0.8, borderColor: "#DFE1E5", borderRadius:20}
   return (
     <SearchBar fontsize={18} style={style} placeholder={"Search Your Own Internet"}/> 
   )

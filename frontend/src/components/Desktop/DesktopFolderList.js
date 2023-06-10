@@ -3,17 +3,21 @@ import { folders } from '../../services-mock/fake_dataset';
 import FolderIcon from '@mui/icons-material/Folder';
 import Button from '@mui/material/Button'
 import { styled } from '@mui/system';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
+import SimpleDialogDemo from './DesktopDialog';
+import { FolderContext } from '../../utils/FolderContext';
 
 
 function DesktopFolder(props){
     const { title } = props;
-    const [ clicked, setClicked ] =  useState(false);
+   
+    const { selectedFolder, handleFolderSelect } = useContext(FolderContext);
+    const clicked = selectedFolder == title;
 
 
-const getButtonStyles = () => {
+    const getButtonStyles = () => {
     if (!clicked) {
       return {
         borderColor: '#dddddd', 
@@ -47,7 +51,7 @@ const getButtonStyles = () => {
         <>
        
         <Box sx={{borderRadius: 3, display:"flex", flexDirection: "row", justifyContent: 'space-between', alignItems: 'flex-end'}}>
-            <Button variant={clicked ? "contained" : "text"} onClick={()=>setClicked(!clicked)} sx={getButtonStyles()}>   
+            <Button variant={clicked ? "contained" : "text"} onClick={()=>handleFolderSelect(title)} sx={getButtonStyles()}>   
                 <Box sx={{display: "flex", flexDirection: "row", alignItems: "center"}}>
                     {props.children}
                     <Typography variant="h7" sx={{ml: 1, fontWeight: clicked? 500: 350, color: clicked? "#3D9DFF": "#333333"}}>
@@ -70,6 +74,7 @@ const getButtonStyles = () => {
 }
 
 export default function DesktopFolderList() {
+    
     return (
         <>
         {/* Folder List */}
@@ -80,17 +85,12 @@ export default function DesktopFolderList() {
                     </DesktopFolder>
                    
                     {folders.map((doc, i) => (              
-                         <DesktopFolder {...doc}>
+                         <DesktopFolder title={doc}>
                             <FolderIcon  sx={{ fontSize: 17 }}/>
                          </DesktopFolder>
                     ))}
 
-                    <Button sx={{textTransform: "none", display: "flex", justifyContent: "flex-start", alignItems: "center"}}>
-                        <AddIcon sx={{fontSize:"16px", mr: 0.5}}/>
-                        <Typography variant="h7" >
-                        Create New Folder 
-                    </Typography>
-                    </Button>
+                    <SimpleDialogDemo/>
                 </Stack>
         </>
     )

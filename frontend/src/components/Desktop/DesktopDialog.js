@@ -48,7 +48,7 @@ function SimpleDialog(props) {
 
   return (
     <div>
-      (<Dialog onClose={handleClose} open={open}>
+      <Dialog onClose={handleClose} open={open}>
       <DialogTitle>
           <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
               <Stack>

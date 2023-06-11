@@ -1,35 +1,74 @@
-import { MobileBookMarkList } from "../BookMarkList";
-import useScrollTrigger from '@mui/material/useScrollTrigger';
-import Slide from '@mui/material/Slide';
 import * as React from 'react';
-import MobileTopBar from './MobileTopBar';
 import { useState, useEffect } from "react";
-import { Box, Typography, IconButton, Collapse, Button, Toolbar, Stack, Grid } from '@mui/material'
+import { Box, Typography, IconButton, Collapse, Button, Toolbar, Stack, Grid, MenuItem, Menu } from '@mui/material'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp'
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import CssBaseline from "@mui/material/CssBaseline";
 import MobileFolder from './MobileFolder';
-import { folders } from '../../services-mock/fake_dataset';
 import { MobileSearchBar } from "../SearchBar";
 import TuneIcon from '@mui/icons-material/Tune';
 import { getAllFolders } from '../../services/service';
+import ScrollHeader from './ScrollHeader';
+import DesktopAddFolderDialog from '../Desktop/DesktopAddFolderDialog';
+
+function FolderMenu({fetchFolderList}) {
+    const [anchorEl, setAnchorEl] = useState(null);
+  
+    const handleMenuClick = (event) => {
+      setAnchorEl(event.currentTarget);
+    };
+  
+    const handleMenuClose = () => {
+      setAnchorEl(null);
+      fetchFolderList();
+    };
+  
+    return (
+      <div>
+        <IconButton
+          aria-controls="menu"
+          aria-haspopup="true"
+          onClick={handleMenuClick}
+        >
+          <MoreHorizIcon />
+        </IconButton>
+         <Menu
+          id="menu"
+          anchorEl={anchorEl}
+          open={Boolean(anchorEl)}
+          onClose={handleMenuClose}>
+          <MenuItem><DesktopAddFolderDialog fetchFolderList={handleMenuClose}/></MenuItem>
+        </Menu>} 
+      </div>
+    );
+  };
+
 
 
 export default function MobileFoldersScreen() {
     const [ select, setSelect ] = useState(false);
-    const [ open, setOpen ] = React.useState(false);
     const [ selectAll, setSelectAll ] = useState(false);
+
     const [allFolders, setAllFolders] = useState([]);
+
+    function fetchFolderList() {
+        getAllFolders().then((response) => setAllFolders(response))
+    }
     
 
     useEffect(() => {
-        getAllFolders().then((response) => setAllFolders(response))
+        fetchFolderList();
     }, []);
+
     
 
     return(
         <>
-        <CssBaseline/>
+    
+        <ScrollHeader>
+            <FolderMenu fetchFolderList={fetchFolderList}/>
+        </ScrollHeader>
         <Grid xs={12} sx={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
             <MobileSearchBar placeholder={"Ask about 12 bookmarks"}>
                 <Box>
@@ -62,21 +101,20 @@ export default function MobileFoldersScreen() {
                 </Button>
 
                 <Button onClick={()=>{setSelect(!select); setSelectAll(false)}} sx={{textTransform: "none"}}>
-                    Cancel
+                   Done
                 </Button>
                 </Box>
             </Collapse>
 
-            {/* Folder List */}
-            <Grid xs={12} sx={{display: "flex", flexDirection: "column", m:1 }}>
+
+            <Grid xs={12} sx={{display: "flex", flexDirection: "column", m:1}}>
                 <Stack spacing={1}>
                     {allFolders.map((folder, i) => (              
                          <MobileFolder folder={folder} select={select}/>
                     ))}
 
                 </Stack>
-            
-            </Grid>
+            </Grid> 
 
         <Toolbar/>
 

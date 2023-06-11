@@ -12,6 +12,10 @@ import TuneIcon from '@mui/icons-material/Tune';
 import { IconButton, Stack, Chip, Grid } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { MobileBookMarkList } from '../BookMarkList';
+import { getAllBookmarks, getAllFolders } from '../../services/service';
+import { useState, useEffect } from 'react';
+
+
 
 const drawerBleeding = 56;
 const sampleTags = ["Kyuhee", "Bookmark AI", "Technology", "AI", "Startups", "San Francisco", "GenerativeAI", "Productivity"]
@@ -47,6 +51,18 @@ const Puller = styled(Box)(({ theme }) => ({
 export default function SwipeableEdgeDrawer(props: Props) {
   const { window } = props;
   const [ open, setOpen ] = React.useState(false);
+  const [ allBookmarks, setAllBookmarks ] = useState([]);
+  const [allFolders, setAllFolders] = useState([]);
+
+  function fetchFolderList() {
+      getAllFolders().then((response) => setAllFolders(response))
+  }
+  
+
+  useEffect(() => {
+      getAllBookmarks().then((response) => setAllBookmarks(response));
+      fetchFolderList();
+  }, []);
   
   
 
@@ -117,7 +133,7 @@ export default function SwipeableEdgeDrawer(props: Props) {
               Folders
             </Typography>
             <Stack direction="row" spacing={0} sx={{flexWrap: "wrap"}} >  
-                {sampleTags.map((tag) => (
+                {allFolders.map((tag) => (
                     <Box sx={{mt: 0.4, mb: 0.4, ml: 0.5}}>
                         <Chip label={tag}>
                             {tag}
@@ -125,16 +141,16 @@ export default function SwipeableEdgeDrawer(props: Props) {
                     </Box>
                 ))}
                 {/* Add Button */}
-                <Box sx={{mt: 0.4, mb: 0.4, ml: 0.5}}>
+                {/* <Box sx={{mt: 0.4, mb: 0.4, ml: 0.5}}>
                     <Chip onDelete={()=>{console.log("Test")}} deleteIcon={<AddIcon/>} label={"Add"}/>
-                </Box>
+                </Box> */}
             </Stack>
 
             <Typography sx={{mt: 2, ml: 1}}>
               Bookmarks
             </Typography>
 
-            <MobileBookMarkList select={true}/> 
+            <MobileBookMarkList select={true} bookmarks={allBookmarks}/> 
             
         </StyledBox>
       </SwipeableDrawer>

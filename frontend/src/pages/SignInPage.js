@@ -1,4 +1,4 @@
-import { Box, Grid, Dialog, DialogTitle, Typography } from '@mui/material';
+import { Box, Grid, Paper, DialogTitle, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import SignIn from '../components/SignIn';
 import SignOut from '../components/SignOut';
@@ -28,9 +28,11 @@ const theme = createTheme({
                     height: '100%',
                     overflow: 'hidden'
                   }
+                  
 
               }),
         },
+        
       },
 });
 
@@ -48,13 +50,13 @@ export default function SignInPage(props) {
       
         <ThemeProvider theme={theme}>
         <CssBaseline/>
+        
+        <Desktop>
+            
         <Box sx={{width: '100vw', height: '100vh', overflow: 'hidden'}}>
             <div style={{ overflow: 'hidden' }}>
         
             <div class='space'></div><div class='space'></div>
-        <Desktop>
-            
-        
         <Grid container spacing={3} sx={{border:0}}>
             <Grid item xs={4} sx={{display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end', height: '100vh'}}>
                 <img 
@@ -109,10 +111,16 @@ export default function SignInPage(props) {
             </Grid>
         </Grid>
         
+        </div>
+        </Box>
        
         </Desktop>
+        
 
         <Mobile>
+        <Paper sx={{border: 0, backgroundImage: "url(https://ipack.info/wp-content/uploads/2015/11/star-sky-video-background.jpg)"}}>
+
+        
 
         <Grid container spacing={3} sx={{border:0}}>
              <Grid item xs={12} sx={{display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end', mt:7}}>
@@ -169,10 +177,9 @@ export default function SignInPage(props) {
             </Grid>
          
         </Grid>
-
+        </Paper>
         </Mobile>
-        </div>
-        </Box>
+        
         </ThemeProvider>
         
 

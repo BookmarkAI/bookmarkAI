@@ -2,6 +2,7 @@ import { Card, Box, CardMedia, IconButton, Typography, Checkbox } from '@mui/mat
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import folderImg from '../../assets/folder/5.png'
 import { useNavigate } from 'react-router';
+import ScrollHeader from './ScrollHeader';
 
 export default function MobileFolder({folder, select}){
     const navigate = useNavigate();

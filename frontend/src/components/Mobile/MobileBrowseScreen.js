@@ -11,6 +11,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { MobileSearchBar } from "../SearchBar";
 import TuneIcon from '@mui/icons-material/Tune';
 import { getAllBookmarks } from "../../services/service";
+import ScrollHeader from './ScrollHeader';
 
 
 
@@ -28,6 +29,7 @@ export default function MobileBrowseScreen() {
     return(
         <>
         <CssBaseline/>
+        <ScrollHeader/>
         <Grid xs={12} sx={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
             <MobileSearchBar placeholder={"Ask about 12 bookmarks"}>
                 

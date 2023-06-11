@@ -13,7 +13,6 @@ export default function() {
             </Desktop>
 
             <Mobile>
-                <ScrollHeader/>
                 <MobileFooter/>
             </Mobile>
             

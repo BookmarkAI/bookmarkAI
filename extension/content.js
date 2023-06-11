@@ -27,7 +27,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 // { raw_text: str, url: str, UID: str, title: str, image_urls: str[] }
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.command === 'extractText') {
-        const text = "p"//extractText(document.body);
+        const text= extractText(document.body);
         // get the url of the current tab
         const url = window.location.href;
         // get the title of the current tab

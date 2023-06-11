@@ -1,9 +1,10 @@
 import { signInWithGoogle } from '../fb';
+import { Button } from '@mui/material';
 
 const SignIn= () => {
   return (
     <div>
-      <button className="button" onClick={signInWithGoogle}><i className="fab fa-google"></i>Sign in with google</button>
+      <Button onClick={signInWithGoogle}  sx={{textTransform: 'none', background: "linear-gradient(to right, #CD5B95, #9846CA)"}} variant="contained"><i className="fab fa-google"></i>Sign in with google</Button>
     </div>
   )
 }

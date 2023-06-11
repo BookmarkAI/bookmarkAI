@@ -56,18 +56,25 @@ export default function SignInPage(props) {
                 />
             </Grid>
             <Grid item xs={4} sx={{height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                <Box sx={{ width: '100%', height: '30vh', display: 'flex', background: 'white', borderRadius: 2}}>
+                <Box sx={{ width: '100%', height: '30vh', display: 'flex', flexDirection: 'column', background: 'white', alignItems: 'center', borderRadius: 2}}>
                     {user ?
-                        <div>
-                            Hello, {user.displayName}
-                            <SignOut />
-                        </div>
+                            <DialogTitle>
+                                 Hello, {user.displayName}
+                            </DialogTitle>
+               
                         :
-                        <div>
-                            Sign in to Supermark
-                            <SignIn />
-                        </div>
-                    }       
+                        <>
+                            <DialogTitle>
+                                Sign in to Supermark
+                            </DialogTitle>
+                        </>
+                    }    
+
+                    {user ? 
+                        <SignOut />
+                        :
+                        <SignIn/>
+                    }   
                 </Box>
             </Grid>
             <Grid item xs={4} sx={{display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', mt:7, height: '100vh'}}>

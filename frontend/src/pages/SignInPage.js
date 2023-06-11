@@ -61,7 +61,7 @@ export default function SignInPage(props) {
                 />
             </Grid>
             <Grid item xs={4} sx={{height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                <Box sx={{ width: '100%', height: '22vh', display: 'flex', flexDirection: 'column', background: 'white', borderRadius: 5}}>
+                <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', background: 'white', borderRadius: 5, pb: 3}}>
                     {user ?
                             <DialogTitle>
                                  Hello, {user.displayName}

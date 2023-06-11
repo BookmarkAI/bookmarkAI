@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { getAuth, signInWithPopup, signInWithRedirect, GoogleAuthProvider } from "firebase/auth";
 
 import { getFirestore } from "firebase/firestore";
 import { doc, setDoc, collection, getDoc } from "firebase/firestore"; 
@@ -55,3 +55,30 @@ export const signOut = () => {
     // An error happened.
   });
 }
+
+
+
+export const signInWithGoogle2 = () => {
+  signInWithRedirect(auth, provider);
+};
+
+// Call this method after the redirect to handle the authentication result
+export const handleSignInRedirect = async () => {
+  try {
+    await auth.getRedirectResult();
+    const user = auth.currentUser;
+    const userRef = doc(usersRef, user.uid);
+    const userSnap = await getDoc(userRef);
+    if (!userSnap.exists()) {
+      await setDoc(doc(usersRef, user.uid), {
+        "email": user.email,
+        "name": user.displayName,
+        "subscription_type": "free", 
+        "folders": ["unsorted"]
+      });        
+    }
+  } catch (error) {
+    // Handle errors during sign-in
+    console.log(error);
+  }
+};

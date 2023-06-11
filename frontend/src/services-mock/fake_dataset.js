@@ -1,15 +1,4 @@
-import gen1 from "../assets/images/gen_ai/1.png"
-import gen2 from "../assets/images/gen_ai/2.png"
-import gen3 from "../assets/images/gen_ai/3.png"
-import gen4 from "../assets/images/gen_ai/4.png"
-import trump1 from "../assets/images/trump1.png"
 
-import sf1 from "../assets/images/sf/1.png"
-import sf2 from "../assets/images/sf/2.png"
-import mckinsey from "../assets/images/mckinsey.png"
-
-import lancedb1 from "../assets/images/lancedb/1.png"
-import lancedb2 from "../assets/images/lancedb/2.png"
 
 
 const chat_history = [
@@ -85,10 +74,7 @@ const bookmarks = [
   }
 ]
 
-const image_list = [
-   mckinsey, gen1, gen2, lancedb1, lancedb2, gen3,  sf1, gen4, sf2
-]
 
 
-export {bookmarks, image_list, folders, chat_history}
+export {bookmarks, folders, chat_history}
 

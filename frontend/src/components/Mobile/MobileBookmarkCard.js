@@ -29,7 +29,6 @@ function displayUrl(url) {
 }
 
 function getIcon(url) {
-  console.log(`https://${displayUrl(url)}$/favicon.ico`)
   return `https://${displayUrl(url)}/favicon.ico`
 }
 
@@ -65,18 +64,29 @@ function BasicSelect() {
 }
 
 export default function MobileBookmarkCard(props) {
-  const { title, description, image, url, timestamp, folder } = props;
-  const { selectedFiles, updateSelectedFiles } = useContext(FileContext);
+  const { title, id, url, timestamp, folder } = props;
+  const { selectedFiles, updateSelectedFiles, removeSelectedFiles } = useContext(FileContext);
+  const clicked = selectedFiles.includes(id);
+  function handleClick() {
+    if (!clicked) {
+      console.log(selectedFiles)
+       console.log(id);
+        updateSelectedFiles(id);
+    } else {
+        removeSelectedFiles(id);
+    }
+  }
+
 
   const navigate = useNavigate();
 
 
   return (
   <>
-      <Box sx={{ display: "flex", justifyContent: 'space-between', maxWidth: 600}}>
+      <Box sx={{ display: "flex", justifyContent: 'space-between', maxWidth: 600, background: clicked ? '#dddddd' : "white", }}>
       
         {/* Code to navigate to the link */}
-        <Box onClick={()=>window.location.replace(url)} sx={{ display: "flex"}}>
+        <Box onClick={handleClick} sx={{ display: "flex"}}>
           <Box sx={{ minWidth: 50, display: "flex", alignItems: "center", justifyContent: "center", ml: 1, mr: 1}}>
             <img
               src={getIcon(url)}

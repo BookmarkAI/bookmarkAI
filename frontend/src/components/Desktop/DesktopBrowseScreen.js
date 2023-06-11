@@ -18,13 +18,26 @@ import { getAllBookmarks } from '../../services/service'
 
 export default function DesktopBrowseScreen(props) {
     const [ grid, setGrid ] = useState(true);
-    const { selectedFiles, resetSelectedFiles } = useContext(FileContext);
+    const { selectedFiles, resetSelectedFiles, updateSelectedFiles} = useContext(FileContext);
     const { selectedFolder } = useContext(FolderContext);
     const [ allBookmarks, setAllBookmarks ] = useState([]);
+    console.log(selectedFiles)
+
+    function fetchBookmarks() {
+        getAllBookmarks().then((response) => setAllBookmarks(response));
+    }
+
+    function selectAll() {
+        filteredBookmarks.forEach(file => {
+            updateSelectedFiles(file.id);
+        });
+    }
+    
 
     useEffect(() => {
-        getAllBookmarks().then((response) => setAllBookmarks(response));
+        fetchBookmarks();
     }, []);
+
 
     const filteredBookmarks = selectedFolder
     ? allBookmarks.filter((bookmark) => bookmark.folder === selectedFolder)
@@ -60,7 +73,7 @@ export default function DesktopBrowseScreen(props) {
                     
                         <Box sx={{mt: 1}}>
                         <Box sx={{display: 'flex', justifyContent: 'space-between', pr: 5}}>
-                        <Button sx={{color: "#458be9", textTransform: "none", '&:hover': {
+                        <Button onClick={()=>resetSelectedFiles()} sx={{color: "#458be9", textTransform: "none", '&:hover': {
                             backgroundColor: 'white',
                             borderColor: 'transparent',
                             boxShadow: 'none',
@@ -68,11 +81,11 @@ export default function DesktopBrowseScreen(props) {
                         
                             
                             
-                            {selectedFiles.length} bookmarks selected
+                            Deselect {selectedFiles.length} bookmarks
                         
                                     
                         </Button>
-                            <Button sx={{color: "#458be9", pl: 2, textTransform: "none", '&:hover': {
+                            <Button onClick={selectAll} sx={{color: "#458be9", pl: 2, textTransform: "none", '&:hover': {
                                 backgroundColor: 'white',
                                 borderColor: 'transparent',
                                 boxShadow: 'none',
@@ -80,7 +93,7 @@ export default function DesktopBrowseScreen(props) {
                                 Select All                    
                             </Button>
                         </Box>
-                            <DesktopBookMarkList bookmarks={filteredBookmarks}/>
+                            <DesktopBookMarkList bookmarks={filteredBookmarks} fetchBookmarks={fetchBookmarks}/>
                     
                            
                         </Box>

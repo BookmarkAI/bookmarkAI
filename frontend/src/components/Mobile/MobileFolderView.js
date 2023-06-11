@@ -14,6 +14,7 @@ import { createTheme, ThemeProvider } from "@mui/material";
 import { MobileSearchBar } from "../SearchBar";
 import TuneIcon from '@mui/icons-material/Tune';
 import { getAllBookmarks } from "../../services/service";
+import ScrollHeader from './ScrollHeader';
 
 const theme = createTheme({
     components: {
@@ -59,6 +60,7 @@ export default function MobileFolderView() {
         <>
         
         <CssBaseline/>
+            <ScrollHeader/>
         
             <Grid xs={12} sx={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
                 <MobileSearchBar placeholder={"Ask about 12 bookmarks"}>

@@ -36,7 +36,7 @@ async def sse_generator(messages_generator: AsyncGenerator[ChatServiceMessage, N
         }
         if msg.done:
             yield f"data: {json.dumps(msg_dict, cls=NumpyEncoder)}\n\n"
-            await conversation_service.store_conversation(
+            conversation_service.store_conversation(
                 question=question,
                 context=[d for d in msg.relevant_documents],
                 answer=msg.msg,

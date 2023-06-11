@@ -1,6 +1,5 @@
 import { Grid, Stack, Card, Box } from "@mui/material";
 import MobileBookmarkCard from "./Mobile/MobileBookmarkCard";
-import { bookmarks } from "../services-mock/fake_dataset";
 import Checkbox from "@mui/material/Checkbox";
 import { DesktopBookmarkCard } from "./Desktop/DesktopBookmarkCard";
 import EditDialog from "./Mobile/EditDialog";
@@ -8,8 +7,6 @@ import { useContext, useEffect } from 'react';
 import { FileContext } from '../utils/FileContext';
 import { FolderContext } from '../utils/FolderContext'; 
 import { AuthContext } from "./context/AuthContext";
-import { useState } from "react";
-import { getAllBookmarks } from '../services/service'
 
 function DesktopBookMarkList({ spacing, select, topk, bookmarks }) {
     const style = {pr: 3}

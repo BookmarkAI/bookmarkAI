@@ -15,6 +15,7 @@ export default function SearchResult() {
     const [searchParams, setSearchParams] = useSearchParams();
     const q = searchParams.get('q');
     const [responseMessages, setResponseMessages] = useState([]);
+    const [sources, setSources] = useState([]);
     const { user } = useContext(AuthContext);
 
     useEffect(() => {
@@ -44,6 +45,18 @@ export default function SearchResult() {
           };
     }, [searchParams])
 
+    useEffect(() => {
+        setSources(
+            Array.from(
+                responseMessages.flatMap(
+                    mes => mes.documents
+                ).reduce(
+                    (map, doc) => map.set(doc.metadata.url, doc.metadata), new Map()
+                ).values()
+            )
+        )
+    }, [responseMessages])
+
    async function keyPress(e){
         if(e.key === 'Enter'){
             e.preventDefault();
@@ -69,11 +82,11 @@ export default function SearchResult() {
     return(
         <>
         <Desktop>
-            <DesktopChatScreen urls={[...new Set(responseMessages.flatMap(mes => mes.documents.map(doc => doc.metadata.url)))]} responseMessages={responseMessages}  />
+            <DesktopChatScreen responseMessages={responseMessages} sources={sources} />
         </Desktop>
 
         <Mobile>
-            <MobileChatScreen urls={[...new Set(responseMessages.flatMap(mes => mes.documents.map(doc => doc.metadata.url)))]} responseMessages={responseMessages} />
+            <MobileChatScreen responseMessages={responseMessages} sources={sources} />
         </Mobile>
 
        

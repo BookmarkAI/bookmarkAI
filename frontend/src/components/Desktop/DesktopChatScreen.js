@@ -10,7 +10,7 @@ import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
 
 
-export default function DesktopChatScreen({responseMessages}) {
+export default function DesktopChatScreen({ responseMessages, sources }) {
     const [searchParams, setSearchParams] = useSearchParams();
     const q = searchParams.get('q')
 
@@ -35,21 +35,12 @@ export default function DesktopChatScreen({responseMessages}) {
                             
                         </Box>
                     </Box>
-               
-                    
+
                 </Grid>
                 <Grid item xs={9.5}>
                     <SearchTab/>
                     <Box sx={{ maxHeight: 'calc(100vh - 150px)', overflow: "auto"}}>
-                    
-                    
-                    
-                        {/* Chat Messages */}
-                        
-                            
-                                
                         <Box sx={{display: "flex", flexDirection: "column", pb: 2, mt: 6, mb: 3, mr: 8, borderBottom: 1, borderColor: '#bbbbbb'}}>
-                
                                 <Typography variant="body1" fontSize='20px' sx={{mr:1}}>
                                     💬 &nbsp;
                                     <MuiMarkdown>
@@ -61,16 +52,11 @@ export default function DesktopChatScreen({responseMessages}) {
                                     <ThumbUpOffAltIcon sx={{fontSize:"20px", m: 1}}/>
                                     <ThumbDownOffAltIcon sx={{fontSize:"20px", m: 1}}/>
                                 </Box>
-                                
-                         
                         </Box>
-
-                        
-                        {/* <Typography variant="h6" sx={{fontWeight: 500}}gutterBottom>
+                        <Typography variant="h6" sx={{fontWeight: 500}}gutterBottom>
                             Source Bookmarks
                         </Typography>
-                        <DesktopBookMarkList grid={true}/> */}
-
+                        <DesktopBookMarkList bookmarks={sources} grid={true}/>
                     </Box>
                 </Grid>
                 {/* <Grid item xs={3.5}>
@@ -80,12 +66,7 @@ export default function DesktopChatScreen({responseMessages}) {
                         </Typography>
                     </Box>
                 </Grid> */}
-        
             </Grid>
-       
-
-
-       
         </>
     )
 }

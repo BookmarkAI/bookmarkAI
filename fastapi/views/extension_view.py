@@ -32,7 +32,7 @@ def store(document: ExtensionDocument, x_uid: Annotated[str, Header()]):
         batch.flush()
     
     firebase_data = {
-        'folder': 'general', 
+        'folder': 'unsorted', 
         'timestamp': document.timestamp, 
         'url': document.url, 
         'title': document.title, 

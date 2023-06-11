@@ -28,7 +28,6 @@ function DesktopBookMarkList({ spacing, select, topk, grid }) {
 
     console.log(selectedFolder)
   
-
     return (
         <>
         {grid ? 

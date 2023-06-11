@@ -8,6 +8,8 @@ import AddIcon from '@mui/icons-material/Add';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import SimpleDialogDemo from './DesktopDialog';
 import { FolderContext } from '../../utils/FolderContext';
+import { getAllFolders } from '../../services/service';
+import { useEffect } from 'react';
 
 
 function StyledButton(props){
@@ -97,7 +99,13 @@ function AllBookmarks(){
 
 export default function DesktopFolderList() {
     const { selectedFolder, handleFolderSelect } = useContext(FolderContext);
+    const [allFolders, setAllFolders] = useState([]);
     
+
+    useEffect(() => {
+        getAllFolders().then((response) => setAllFolders(response))
+    }, []);
+
     return (
         <>
         {/* Folder List */}
@@ -105,7 +113,7 @@ export default function DesktopFolderList() {
                 <Stack spacing={0}>
                     <AllBookmarks/>
                    
-                    {folders.map((doc, i) => (              
+                    {allFolders.map((doc, i) => (              
                          <DesktopFolder title={doc}/>
                     ))}
 

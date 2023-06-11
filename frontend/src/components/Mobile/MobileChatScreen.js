@@ -82,7 +82,7 @@ export default function MobileChatScreen({ responseMessages, sources }) {
                         <Typography variant="h6"> 
                             {q}
                         </Typography>
-                        <CopyToClipboard text={responseMessages[0].chat_response}>
+                        <CopyToClipboard text={responseMessages.map(mes => mes.chat_response).join('')}>
                             <IconButton onClick={()=>setOpenSnackbar(true)}>
                                 <ContentCopyIcon sx={{m:0.2}}/>
                             </IconButton>
@@ -91,8 +91,8 @@ export default function MobileChatScreen({ responseMessages, sources }) {
                     </Box>
                     <Typography variant="body1" fontSize='15px'>
                        💬 &nbsp;
-                        <MuiMarkdown>
-                         {responseMessages.map(mes => mes.chat_response).join('')}
+                       <MuiMarkdown>
+                            {responseMessages.map(mes => mes.chat_response).join('')}
                         </MuiMarkdown>
                     </Typography> 
                    
@@ -100,13 +100,13 @@ export default function MobileChatScreen({ responseMessages, sources }) {
                 
     
             </Card>
-            <div ref={downRef}> 
+            <Grid item xs={12} ref={downRef}> 
             <Typography variant="h6" sx={{pl: 3, pr: 3, pt: 3}}>
                 Source Bookmarks 📚
             </Typography>
             
                 <MobileBookMarkList bookmarks={sources}/>
-                </div>
+            </Grid>
             
             
         </Grid>

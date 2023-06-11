@@ -10,7 +10,19 @@ import { useContext } from 'react';
 import { FileContext } from '../../utils/FileContext';
 
 
-  
+
+function formatDateTime(dateTime) {
+  const formattedDateTime = dateTime.toLocaleString('en-US', {
+    month: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: true
+  });
+
+  return formattedDateTime;
+}
+
 
 function displayUrl(url) {
   return url.replace('https://','').split("/")[0]
@@ -53,7 +65,7 @@ function BasicSelect() {
 }
 
 export default function MobileBookmarkCard(props) {
-  const { title, description, image, url, select } = props;
+  const { title, description, image, url, timestamp, folder } = props;
   const { selectedFiles, updateSelectedFiles } = useContext(FileContext);
 
   const navigate = useNavigate();
@@ -87,7 +99,8 @@ export default function MobileBookmarkCard(props) {
             
 
             <Typography gutterBottom variant="subtitle" component="div"  style={{ fontSize: 12, color: "#808080"}}>
-            {"Unsorted"} &nbsp; {"June 6 5:45 pm"} 
+            {folder} &nbsp; {formatDateTime(new Date(timestamp*1000))} 
+
             </Typography>
             
             {/* <Box>

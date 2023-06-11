@@ -3,7 +3,7 @@ import useScrollTrigger from '@mui/material/useScrollTrigger';
 import Slide from '@mui/material/Slide';
 import * as React from 'react';
 import MobileTopBar from './MobileTopBar';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Box, Typography, IconButton, Collapse, Button, Toolbar, Grid } from '@mui/material'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp'
@@ -13,6 +13,7 @@ import { useParams } from 'react-router-dom';
 import { createTheme, ThemeProvider } from "@mui/material";
 import { MobileSearchBar } from "../SearchBar";
 import TuneIcon from '@mui/icons-material/Tune';
+import { getAllBookmarks } from "../../services/service";
 
 const theme = createTheme({
     components: {
@@ -40,7 +41,18 @@ export default function MobileFolderView() {
     const [ select, setSelect ] = useState(false);
     const [ open, setOpen ] = React.useState(false);
     const [ selectAll, setSelectAll ] = useState(false);
+    const [ allBookmarks, setAllBookmarks ] = useState([]); 
     const { id } = useParams();
+    const selectedFolder = id;
+
+    useEffect(() => {
+        getAllBookmarks().then((response) => setAllBookmarks(response));
+    }, []);
+
+    const filteredBookmarks = selectedFolder
+    ? allBookmarks.filter((bookmark) => bookmark.folder === selectedFolder)
+    : allBookmarks;
+
     
 
     return(
@@ -68,17 +80,10 @@ export default function MobileFolderView() {
 
                 <Box sx={{display: "flex", flexDirection: "row",justifyContent: "flex-start", alignItems: "flex-end", mb: 1}}>
                 <Typography variant="h6" sx={{ fontWeight: 450}}>
-                    {id}
-                </Typography>
-                <Typography gutterBottom variant="subtitle" component="div"  style={{ fontSize: 14, color: "#808080"}}>
-                 &nbsp; 10 bookmarks
+                    {selectedFolder}
                 </Typography>
                 </Box>
             </Box>
-
-            
-        
-            
 
             <Box onClick={()=>setSelect(!select)} sx={{display: "flex", width: "100%", alignItems: "center", justifyContent:"space-between", background:'linear-gradient(to right, #BB70EE, #87A5ED)'}}>
                 <Typography variant="body2" sx={{pl:1, color: "white", fontWeight: 440}}>
@@ -94,9 +99,6 @@ export default function MobileFolderView() {
             
             </Box>
 
-
-                
-        
             <Collapse in={select} >
                 <Box sx={{display: "flex", justifyContent: "space-between"}}>
                 <Button onClick={()=>setSelectAll(!selectAll)} sx={{textTransform:"none"}}>
@@ -110,7 +112,7 @@ export default function MobileFolderView() {
             </Collapse>
 
             <Box position="sticky" overflow="auto" height="65vh">
-                <MobileBookMarkList select={select}/>
+                <MobileBookMarkList select={select} bookmarks={filteredBookmarks}/>
             </Box>
 
         

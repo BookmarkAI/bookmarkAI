@@ -28,7 +28,9 @@ async function getAllFolders() {
             folders = docSnap.data().folders
         } 
     }
+    
     return folders
 }
+
 export {getAllBookmarks, getAllFolders}
 

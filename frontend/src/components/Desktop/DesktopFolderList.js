@@ -6,7 +6,7 @@ import { styled } from '@mui/system';
 import { useState, useContext } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
-import SimpleDialogDemo from './DesktopDialog';
+import SimpleDialogDemo from './DesktopAddFolderDialog';
 import { FolderContext } from '../../utils/FolderContext';
 import { getAllFolders } from '../../services/service';
 import { useEffect } from 'react';
@@ -100,11 +100,17 @@ function AllBookmarks(){
 export default function DesktopFolderList() {
     const { selectedFolder, handleFolderSelect } = useContext(FolderContext);
     const [allFolders, setAllFolders] = useState([]);
+
+    function fetchFolderList() {
+        getAllFolders().then((response) => setAllFolders(response))
+    }
     
 
     useEffect(() => {
-        getAllFolders().then((response) => setAllFolders(response))
+        fetchFolderList();
     }, []);
+
+
 
     return (
         <>
@@ -117,7 +123,7 @@ export default function DesktopFolderList() {
                          <DesktopFolder title={doc}/>
                     ))}
 
-                    <SimpleDialogDemo/>
+                    <SimpleDialogDemo fetchFolderList={fetchFolderList}/>
                 </Stack>
         </>
     )

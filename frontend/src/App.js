@@ -23,6 +23,7 @@ function App() {
   return (
     <AuthProvider>
       <FileProvider>
+        {/* Folder provider is only relevant to desktop application */}
       <FolderProvider>
         <BrowserRouter>
           <Desktop>

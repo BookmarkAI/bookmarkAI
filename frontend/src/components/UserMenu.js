@@ -9,7 +9,7 @@ import { useContext } from 'react';
 import { useNavigate } from 'react-router';
 import { AuthContext } from './context/AuthContext';
 
-export default function UserMenu() {
+export default function UserMenu(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const navigate = useNavigate()
   const { user } = useContext(AuthContext);
@@ -35,7 +35,7 @@ export default function UserMenu() {
        aria-expanded={open ? 'true' : undefined}
        onClick={handleClick}
       >
-            <Avatar sx={{ width: 40, height: 40 }}/>
+            {props.children}
      </IconButton>
       <Menu
         id="basic-menu"

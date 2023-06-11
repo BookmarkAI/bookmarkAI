@@ -10,7 +10,9 @@ function ResponsiveAppBar() {
   return (
     <AppBar sx={{backgroundColor: "transparent"}} position="static" elevation="0">
         <Toolbar sx={{backgroundColor: "transparent", justifyContent: 'flex-end'}}>
-            <UserMenu/>
+            <UserMenu>
+            <Avatar sx={{ width: 40, height: 40 }}/>
+            </UserMenu>
         </Toolbar>
     </AppBar>
   );

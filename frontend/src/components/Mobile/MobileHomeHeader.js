@@ -9,6 +9,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import logo from '../../assets/supermark_both.png';
 import MobileFolder from "./MobileFolder";
 import MenuIcon from '@mui/icons-material/Menu';
+import UserMenu from '../UserMenu';
 
 
 export default function MobileAppHeader(props) {
@@ -29,7 +30,9 @@ export default function MobileAppHeader(props) {
                   <MenuIcon/>
                 </IconButton>
                 <IconButton>
-                    <Avatar sx={{width: 30, height: 30}}/>
+                    <UserMenu>
+                      <Avatar sx={{width: 30, height: 30}}/>
+                    </UserMenu>
                 </IconButton>
             </Toolbar>
         </AppBar>

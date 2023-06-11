@@ -3,13 +3,14 @@ import useScrollTrigger from '@mui/material/useScrollTrigger';
 import Slide from '@mui/material/Slide';
 import * as React from 'react';
 import MobileTopBar from './MobileTopBar';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Box, Typography, IconButton, Collapse, Toolbar, Grid, Button } from '@mui/material'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp'
 import CssBaseline from "@mui/material/CssBaseline";
 import { MobileSearchBar } from "../SearchBar";
 import TuneIcon from '@mui/icons-material/Tune';
+import { getAllBookmarks } from "../../services/service";
 
 
 
@@ -17,6 +18,11 @@ export default function MobileBrowseScreen() {
     const [ select, setSelect ] = useState(false);
     const [ open, setOpen ] = React.useState(false);
     const [ selectAll, setSelectAll ] = useState(false);
+    const [ allBookmarks, setAllBookmarks ] = useState([]);
+
+    useEffect(() => {
+        getAllBookmarks().then((response) => setAllBookmarks(response));
+    }, []);
     
 
     return(
@@ -62,7 +68,7 @@ export default function MobileBrowseScreen() {
                 </Box>
             </Collapse>
 
-        <MobileBookMarkList select={select}/>
+        <MobileBookMarkList select={select} bookmarks={allBookmarks}/>
         <Toolbar/>
 
         </>

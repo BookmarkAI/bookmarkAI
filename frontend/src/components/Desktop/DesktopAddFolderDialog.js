@@ -26,7 +26,6 @@ function SimpleDialog(props) {
 
 
   const handleClose = async () => {
-    onClose(selectedValue);
     if (user && newFolderName !== '') {
       const user = auth.currentUser;
       const userRef = doc(usersRef, user.uid);
@@ -35,6 +34,7 @@ function SimpleDialog(props) {
       });
       setNewFolderName('');
     }
+    onClose()
   };
 
  const handleListItemClick = (value) => {
@@ -48,7 +48,7 @@ function SimpleDialog(props) {
 
   return (
     <div>
-      <Dialog onClose={handleClose} open={open}>
+      <Dialog onClose={onClose} open={open}>
       <DialogTitle>
           <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
               <Stack>
@@ -56,7 +56,7 @@ function SimpleDialog(props) {
                   <Typography>Organize bookmarks using folders</Typography>
               </Stack>
               
-              <CloseIcon onClick={handleClose} sx={{pl: 1}}/>
+              <CloseIcon onClick={onClose} sx={{pl: 1}}/>
           </Box>
       </DialogTitle>
         <Box sx={{p: 3, display: 'flex', flexDirection: 'column'}}>
@@ -76,16 +76,19 @@ SimpleDialog.propTypes = {
   selectedValue: PropTypes.string.isRequired,
 };
 
-export default function SimpleDialogDemo() {
+export default function SimpleDialogDemo(props) {
+  const { fetchFolderList } = props;
   const [open, setOpen] = React.useState(false);
   const [selectedValue, setSelectedValue] = React.useState(emails[1]);
 
   const handleClickOpen = () => {
     setOpen(true);
+    
   };
 
   const handleClose = (value) => {
     setOpen(false);
+    fetchFolderList();
   };
 
   return (

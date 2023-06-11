@@ -36,7 +36,62 @@ function addDefaultSrc(ev) {
   ev.target.src = icon
 }
 
-export default function DesktopBookmarkCard(props) {
+function DesktopMiniBookmarkCard(props) { 
+  const { title, url, i } = props;
+  const { selectedFiles, updateSelectedFiles, removeSelectedFiles } = useContext(FileContext);
+
+  const clicked = selectedFiles.includes(title)
+
+  function handleClick() {
+    if (!clicked) {
+        updateSelectedFiles(title);
+    } else {
+        removeSelectedFiles(title);
+    }
+  }
+
+  const navigate = useNavigate();
+
+  return (
+    <Box sx={{mr: 2, mb: 2,  background: clicked ? '#dddddd' : "white", borderRadius: 4}}>
+          <Box sx={{ml: 0.5,  mt: 1}}>
+            
+
+            <Box sx={{display: "flex", flexDirection: "row",  pt: 1, alignItems: 'center', width: '100%', justifyContent: 'space-between' }}> 
+                <Box sx={{display: "flex", flexDirection: "row", alignItems: "center"}}>    
+                    <img
+                        src={getIcon(url)}
+                        onError={addDefaultSrc}
+                        style={{
+                            height: 15
+                        }}
+                        />
+                    
+                    <Typography sx={{ color: "gray", ml:1.5, fontSize: "14px"}}>
+                        {url ? displayUrl(url) : ""}
+                    </Typography> 
+                </Box> 
+            </Box>
+
+            <Box onClick={handleClick}>
+              <Typography sx={{overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  display: "-webkit-box",
+                  WebkitLineClamp: "2",
+                  WebkitBoxOrient: "vertical",
+                  lineHeight: '21px', fontSize: "17px", fontWeight: "540"}} gutterBottom variant="h6" component="div">
+                  {title ? title : "Title"}
+              </Typography>
+            </Box>
+          </Box>
+   
+    </Box>
+  );
+
+}
+
+
+function DesktopBookmarkCard(props) {
   const { title, url, i } = props;
   const { selectedFiles, updateSelectedFiles, removeSelectedFiles } = useContext(FileContext);
 
@@ -59,7 +114,7 @@ export default function DesktopBookmarkCard(props) {
             <LaunchIcon onClick={()=>{window.open(url, "_blank")}} sx={{color: "white", m: 2}}/>
           </Box>
 
-          <Box sx={{ml: 0.5, mr: 1.5, mt: 1}}>
+          <Box sx={{ml: 0.5,  mt: 1}}>
             <Box onClick={handleClick}>
               <Typography sx={{overflow: "hidden",
                   textOverflow: "ellipsis",
@@ -97,3 +152,6 @@ export default function DesktopBookmarkCard(props) {
     </Box>
   );
 }
+
+
+export { DesktopBookmarkCard, DesktopMiniBookmarkCard } 

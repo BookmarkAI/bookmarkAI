@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomeScreen from './pages/HomeScreen';
 import BrowseScreen from './pages/BrowseScreen';
 import Layout from './pages/Layout';
-import BrowseImages from './pages/BrowseImages';
 import SearchResult from './pages/SearchResult';
 import { Desktop, Mobile } from './utils/MediaQuery.js';
 import {DesktopChatScreen} from './components/Desktop/DesktopChatScreen'

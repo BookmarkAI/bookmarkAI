@@ -1,4 +1,4 @@
-import { Stack, Box, Typography } from '@mui/material';
+import { Stack, Box, Typography, IconButton } from '@mui/material';
 import { folders } from '../../services-mock/fake_dataset';
 import FolderIcon from '@mui/icons-material/Folder';
 import Button from '@mui/material/Button'
@@ -10,6 +10,7 @@ import SimpleDialogDemo from './DesktopAddFolderDialog';
 import { FolderContext } from '../../utils/FolderContext';
 import { getAllFolders } from '../../services/service';
 import { useEffect } from 'react';
+import AddBookmarksToFolder from '../AddBookmarksToFolder';
 
 
 function StyledButton(props){
@@ -57,11 +58,9 @@ function StyledButton(props){
                     </Typography>
                 </Box>
             
-            <Box>
-                <Typography sx={{fontSize: 14}}>
-                    5
-                </Typography>
-            </Box>
+            <IconButton size="small">
+               <AddBookmarksToFolder/>
+            </IconButton>
            
             </Button>   
         </Box>

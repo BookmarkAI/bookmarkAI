@@ -49,19 +49,15 @@ function EditDialog({title, url, id, folder, open, setOpen, fetchBookmarks}){
             <Box sx={{minWidth: '300px'}}>
 
            
-            <Toolbar>
-                <IconButton
-                    edge="start"
-                    color="black"
-                    onClick={handleClose}
-                    aria-label="close"
-                    >
-                    <CloseIcon />
-                    </IconButton>
-                    <Typography sx={{ ml: 2, flex: 1, color: "black"}} variant="h8" component="div">
-                        Edit Bookmark
-                    </Typography>
-            </Toolbar>
+            
+               
+            <DialogTitle>
+                <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                    Edit Bookmark
+                    <CloseIcon onClick={handleClose}/>
+                </Box>
+            </DialogTitle>
+        
     
             
             <Grid sx={{m:3}}>  

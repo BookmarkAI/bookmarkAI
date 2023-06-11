@@ -1,20 +1,15 @@
 import { Box, Grid, Toolbar, Typography, Button } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import SubjectList from '../../components/SubjectList';
 import { useState } from 'react';
 import { DesktopBookMarkList } from '../../components/BookMarkList';
 import { BrowseTab } from '../Tab';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import DesktopFolderList from './DesktopFolderList';
-import MobileBookmarkCard from '../Mobile/MobileBookmarkCard';
-import { MobileBookMarkList } from '../../components/BookMarkList';
-import GridViewIcon from '@mui/icons-material/GridView';
-import ViewListIcon from '@mui/icons-material/ViewList';
 import { useContext, useEffect } from 'react';
 import { FileContext } from '../../utils/FileContext';
 import { FolderContext } from '../../utils/FolderContext';
 import AddIcon from '@mui/icons-material/Add';
 import { getAllBookmarks } from '../../services/service'
+import AddBookmarksToFolder from '../AddBookmarksToFolder';
 
 export default function DesktopBrowseScreen(props) {
     const [ grid, setGrid ] = useState(true);
@@ -65,7 +60,7 @@ export default function DesktopBrowseScreen(props) {
                              { selectedFolder ? selectedFolder : "All Bookmarks" }
                             </Typography>
 
-                            {selectedFolder && <AddIcon/>}
+                            {selectedFolder && <AddBookmarksToFolder folder={selectedFolder} fetchBookmarks={fetchBookmarks}/>}
                         </Box>
                         <Box sx={{mt: 4}}>
                             <BrowseTab/>

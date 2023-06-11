@@ -4,7 +4,7 @@ import { bookmarks } from "../services-mock/fake_dataset";
 import Checkbox from "@mui/material/Checkbox";
 import DesktopBookmarkCard from "./Desktop/DesktopBookmarkCard";
 import EditDialog from "./Mobile/EditDialog";
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { FileContext } from '../utils/FileContext';
 import { FolderContext } from '../utils/FolderContext'; 
 import { getAllBookmarks } from '../services/service'
@@ -16,16 +16,17 @@ function DesktopBookMarkList({ spacing, select, topk, grid }) {
     const { selectedFiles, updateSelectedFiles } = useContext(FileContext);
     const { selectedFolder } = useContext(FolderContext);
     const { user } = useContext(AuthContext);
-    const [allBookmarks, setAllBookmarks] = useState([]);
+    const [ allBookmarks, setAllBookmarks ] = useState([]);
+
+    useEffect(() => {
+        getAllBookmarks().then((response) => setAllBookmarks(response));
+    }, []);
 
     const filteredBookmarks = selectedFolder
-    ? bookmarks.filter((bookmark) => bookmark.folder === selectedFolder)
-    : bookmarks;
+    ? allBookmarks.filter((bookmark) => bookmark.folder === selectedFolder)
+    : allBookmarks;
 
     console.log(selectedFolder)
-
-    getAllBookmarks().then((response) => setAllBookmarks(response))
-    console.log(allBookmarks);
   
 
     return (
@@ -38,7 +39,7 @@ function DesktopBookMarkList({ spacing, select, topk, grid }) {
                 sx={style}
             >
 
-            {allBookmarks.map((doc, i) => (
+            {filteredBookmarks.map((doc, i) => (
                 topk ? 
 
             (i < topk) && <Grid item xs={12} sm={6} md={4}>
@@ -74,6 +75,15 @@ function DesktopBookMarkList({ spacing, select, topk, grid }) {
 }
 
 function MobileBookMarkList({ spacing, select, topk }) {
+    const { selectedFiles, updateSelectedFiles } = useContext(FileContext);
+    const { selectedFolder } = useContext(FolderContext);
+    const { user } = useContext(AuthContext);
+    const [ allBookmarks, setAllBookmarks ] = useState([]);
+
+    useEffect(() => {
+        getAllBookmarks().then((response) => setAllBookmarks(response));
+    }, []);
+
     const style = {p: 1}
     return (
         <Grid
@@ -83,7 +93,7 @@ function MobileBookMarkList({ spacing, select, topk }) {
             sx={style}
         >
 
-            {bookmarks.map((doc, i) => (
+            {allBookmarks.map((doc, i) => (
                 topk ? 
 
             (i < topk) && <Grid item xs={12} sm={6} md={4}>

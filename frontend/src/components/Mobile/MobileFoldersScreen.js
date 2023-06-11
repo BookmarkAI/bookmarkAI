@@ -3,7 +3,7 @@ import useScrollTrigger from '@mui/material/useScrollTrigger';
 import Slide from '@mui/material/Slide';
 import * as React from 'react';
 import MobileTopBar from './MobileTopBar';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Box, Typography, IconButton, Collapse, Button, Toolbar, Stack, Grid } from '@mui/material'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp'
@@ -12,13 +12,19 @@ import MobileFolder from './MobileFolder';
 import { folders } from '../../services-mock/fake_dataset';
 import { MobileSearchBar } from "../SearchBar";
 import TuneIcon from '@mui/icons-material/Tune';
-
+import { getAllFolders } from '../../services/service';
 
 
 export default function MobileFoldersScreen() {
     const [ select, setSelect ] = useState(false);
     const [ open, setOpen ] = React.useState(false);
     const [ selectAll, setSelectAll ] = useState(false);
+    const [allFolders, setAllFolders] = useState([]);
+    
+
+    useEffect(() => {
+        getAllFolders().then((response) => setAllFolders(response))
+    }, []);
     
 
     return(
@@ -64,8 +70,8 @@ export default function MobileFoldersScreen() {
             {/* Folder List */}
             <Grid xs={12} sx={{display: "flex", flexDirection: "column", m:1 }}>
                 <Stack spacing={1}>
-                    {folders.map((doc, i) => (              
-                         <MobileFolder {...doc} select={select}/>
+                    {allFolders.map((folder, i) => (              
+                         <MobileFolder folder={folder} select={select}/>
                     ))}
 
                 </Stack>

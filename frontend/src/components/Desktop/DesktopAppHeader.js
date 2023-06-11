@@ -64,7 +64,9 @@ export default function DesktopAppHeader() {
                 
             </Box>
             
-            <UserMenu/>
+            <UserMenu>
+                <Avatar sx={{ width: 40, height: 40 }}/>
+            </UserMenu>
             {/* <IconButton>
                 <Avatar sx={{ width: 40, height: 40 }}/>
             </IconButton> */}

@@ -51,7 +51,7 @@ export default function DesktopHomeScreen(props) {
                     }}
                 />
                 <DesktopSearchBar height={45} width={600}/>
-                <Button onClick={() => navigate('/browse')} size="large" sx={{m:3, background: 'linear-gradient(to right, #cd5b95, #9846ca)'}} variant="contained">Or Browse It</Button>
+                <Button onClick={() => navigate('/browse')} size="large" sx={{m:3, background: 'linear-gradient(to right, #cd5b95, #9846ca)', textTransform: 'none'}} variant="contained">Browse Bookmarks</Button>
                 </Box>
             </Box>
             </Grid>

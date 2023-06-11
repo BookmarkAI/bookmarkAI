@@ -10,14 +10,25 @@ import MobileBookmarkCard from '../Mobile/MobileBookmarkCard';
 import { MobileBookMarkList } from '../../components/BookMarkList';
 import GridViewIcon from '@mui/icons-material/GridView';
 import ViewListIcon from '@mui/icons-material/ViewList';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { FileContext } from '../../utils/FileContext';
 import { FolderContext } from '../../utils/FolderContext';
+import AddIcon from '@mui/icons-material/Add';
+import { getAllBookmarks } from '../../services/service'
 
 export default function DesktopBrowseScreen(props) {
     const [ grid, setGrid ] = useState(true);
     const { selectedFiles, resetSelectedFiles } = useContext(FileContext);
     const { selectedFolder } = useContext(FolderContext);
+    const [ allBookmarks, setAllBookmarks ] = useState([]);
+
+    useEffect(() => {
+        getAllBookmarks().then((response) => setAllBookmarks(response));
+    }, []);
+
+    const filteredBookmarks = selectedFolder
+    ? allBookmarks.filter((bookmark) => bookmark.folder === selectedFolder)
+    : allBookmarks;
 
     return(
         <>
@@ -40,6 +51,8 @@ export default function DesktopBrowseScreen(props) {
                             <Typography variant="h5" sx={{fontWeight: 550}}> 
                              { selectedFolder ? selectedFolder : "All Bookmarks" }
                             </Typography>
+
+                            {selectedFolder && <AddIcon/>}
                         </Box>
                         <Box sx={{mt: 4}}>
                             <BrowseTab/>
@@ -67,7 +80,7 @@ export default function DesktopBrowseScreen(props) {
                                 Select All                    
                             </Button>
                         </Box>
-                            <DesktopBookMarkList grid={grid}/>
+                            <DesktopBookMarkList bookmarks={filteredBookmarks}/>
                     
                            
                         </Box>

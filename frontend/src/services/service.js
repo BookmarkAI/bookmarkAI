@@ -1,5 +1,5 @@
 import { auth, db } from "../fb";
-import { collection, query, getDocs, getDoc, doc } from "firebase/firestore";
+import { collection, query, getDocs, getDoc, doc, where } from "firebase/firestore";
 
 
 
@@ -32,5 +32,16 @@ async function getAllFolders() {
     return folders
 }
 
-export {getAllBookmarks, getAllFolders}
+async function updateBookmarkFolder(bookmark, folder) {
+    if (auth.currentUser != null) {
+        const q = query(collection(db, "users", auth.currentUser.uid, "bookmarks"), where("url", "==", bookmark));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach(async (doc) => {
+            await updateDoc(doc, {
+                "folder": folder
+              });
+        })
+    }
+}
+export {getAllBookmarks, getAllFolders, updateBookmarkFolder}
 

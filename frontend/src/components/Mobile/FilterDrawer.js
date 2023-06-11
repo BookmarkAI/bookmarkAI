@@ -140,10 +140,6 @@ export default function SwipeableEdgeDrawer(props: Props) {
                         </Chip>
                     </Box>
                 ))}
-                {/* Add Button */}
-                {/* <Box sx={{mt: 0.4, mb: 0.4, ml: 0.5}}>
-                    <Chip onDelete={()=>{console.log("Test")}} deleteIcon={<AddIcon/>} label={"Add"}/>
-                </Box> */}
             </Stack>
 
             <Typography sx={{mt: 2, ml: 1}}>

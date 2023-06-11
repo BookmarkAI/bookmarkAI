@@ -4,12 +4,12 @@ import InputBase from '@mui/material/InputBase';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import TuneIcon from '@mui/icons-material/Tune';
-import MenuIcon from '@mui/icons-material/Menu';
+import SendIcon from '@mui/icons-material/Send'
 import SearchIcon from '@mui/icons-material/Search';
 import DirectionsIcon from '@mui/icons-material/Directions';
 import { useState, useEffect  } from 'react';
 import { useNavigate, createSearchParams, useSearchParams, useLocation } from 'react-router-dom';
+import DesktopPromptGenerator from './Desktop/DesktopPromptGenerator.js';
 
 import { auth, usersRef, db} from '../fb.js';
 import { doc, updateDoc, arrayUnion, collection, setDoc } from "firebase/firestore"; 
@@ -20,7 +20,7 @@ import { FileContext } from '../utils/FileContext';
 
 
 function SearchBar(props) {
-  const { fontsize, style, placeholder } = props;
+  const { fontsize, style, placeholder, advanced } = props;
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const [query, setQuery] = useState(searchParams.get('q'));
@@ -36,7 +36,7 @@ function SearchBar(props) {
   }
 
   async function keyPress(e){
-        if(e.key === 'Enter'){
+        if(e.key === 'Enter' &&  query != ""){
             e.preventDefault();
             if (user.uid !== null) {
               const queryRef = doc(collection(db, "users", user.uid, "queries"));
@@ -56,6 +56,7 @@ function SearchBar(props) {
     }
 
   return (
+    <>
     <Paper
       component="form"
       sx={style}
@@ -74,12 +75,14 @@ function SearchBar(props) {
       
       <Box sx={{display: "flex", alignItems:'center'}}>
         
+        
+        
         {chatEnabled ? 
-        <IconButton sx={{p:0.5 }} onClick={()=>enableChat(false)}>
+        <IconButton sx={{p:1}} onClick={()=>enableChat(false)}>
           <CommentIcon  sx={{fontSize: fontsize + 5}}/>
         </IconButton> 
         :
-        <IconButton sx={{ p:0.5  }} onClick={()=>enableChat(true)}>
+        <IconButton sx={{ p:1}} onClick={()=>enableChat(true)}>
           <CommentsDisabledIcon sx={{fontSize: fontsize + 5}}/>  
         </IconButton>
         
@@ -88,16 +91,24 @@ function SearchBar(props) {
         {props.children}
       </Box>
 
-    </Paper>
+    </Paper>               
+    {advanced && 
+      <Box sx={{display: 'flex', flexDirection: 'column', ml: 1}}>
+        <DesktopPromptGenerator/>
+      </Box>}
+   </>
   );
 }
 
 
 
-function DesktopSearchBar({height, width}) {
-  const style = {height, width, display: 'flex', alignItems: 'center', justifyContent: 'center', border:1, pl: 1, pr:2, pt: 0.8, pb: 0.8, borderColor: "#DFE1E5", borderRadius:20}
+function DesktopSearchBar(props) {
+  const { height, width, advanced } = props; 
+  const style = {height, width, display: 'flex', alignItems: 'center', justifyContent: 'center', border:1, pl: 1, pr:1, pt: 0.8, pb: 0.8, borderColor: "#DFE1E5", borderRadius:1}
   return (
-    <SearchBar fontsize={18} style={style} placeholder={"Search Your Own Internet"}/> 
+    <SearchBar fontsize={18} style={style} placeholder={"Search Your Own Internet"} advanced={advanced}>
+      {props.children}
+    </SearchBar>
   )
 }
 

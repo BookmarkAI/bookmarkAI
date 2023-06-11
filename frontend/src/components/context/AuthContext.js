@@ -9,6 +9,8 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [cookies, setCookie] = useCookies(["user"]);
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     auth.onAuthStateChanged(user => {
       // clear all cookies
@@ -30,11 +32,16 @@ export const AuthProvider = ({ children }) => {
 
       // there is a security vulnerability here, where someone can access the cookie
       // and send a request to the backend
-
+      setIsLoading(false);
 
 
     })
   }, [])
+
+  if (isLoading) {
+    // Render loading indicator or any other desired UI element while isLoading is true
+    return <div>Loading...</div>;
+  }
 
 
   return (

@@ -13,6 +13,7 @@ import Box from '@mui/material/Box';
 import  { DesktopSearchBar } from '../SearchBar';
 import { useContext } from 'react';
 import { FileContext } from '../../utils/FileContext';
+import UserMenu from '../UserMenu';
 
 
 
@@ -63,10 +64,10 @@ export default function DesktopAppHeader() {
                 
             </Box>
             
-            
-            <IconButton>
+            <UserMenu/>
+            {/* <IconButton>
                 <Avatar sx={{ width: 40, height: 40 }}/>
-            </IconButton>
+            </IconButton> */}
 
         </Toolbar>
     

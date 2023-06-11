@@ -30,8 +30,7 @@ export default function DesktopBrowseScreen(props) {
                                 <Typography variant="h7" sx={{fontWeight: 700, color: "#222222"}}> Folders</Typography>
                                 <MoreHorizIcon sx={{color: "#222222"}}/>
                             </Box>
-                            <DesktopFolderList/>
-                            
+                            <DesktopFolderList/>  
                         </Box>
                     </Box>
                 </Grid>
@@ -41,11 +40,6 @@ export default function DesktopBrowseScreen(props) {
                             <Typography variant="h5" sx={{fontWeight: 550}}> 
                              { selectedFolder ? selectedFolder : "All Bookmarks" }
                             </Typography>
-                            {/* {grid ?
-                            <GridViewIcon onClick={()=>setGrid(!grid)} sx={{opacity: 0.7}}/>
-                            :
-                            <ViewListIcon onClick={()=>setGrid(!grid)} sx={{opacity: 0.7}}/>
-                            }   */}
                         </Box>
                         <Box sx={{mt: 4}}>
                             <BrowseTab/>
@@ -53,7 +47,7 @@ export default function DesktopBrowseScreen(props) {
                     
                         <Box sx={{mt: 1}}>
                         <Box sx={{display: 'flex', justifyContent: 'space-between', pr: 5}}>
-                        <Button sx={{color: "#458be9", pl: 2, textTransform: "none", '&:hover': {
+                        <Button sx={{color: "#458be9", textTransform: "none", '&:hover': {
                             backgroundColor: 'white',
                             borderColor: 'transparent',
                             boxShadow: 'none',

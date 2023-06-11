@@ -1,18 +1,19 @@
 import { firebaseConfig, app, auth, db } from "../fb";
 import { collection, query, getDocs } from "firebase/firestore";
-import { real_bookmarks } from "./dataset";
 
 
-export async function getAllBookmarksReal() {
+
+
+export async function getAllBookmarks() {
+    var bookmarks = []
     if (auth.currentUser != null) {
-        const q = query(collection(db, auth.currentUser.uid));
+        const q = query(collection(db, "users", auth.currentUser.uid, "bookmarks"));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
             // doc.data() is never undefined for query doc snapshots
-            real_bookmarks.push(doc)
+            bookmarks.push(doc.data())
           });
-        console.log(real_bookmarks);
-    
     }
+    return bookmarks
 }
 

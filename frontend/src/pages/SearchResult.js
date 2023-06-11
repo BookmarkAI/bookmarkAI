@@ -1,27 +1,29 @@
 import { useSearchParams } from 'react-router-dom'
-import { Typography, Box, Grid, Paper, InputBase, Stack } from '@mui/material';
-import { MuiMarkdown } from 'mui-markdown';
-import { useEffect, useState } from 'react';
-import { auth, usersRef, db} from '../fb.js';
+import {useContext, useEffect, useState} from 'react';
+import { usersRef, db} from '../fb.js';
 import { doc, setDoc, collection} from "firebase/firestore"; 
 import { Desktop, Mobile } from '../utils/MediaQuery';
 import DesktopChatScreen from '../components/Desktop/DesktopChatScreen.js';
 import MobileChatScreen from '../components/Mobile/MobileChatScreen.js'
+import { EventSourcePolyfill } from 'event-source-polyfill';
+import {AuthContext} from "../components/context/AuthContext";
 
-
+const EventSource = EventSourcePolyfill;
 
 export default function SearchResult() {
     
     const [searchParams, setSearchParams] = useSearchParams();
     const q = searchParams.get('q');
     const [responseMessages, setResponseMessages] = useState([]);
-    const user = auth.currentUser;
-    const userRef = doc(usersRef, user.uid);
-
+    const { user } = useContext(AuthContext);
 
     useEffect(() => {
         setResponseMessages([])
-        const eventSource = new EventSource(`http://localhost:8000/chat?q=${q}`);
+        const eventSource = new EventSource(`http://localhost:8000/chat?q=${q}`, {
+            headers: {
+                'X-UID': user.uid
+            }
+        });
         eventSource.onmessage = (event) => {
             const msg = JSON.parse(event.data);
             console.log(msg);

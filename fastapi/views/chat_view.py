@@ -1,14 +1,13 @@
 import json
 import logging
-from typing import AsyncGenerator
+from typing import AsyncGenerator, Annotated
 
 import numpy as np
 
-from fastapi import APIRouter
-from langchain.embeddings import OpenAIEmbeddings
+from fastapi import APIRouter, Header
 from starlette.responses import StreamingResponse
 
-from models.chat import UserChatMessage, ChatServiceMessage, UserSearchMessage
+from models.chat import ChatServiceMessage, UserSearchMessage
 from services.context_service import ContextService
 from services.conversation_service import ConversationService
 from utils.db import get_vectorstore
@@ -28,26 +27,34 @@ class NumpyEncoder(json.JSONEncoder):
         return super(NumpyEncoder, self).default(obj)
 
 
-async def sse_generator(messages_generator: AsyncGenerator[ChatServiceMessage, None]):
+async def sse_generator(messages_generator: AsyncGenerator[ChatServiceMessage, None], question: str, conversation_service: ConversationService):
     async for msg in messages_generator:
-        msg_dict = {'chat_response': msg.msg, 'documents': [d.dict() for d in msg.relevant_documents], 'done': msg.done}
+        msg_dict = {
+            'chat_response': msg.msg,
+            'documents': [d.dict() for d in msg.relevant_documents],
+            'done': msg.done
+        }
         if msg.done:
-            # save to db
-            print(f'yielding {msg.dict()}')
             yield f"data: {json.dumps(msg_dict, cls=NumpyEncoder)}\n\n"
+            await conversation_service.store_conversation(
+                question=question,
+                context=[d for d in msg.relevant_documents],
+                answer=msg.msg,
+            )
         else:
-            print(f'yielding {msg.dict()}')
             yield f"data: {json.dumps(msg_dict, cls=NumpyEncoder)}\n\n"
 
 
 @router.get('/chat', responses={200: {"content": {"text/event-stream": {}}}})
-async def chat(q: str):
-    chat_service = ConversationService(context_service=context_service)
-    completion = chat_service.chat(
+async def chat(q: str, x_uid: Annotated[str, Header()]):
+    conversation_service = ConversationService(context_service=context_service, uid=x_uid)
+    completion = conversation_service.chat(
         message=q,
     )
-    sse = StreamingResponse(sse_generator(completion),
-                            media_type='text/event-stream')
+    sse = StreamingResponse(
+        sse_generator(completion, q, conversation_service),
+        media_type='text/event-stream'
+    )
 
     # workaround for app engine
     sse.headers["Cache-Control"] = "no-cache"
@@ -55,6 +62,6 @@ async def chat(q: str):
 
 
 @router.post('/search')
-async def search(message: UserSearchMessage):
-    relevant_docs = context_service.get_context(message.query, "user1")
+async def search(message: UserSearchMessage, x_uid: Annotated[str, Header()]):
+    relevant_docs = context_service.get_context(message.query, x_uid)
     return [d.dict() for d in relevant_docs]

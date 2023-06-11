@@ -1,31 +1,21 @@
 import logging
-import firebase_admin
-from firebase_admin import credentials
-from firebase_admin import firestore
-
-from datetime import datetime
-
-import weaviate
-from fastapi import APIRouter
-from langchain.embeddings import OpenAIEmbeddings
-from langchain.schema import Document
+from typing import Annotated
+from fastapi import APIRouter, Header
 from langchain.text_splitter import CharacterTextSplitter
 
 from config import Config
 from models.extension import ExtensionDocument
-from utils.db import get_vectorstore
+from utils.db import get_vectorstore, firebase_app as db
 
 router = APIRouter()
 config = Config()
 log = logging.getLogger(__name__)
-cred = credentials.Certificate('../bookmarkai-c7f69-0e7393f3fe4e.json')
-app = firebase_admin.initialize_app(cred)
-db = firestore.client()
+
 
 @router.post('/store')
-def store(document: ExtensionDocument):
+def store(document: ExtensionDocument, x_uid: Annotated[str, Header()]):
     vectorstore = get_vectorstore()
-    user_id = "user1"   # TODO: get user id from session
+    user_id = x_uid
     chunks = CharacterTextSplitter(
         chunk_size=config.chunk_size, chunk_overlap=config.chunk_overlap, separator='.'
     ).split_text(document.raw_text)
@@ -48,6 +38,6 @@ def store(document: ExtensionDocument):
         'title': document.title, 
         'type': 'url'
     }
-    db.collection('users').document(document.UID).collection('bookmarks').add(firebase_data)
+    db.collection('users').document(user_id).collection('bookmarks').add(firebase_data)
 
     return {'success': True}

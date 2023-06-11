@@ -14,11 +14,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import FilterDrawer from './FilterDrawer';
 import ScrollHeader from './ScrollHeader';
 
-
-
-const responseMessages = [{chat_response: "Y Combinator is a renowned startup accelerator and venture capital firm that has played a significant role in shaping the startup landscape. Founded in 2005, Y Combinator provides early-stage funding, mentorship, and a supportive community to startups from various industries. They offer a highly competitive program where selected startups receive seed funding, access to a network of successful entrepreneurs and investors, and guidance from experienced mentors. Y Combinator's rigorous three-month program culminates in a Demo Day, where startups pitch their ideas to a room full of potential investors. Over the years, Y Combinator has nurtured and propelled numerous successful companies, such as Airbnb, Dropbox, Stripe, and Reddit, among many others. Their impact on the startup ecosystem has been substantial, making Y Combinator a revered institution for aspiring entrepreneurs seeking to turn their ideas into thriving businesses."}]
-
-export default function MobileChatScreen(props) {
+export default function MobileChatScreen({ responseMessages, sources }) {
     // const { responseMessages, urls } = props;
     const [ open, setOpen ] = React.useState(false);
     const [ openSnackbar, setOpenSnackbar ] = React.useState(false);
@@ -67,7 +63,7 @@ export default function MobileChatScreen(props) {
     return(
         <>
         <ScrollHeader/>
-      
+
         <Grid xs={12} sx={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
             <MobileSearchBar>
                 <FilterDrawer/>
@@ -109,8 +105,8 @@ export default function MobileChatScreen(props) {
                 Source Bookmarks 📚
             </Typography>
             
-                <MobileBookMarkList bookmarks={[]}/>
-            </div>
+                <MobileBookMarkList bookmarks={sources}/>
+                </div>
             
             
         </Grid>

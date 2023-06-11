@@ -39,7 +39,6 @@ def get_vectorstore() -> weaviate.Client:
     if not weaviate_client.schema.exists(document_schema['class']):
         weaviate_client.schema.create_class(document_schema)
 
-
     return weaviate_client
 
 

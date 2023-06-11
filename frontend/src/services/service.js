@@ -1,10 +1,10 @@
-import { firebaseConfig, app, auth, db } from "../fb";
-import { collection, query, getDocs } from "firebase/firestore";
+import { auth, db } from "../fb";
+import { collection, query, getDocs, getDoc, doc } from "firebase/firestore";
 
 
 
 
-export async function getAllBookmarks() {
+async function getAllBookmarks() {
     var bookmarks = []
     if (auth.currentUser != null) {
         const q = query(collection(db, "users", auth.currentUser.uid, "bookmarks"));
@@ -16,4 +16,19 @@ export async function getAllBookmarks() {
     }
     return bookmarks
 }
+
+async function getAllFolders() {
+    var folders = []
+    if (auth.currentUser != null) {
+        const userDoc = doc(db, "users", auth.currentUser.uid);
+
+        const docSnap = await getDoc(userDoc);
+        if (docSnap.exists()) {
+
+            folders = docSnap.data().folders
+        } 
+    }
+    return folders
+}
+export {getAllBookmarks, getAllFolders}
 

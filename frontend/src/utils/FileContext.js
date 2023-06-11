@@ -15,10 +15,18 @@ const FileProvider = ({ children }) => {
 //   };
 
   const updateSelectedFiles = (newFile) => {
-    setSelectedFiles((prevSelectedFiles) => [
-      ...prevSelectedFiles,
-      newFile
-    ]);
+
+    const isDuplicate = selectedFiles.some(file => file === newFile);
+
+    if (!isDuplicate) {
+      // If the newFile is not a duplicate, add it to the selectedFiles array
+      setSelectedFiles((prevSelectedFiles) => [
+        ...prevSelectedFiles,
+        newFile
+      ]);
+    } 
+
+    
   };
 
 

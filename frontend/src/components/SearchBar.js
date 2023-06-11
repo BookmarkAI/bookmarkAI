@@ -10,6 +10,7 @@ import DirectionsIcon from '@mui/icons-material/Directions';
 import { useState, useEffect  } from 'react';
 import { useNavigate, createSearchParams, useSearchParams, useLocation } from 'react-router-dom';
 import DesktopPromptGenerator from './Desktop/DesktopPromptGenerator.js';
+import { Tooltip } from '@mui/material';
 
 import { auth, usersRef, db} from '../fb.js';
 import { doc, updateDoc, arrayUnion, collection, setDoc } from "firebase/firestore"; 
@@ -78,13 +79,18 @@ function SearchBar(props) {
         
         
         {chatEnabled ? 
+        <Tooltip title="Click to disable chat">
         <IconButton sx={{p:1}} onClick={()=>enableChat(false)}>
           <CommentIcon  sx={{fontSize: fontsize + 5}}/>
         </IconButton> 
+        </Tooltip>
+        
         :
+        <Tooltip title="Click to enable chat">
         <IconButton sx={{ p:1}} onClick={()=>enableChat(true)}>
           <CommentsDisabledIcon sx={{fontSize: fontsize + 5}}/>  
         </IconButton>
+        </Tooltip>
         
         }
 

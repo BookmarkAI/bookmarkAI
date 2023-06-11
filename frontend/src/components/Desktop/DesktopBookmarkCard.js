@@ -9,6 +9,7 @@ import LaunchIcon from '@mui/icons-material/Launch';
 import { useState } from 'react';
 import { useContext } from 'react';
 import { FileContext } from '../../utils/FileContext';
+import BookmarkMenu from '../EditDialog';
 
 
 const colorArray = [
@@ -28,7 +29,6 @@ function displayUrl(url) {
 }
 
 function getIcon(url) {
-  console.log(`https://${displayUrl(url)}$/favicon.ico`)
   return `https://${displayUrl(url)}/favicon.ico`
 }
 
@@ -92,16 +92,16 @@ function DesktopMiniBookmarkCard(props) {
 
 
 function DesktopBookmarkCard(props) {
-  const { title, url, i } = props;
+  const { title, url, id, i, fetchBookmarks } = props;
   const { selectedFiles, updateSelectedFiles, removeSelectedFiles } = useContext(FileContext);
 
-  const clicked = selectedFiles.includes(title)
+  const clicked = selectedFiles.includes(id)
 
   function handleClick() {
     if (!clicked) {
-        updateSelectedFiles(title);
+        updateSelectedFiles(id);
     } else {
-        removeSelectedFiles(title);
+        removeSelectedFiles(id);
     }
   }
 
@@ -141,11 +141,9 @@ function DesktopBookmarkCard(props) {
                     </Typography> 
                 </Box> 
 
-              <IconButton>
+              <BookmarkMenu {...props} fetchBookmarks={fetchBookmarks}>
                 <MoreHorizIcon/>
-              </IconButton>
-                
-                
+              </BookmarkMenu>             
             </Box>
           </Box>
    

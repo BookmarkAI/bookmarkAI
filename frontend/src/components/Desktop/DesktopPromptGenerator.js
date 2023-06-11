@@ -51,7 +51,7 @@ export default function DesktopPromptGenerator() {
           </Stack>
 
           <Typography variant={"body3"} sx={{fontSize: '14px'}}> Format </Typography>
-          <Stack direction="row" spacing={0} sx={{flexWrap: "wrap", mt: 0.5, mb: 0.5}} >  
+          <Stack direction="row" spacing={0} sx={{flexWrap: "wrap", mt: 0.5, mb:0.7}} >  
                 {['blogpost', 'presentation outline','research paper', 'email', 'summary', 'copy', 'sales outreach'].map((tag) => (
                     <Box sx={{mt: 0.4, mb: 0.4, mr: 0.5}}>
                         <Chip label={tag}>
@@ -62,7 +62,7 @@ export default function DesktopPromptGenerator() {
           </Stack>
 
           <Typography variant={"body3"} sx={{fontSize: '14px'}}> Roles </Typography>
-          <Stack direction="row" spacing={0} sx={{flexWrap: "wrap", mt: 0.5, mb: 0.5}} >  
+          <Stack direction="row" spacing={0} sx={{flexWrap: "wrap", mt: 0.5, mb: 0.7}} >  
                 {['content creator', 'business analyst','writing assistant'].map((tag) => (
                     <Box sx={{mt: 0.4, mb: 0.4, mr: 0.5}}>
                         <Chip label={tag}>
@@ -72,7 +72,18 @@ export default function DesktopPromptGenerator() {
                 ))}
           </Stack>
 
-          <Box sx={{display: 'flex', justifyContent: 'center', alginItems: 'center', mt: 1}}>
+          <Typography variant={"body3"} sx={{fontSize: '14px'}}> Tone </Typography>
+          <Stack direction="row" spacing={0} sx={{flexWrap: "wrap", mt: 0.5, mb: 0.7}} >  
+                {['As if you are talking to 5 years old', 'friendly', 'persuasive', 'informative', 'professional'].map((tag) => (
+                    <Box sx={{mt: 0.4, mb: 0.4, mr: 0.5}}>
+                        <Chip label={tag}>
+                            {tag}
+                        </Chip>
+                    </Box>
+                ))}
+          </Stack>
+
+          <Box sx={{display: 'flex', justifyContent: 'center', alginItems: 'center', mt: 1.3}}>
 
           <Button variant="contained" onClick={handleClose} sx={{width: '100%', color: "white", background: '#404752', textTransform: "none", borderRadius: 1, '&:hover': {background: '#404752', border: 1, borderColor: '#aaaaaa'}}}>
             <BoltIcon/>

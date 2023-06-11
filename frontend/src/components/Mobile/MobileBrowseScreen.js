@@ -20,11 +20,14 @@ export default function MobileBrowseScreen() {
     const [ open, setOpen ] = React.useState(false);
     const [ selectAll, setSelectAll ] = useState(false);
     const [ allBookmarks, setAllBookmarks ] = useState([]);
+    function fetchBookmarks() {
+        getAllBookmarks().then((response) => setAllBookmarks(response));
+    }
+    
 
     useEffect(() => {
-        getAllBookmarks().then((response) => setAllBookmarks(response));
-    }, []);
-    
+        fetchBookmarks();
+    }, []);    
 
     return(
         <>
@@ -70,7 +73,7 @@ export default function MobileBrowseScreen() {
                 </Box>
             </Collapse>
 
-        <MobileBookMarkList select={select} bookmarks={allBookmarks}/>
+        <MobileBookMarkList select={select} bookmarks={allBookmarks} fetchBookmarks={fetchBookmarks}/>
         <Toolbar/>
 
         </>

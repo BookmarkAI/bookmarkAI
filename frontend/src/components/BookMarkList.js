@@ -2,20 +2,22 @@ import { Grid, Stack, Card, Box } from "@mui/material";
 import MobileBookmarkCard from "./Mobile/MobileBookmarkCard";
 import Checkbox from "@mui/material/Checkbox";
 import { DesktopBookmarkCard } from "./Desktop/DesktopBookmarkCard";
-import EditDialog from "./Mobile/EditDialog";
+import BookmarkMenu from "./EditDialog";
 import { useContext, useEffect } from 'react';
 import { FileContext } from '../utils/FileContext';
 import { FolderContext } from '../utils/FolderContext'; 
 import { AuthContext } from "./context/AuthContext";
+import { useState } from "react";
+import { getAllBookmarks } from '../services/service'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
 
-function DesktopBookMarkList({ spacing, select, topk, bookmarks }) {
+
+
+function DesktopBookMarkList({ spacing, select, topk, bookmarks, fetchBookmarks }) {
     const style = {pr: 3}
     const { selectedFiles, updateSelectedFiles } = useContext(FileContext);
     const { selectedFolder } = useContext(FolderContext);
     const { user } = useContext(AuthContext);
-    
-
-    console.log(selectedFolder)
   
     return (
         <>
@@ -31,11 +33,11 @@ function DesktopBookMarkList({ spacing, select, topk, bookmarks }) {
                 topk ? 
 
             (i < topk) && <Grid item xs={12} sm={6} md={4}>
-                    <DesktopBookmarkCard select={select} {...doc} i={i}/>
+                    <DesktopBookmarkCard select={select} {...doc} i={i} fetchBookmarks={fetchBookmarks}/>
                 </Grid>
                 :
                 <Grid item xs={12} sm={6} md={4} >
-                    <DesktopBookmarkCard select={select} {...doc} i={i}/>
+                    <DesktopBookmarkCard select={select} {...doc} i={i} fetchBookmarks={fetchBookmarks}/>
                 </Grid>
             ))}
         </Grid>
@@ -44,12 +46,9 @@ function DesktopBookMarkList({ spacing, select, topk, bookmarks }) {
     )
 }
 
-function MobileBookMarkList({ spacing, select, topk, selectedFolder, bookmarks}) {
+function MobileBookMarkList({ spacing, select, topk, selectedFolder, bookmarks, fetchBookmarks}) {
     const { selectedFiles, updateSelectedFiles } = useContext(FileContext);
     const { user } = useContext(AuthContext);
-
-    
-    console.log("selected folder :" + selectedFolder)
 
     const style = {p: 1}
     return (
@@ -57,7 +56,6 @@ function MobileBookMarkList({ spacing, select, topk, selectedFolder, bookmarks})
             container
             spacing={spacing}
             justify="center"
-            sx={style}
         >
 
             {bookmarks.map((doc, i) => (
@@ -72,12 +70,10 @@ function MobileBookMarkList({ spacing, select, topk, selectedFolder, bookmarks})
                 <Grid item xs={12} sm={6} md={4}>
                      <Box sx={{display: "flex", flexDirection: "column", borderBottom: 0.2, borderColor: "#d3d3d3" }}>
                     <MobileBookmarkCard select={select} {...doc}>
-                    <Box sx={{ mt:3 }}>
-                        { select ? 
-                        <Checkbox></Checkbox> 
-                        :
-                        <EditDialog {...doc}/>
-                        }
+                        <Box sx={{ mt:3 }}>
+                        <BookmarkMenu {...doc} fetchBookmarks={fetchBookmarks}>
+                            <MoreVertIcon sx={{color: "#808080"}}/>
+                        </BookmarkMenu>
                         </Box>
                     </MobileBookmarkCard>
                     </Box>

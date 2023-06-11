@@ -10,8 +10,6 @@ import { FolderContext } from '../utils/FolderContext';
 import { getAllBookmarksReal } from '../services/service'
 import { AuthContext } from "./context/AuthContext";
 
-
-
 function DesktopBookMarkList({ spacing, select, topk, grid }) {
     const style = {pr: 3}
     const { selectedFiles, updateSelectedFiles } = useContext(FileContext);

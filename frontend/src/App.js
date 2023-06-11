@@ -27,7 +27,7 @@ function App() {
         <BrowserRouter>
           <Desktop>
             <Routes>
-              <Route path="/" element={<HomeScreen/>} />
+              <Route path="/" element={<ProtectedRoute><HomeScreen/></ProtectedRoute>} />
               <Route path="/login" element={<SignInPage/>}/>
               <Route element={<ProtectedRoute><Layout/></ProtectedRoute>}>
                 <Route path="/browse" element={<ProtectedRoute><BrowseScreen/></ProtectedRoute>}/>

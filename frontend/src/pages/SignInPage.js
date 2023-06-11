@@ -1,4 +1,4 @@
-import { Box, Grid, Dialog, DialogTitle } from '@mui/material';
+import { Box, Grid, Dialog, DialogTitle, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import SignIn from '../components/SignIn';
 import SignOut from '../components/SignOut';
@@ -35,6 +35,11 @@ const theme = createTheme({
 export default function SignInPage(props) {
     const navigate = useNavigate();
     const { user } = useContext(AuthContext);
+
+    if (user) {
+        return <Navigate to={'/'} />;
+    }
+
     return(
         <>
         
@@ -56,25 +61,35 @@ export default function SignInPage(props) {
                 />
             </Grid>
             <Grid item xs={4} sx={{height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                <Box sx={{ width: '100%', height: '30vh', display: 'flex', flexDirection: 'column', background: 'white', alignItems: 'center', borderRadius: 2}}>
+                <Box sx={{ width: '100%', height: '22vh', display: 'flex', flexDirection: 'column', background: 'white', borderRadius: 5}}>
                     {user ?
                             <DialogTitle>
                                  Hello, {user.displayName}
+                                 <Typography sx={{mt:1}}>
+                                    Welcome back! Start bookmarking now. 
+                                </Typography>
                             </DialogTitle>
-               
+                            
                         :
                         <>
                             <DialogTitle>
                                 Sign in to Supermark
+                                <Typography sx={{mt:1}}>
+                                    Sign up with google to start bookmarking for free!
+                                </Typography>
                             </DialogTitle>
                         </>
                     }    
+                    
+                    
 
-                    {user ? 
-                        <SignOut />
-                        :
-                        <SignIn/>
-                    }   
+                    <Box sx={{width: '100%', display: 'flex', flexGrow: 1, justifyContent: 'center'}}> 
+                        {user ? 
+                            <SignOut />
+                            :
+                            <SignIn/>
+                        } 
+                    </Box>  
                 </Box>
             </Grid>
             <Grid item xs={4} sx={{display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start', mt:7, height: '100vh'}}>

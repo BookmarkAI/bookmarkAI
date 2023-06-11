@@ -12,7 +12,8 @@ from langchain.vectorstores import VectorStore, LanceDB
 from config import Config
 from models.chat import ChatServiceMessage
 from services.context_service import ContextService
-from utils.db import get_vectorstore
+from utils.db import firebase_app as db
+
 
 config = Config()
 
@@ -33,8 +34,9 @@ class ConversationService:
     {context}
     """
 
-    def __init__(self, context_service: ContextService):
+    def __init__(self, context_service: ContextService, uid: str):
         self.context_service = context_service
+        self.uid = uid
 
     def _get_system_prompt(self) -> str:
         template = PromptTemplate(template=self.__system_prompt, input_variables=[])
@@ -69,8 +71,18 @@ class ConversationService:
 
         return msg_iterator.aiter()
 
+    def store_conversation(self, question: str, context: List[Document], answer: str):
+        # store the conversation in firebase
+        collection_ref = db.collection('users').document(self.uid).collection('conversations')
+        collection_ref.add({
+            'question': question,
+            'context_urls': list({doc.metadata['url'] for doc in context}),
+            'answer': answer,
+        })
+
+
     async def chat(self, message: str):
-        context = self.context_service.get_context(message=message, user_id='user1')
+        context = self.context_service.get_context(message=message, user_id=self.uid)
         full_response = ''
 
         token_generator = self._get_message_generator(

@@ -62,7 +62,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         return fetch('http://localhost:8000/store', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'X-UID': request.UID,
             },
             body: JSON.stringify(obj)
 

@@ -66,10 +66,10 @@ export default function DesktopChatScreen({responseMessages}) {
                         </Box>
 
                         
-                        <Typography variant="h6" sx={{fontWeight: 500}}gutterBottom>
+                        {/* <Typography variant="h6" sx={{fontWeight: 500}}gutterBottom>
                             Source Bookmarks
                         </Typography>
-                        <DesktopBookMarkList grid={true}/>
+                        <DesktopBookMarkList grid={true}/> */}
 
                     </Box>
                 </Grid>

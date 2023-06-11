@@ -7,11 +7,12 @@ import useScrollTrigger from '@mui/material/useScrollTrigger';
 import Box from '@mui/material/Box';
 import Fab from '@mui/material/Fab';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { IconButton, Avatar, Slide, Collapse } from '@mui/material';
+import { IconButton, Avatar, Slide, Collapse, Button, Menu } from '@mui/material';
 import { useNavigate } from 'react-router';
 import { useState } from 'react';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
 
 function ScrollTop(props) {
     const { children, window } = props;
@@ -75,8 +76,6 @@ function ScrollToHide01 (props) {
 };
 
 
-
-
 export default function BackToTop(props) {
   const navigate = useNavigate()
   return (
@@ -88,9 +87,12 @@ export default function BackToTop(props) {
                 <IconButton onClick={()=>navigate('/browse')}>
                   <ArrowBackIcon/>
                 </IconButton>
+                {props.children ? 
+                 props.children :
                 <IconButton>
-                    <MoreHorizIcon/>
+                 <MoreHorizIcon />
                 </IconButton>
+                }
             </Toolbar>
         </AppBar>
         </ScrollToHide01>
@@ -98,27 +100,7 @@ export default function BackToTop(props) {
         </Toolbar>
         <ScrollTop {...props}>
           <Fab position="fixed" background='linear-gradient(to right, #cd5b95, #9846ca)' sx={{background: 'linear-gradient(to right, #cd5b95, #9846ca)'}} aria-label="add"> 
-            <KeyboardArrowUpIcon sx={{color: "white"}}/>
-            {/* <Collapse in={extended} orientation="horizontal" collapsedSize={40}>
-
-              <Box sx={{display: "flex", flexDirection: "row"}}>
-                
-                {extended && <MobileSearchBar/>}
-              
-              
-              {extended ? 
-                <IconButton onClick={()=>{setExtended(false)}} >
-                    <CloseIcon sx={{color: "white"}}/>
-                </IconButton>
-                
-                :
-                <ChatBubbleOutlineIcon sx={{color: "white"}} />
-              }
-              </Box>
-              
-            </Collapse> */}
-
-            
+            <KeyboardArrowUpIcon sx={{color: "white"}}/>            
           </Fab>
         </ScrollTop>
       </React.Fragment>

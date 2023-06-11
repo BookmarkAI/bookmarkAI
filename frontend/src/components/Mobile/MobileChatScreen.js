@@ -12,7 +12,7 @@ import {CopyToClipboard} from 'react-copy-to-clipboard';
 import CopySnackbar from './CopySnackbar';
 import CssBaseline from "@mui/material/CssBaseline";
 import FilterDrawer from './FilterDrawer';
-
+import ScrollHeader from './ScrollHeader';
 
 
 
@@ -66,6 +66,7 @@ export default function MobileChatScreen(props) {
     const navigate = useNavigate();
     return(
         <>
+        <ScrollHeader/>
       
         <Grid xs={12} sx={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
             <MobileSearchBar>
@@ -108,8 +109,8 @@ export default function MobileChatScreen(props) {
                 Source Bookmarks 📚
             </Typography>
             
-                <MobileBookMarkList/>
-                </div>
+                <MobileBookMarkList bookmarks={[]}/>
+            </div>
             
             
         </Grid>

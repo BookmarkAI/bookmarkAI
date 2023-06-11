@@ -1,4 +1,4 @@
-import { AppBar, Toolbar, IconButton, Box, Collapse } from "@mui/material";
+import { AppBar, Toolbar, IconButton, Box, Collapse, Menu, MenuItem } from "@mui/material";
 import HomeIcon from '@mui/icons-material/HomeOutlined';
 import FolderIcon from '@mui/icons-material/FolderOutlined';
 import BookmarkIcon from '@mui/icons-material/BookmarkBorderOutlined';
@@ -9,6 +9,8 @@ import { useNavigate } from "react-router";
 import { Fade, useScrollTrigger } from "@mui/material";
 import { MobileSearchBar } from "../SearchBar";
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
+import { useState } from "react";
+import { signOut } from "../../fb";
 
 
 
@@ -29,6 +31,18 @@ const ScrollToFade02 = props => {
 
 export default function MobileFooter() {
     const navigate = useNavigate();
+    
+    const [anchorEl, setAnchorEl] = useState(null);
+      
+    const handleMenuClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+      
+    const handleMenuClose = () => {
+        setAnchorEl(null);
+    };
+   
+      
     return (
         <>
         <AppBar position="fixed" color="primary" sx={{ background: "transparent", top: 'auto', bottom: 0 }}>
@@ -49,29 +63,28 @@ export default function MobileFooter() {
                     <IconButton onClick={()=>navigate("/folders")}>
                         <FolderIcon/>
                     </IconButton>
-                    <IconButton>
+                    <IconButton
+                     aria-controls="menu"
+                     aria-haspopup="true"
+                     onClick={handleMenuClick}>
                         <SettingsIcon/>
+                        
                     </IconButton>
+                    <Menu
+                        id="menu"
+                        anchorEl={anchorEl}
+                        open={Boolean(anchorEl)}
+                        onClose={handleMenuClose}
+                        >
+                            <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+                            <MenuItem onClick={signOut} >Logout</MenuItem>
+                        
+                    </Menu>
                 </Box>
            
             </Toolbar>
 
-            
-            
-            
-
         </AppBar>
-        {/* <Box sx={{ position: 'fixed', bottom: 16, right: 20,  zIndex: 2000 }}>
-            <Fab position="fixed" background='linear-gradient(to right, #cd5b95, #9846ca)' sx={{background: 'linear-gradient(to right, #cd5b95, #9846ca)'}} aria-label="add">
-                <ChatBubbleOutlineIcon sx={{color: "white"}} />
-            </Fab>
-        </Box> */}
-
-    {/* <ScrollToFade02>
-        <Box sx={{ position: 'fixed', bottom: 60, left: 16, zIndex: 2000, width: '80%' }}>
-            <MobileSearchBar/>
-        </Box>
-    </ScrollToFade02> */}
     </>
     )
 }

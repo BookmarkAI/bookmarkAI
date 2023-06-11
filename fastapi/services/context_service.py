@@ -42,7 +42,11 @@ class ContextService:
             reverse=True
         )
 
-        return [VectorStoreBookmark(page_content=d.pop('content'), metadata=d) for d in docs]
+        return [VectorStoreBookmark(page_content=d.pop('content'), metadata={
+            'title': d.pop('title'),
+            'url': d.pop('url'),
+            'id': d.pop('firebase_id'),
+        }) for d in docs]
 
     @classmethod
     def __limit_context(cls, context: List[VectorStoreBookmark], token_limit: int) -> List[VectorStoreBookmark]:

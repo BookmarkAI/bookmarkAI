@@ -4,7 +4,7 @@ from pydantic import BaseModel
 class VectorStoreBookmarkMetadata(BaseModel):
     url: str
     title: str
-    firebase_id: str
+    id: str
 
 
 class VectorStoreBookmark(BaseModel):

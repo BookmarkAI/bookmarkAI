@@ -7,14 +7,16 @@ import EditDialog from "./Mobile/EditDialog";
 import { useContext } from 'react';
 import { FileContext } from '../utils/FileContext';
 import { FolderContext } from '../utils/FolderContext'; 
-import { getAllBookmarksReal } from '../services/service'
+import { getAllBookmarks } from '../services/service'
 import { AuthContext } from "./context/AuthContext";
+import { useState } from "react";
 
 function DesktopBookMarkList({ spacing, select, topk, grid }) {
     const style = {pr: 3}
     const { selectedFiles, updateSelectedFiles } = useContext(FileContext);
     const { selectedFolder } = useContext(FolderContext);
     const { user } = useContext(AuthContext);
+    const [allBookmarks, setAllBookmarks] = useState([]);
 
     const filteredBookmarks = selectedFolder
     ? bookmarks.filter((bookmark) => bookmark.folder === selectedFolder)
@@ -22,7 +24,8 @@ function DesktopBookMarkList({ spacing, select, topk, grid }) {
 
     console.log(selectedFolder)
 
-    const result = getAllBookmarksReal();
+    getAllBookmarks().then((response) => setAllBookmarks(response))
+    console.log(allBookmarks);
   
 
     return (
@@ -35,7 +38,7 @@ function DesktopBookMarkList({ spacing, select, topk, grid }) {
                 sx={style}
             >
 
-            {filteredBookmarks.map((doc, i) => (
+            {allBookmarks.map((doc, i) => (
                 topk ? 
 
             (i < topk) && <Grid item xs={12} sm={6} md={4}>

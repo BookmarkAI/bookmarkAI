@@ -1,15 +1,13 @@
 import asyncio
-from typing import AsyncIterator, List, Dict, Any
-
-import weaviate
+from typing import AsyncIterator, List
 from langchain import PromptTemplate
 from langchain.callbacks import AsyncIteratorCallbackHandler
 from langchain.callbacks.manager import AsyncCallbackManager
 from langchain.chat_models import ChatOpenAI
 from langchain.schema import BaseMessage, SystemMessage, Document, HumanMessage
-from langchain.vectorstores import VectorStore, LanceDB
 
 from config import Config
+from models.bookmark import VectorStoreBookmark
 from models.chat import ChatServiceMessage
 from services.context_service import ContextService
 from utils.db import firebase_app as db
@@ -47,11 +45,11 @@ class ConversationService:
         return template.format(question=question, context=context)
 
     @classmethod
-    def _format_context(cls, context: List[Document]) -> str:
+    def _format_context(cls, context: List[VectorStoreBookmark]) -> str:
         return '\n\n'.join([doc.page_content for doc in context])
 
     def _get_message_generator(self,
-                               context: List[Document],
+                               context: List[VectorStoreBookmark],
                                user_message: BaseMessage) -> AsyncIterator[str]:
         msg_iterator = AsyncIteratorCallbackHandler()
         llm = ChatOpenAI(
@@ -71,15 +69,14 @@ class ConversationService:
 
         return msg_iterator.aiter()
 
-    def store_conversation(self, question: str, context: List[Document], answer: str):
+    def store_conversation(self, question: str, context: List[VectorStoreBookmark], answer: str):
         # store the conversation in firebase
         collection_ref = db.collection('users').document(self.uid).collection('conversations')
         collection_ref.add({
             'question': question,
-            'context_urls': list({doc.metadata['url'] for doc in context}),
+            'context_urls': list({doc.metadata.url for doc in context}),
             'answer': answer,
         })
-
 
     async def chat(self, message: str):
         context = self.context_service.get_context(message=message, user_id=self.uid)

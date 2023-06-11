@@ -4,6 +4,7 @@ import tiktoken
 import weaviate
 from langchain.schema import Document
 from config import Config
+from models.bookmark import VectorStoreBookmark
 
 config = Config()
 
@@ -12,12 +13,12 @@ class ContextService:
     def __init__(self, client: weaviate.Client):
         self.client = client
 
-    def get_context(self, message: str, user_id: str, certainty: float = 0.8) -> List[Document]:
+    def get_context(self, message: str, user_id: str, certainty: float = 0.8) -> List[VectorStoreBookmark]:
         relevant_docs = self.__get_relevant_documents(message, user_id, certainty)
         limited_context = self.__limit_context(relevant_docs, 3000)
         return limited_context
 
-    def __get_relevant_documents(self, message: str, user_id: str, certainty: float) -> List[Document]:
+    def __get_relevant_documents(self, message: str, user_id: str, certainty: float) -> List[VectorStoreBookmark]:
         where_filter = {
             "path": ["user_id"],
             "operator": "Equal",
@@ -25,7 +26,7 @@ class ContextService:
         }
 
         res = self.client.query.get(
-            "Document", ["title", "url", "content"]
+            "Document", ["title", "url", "content", "firebase_id"]
         ).with_where(
             where_filter
         ).with_near_text({
@@ -41,10 +42,10 @@ class ContextService:
             reverse=True
         )
 
-        return [Document(page_content=d.pop('content'), metadata=d) for d in docs]
+        return [VectorStoreBookmark(page_content=d.pop('content'), metadata=d) for d in docs]
 
     @classmethod
-    def __limit_context(cls, context: List[Document], token_limit: int) -> List[Document]:
+    def __limit_context(cls, context: List[VectorStoreBookmark], token_limit: int) -> List[VectorStoreBookmark]:
         ctx = []
         used_tokens = 0
         encoding = tiktoken.encoding_for_model(config.fast_llm_model)

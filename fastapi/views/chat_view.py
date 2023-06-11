@@ -7,7 +7,7 @@ import numpy as np
 from fastapi import APIRouter, Header
 from starlette.responses import StreamingResponse
 
-from models.chat import ChatServiceMessage, UserSearchMessage
+from models.chat import ChatServiceMessage, UserSearchMessage, ChatEndpointMessage
 from services.context_service import ContextService
 from services.conversation_service import ConversationService
 from utils.db import get_vectorstore
@@ -29,11 +29,11 @@ class NumpyEncoder(json.JSONEncoder):
 
 async def sse_generator(messages_generator: AsyncGenerator[ChatServiceMessage, None], question: str, conversation_service: ConversationService):
     async for msg in messages_generator:
-        msg_dict = {
-            'chat_response': msg.msg,
-            'documents': [d.dict() for d in msg.relevant_documents],
-            'done': msg.done
-        }
+        msg_dict = ChatEndpointMessage(
+            chat_response=msg.msg,
+            documents=[d.metadata.dict() for d in msg.relevant_documents],
+            done=msg.done
+        ).dict()
         if msg.done:
             yield f"data: {json.dumps(msg_dict, cls=NumpyEncoder)}\n\n"
             conversation_service.store_conversation(

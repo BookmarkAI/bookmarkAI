@@ -24,6 +24,10 @@ document_schema = {
             "dataType": ["string"],
         },
         {
+            "name": "firebase_id",
+            "dataType": ["string"],
+        },
+        {
             "name": "user_id",
             "dataType": ["string"]
         }

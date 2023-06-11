@@ -51,7 +51,7 @@ export default function SearchResult() {
                 responseMessages.flatMap(
                     mes => mes.documents
                 ).reduce(
-                    (map, doc) => map.set(doc.metadata.url, doc.metadata), new Map()
+                    (map, doc) => map.set(doc.url, doc), new Map()
                 ).values()
             )
         )

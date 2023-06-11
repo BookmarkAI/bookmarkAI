@@ -21,23 +21,30 @@ def store(document: ExtensionDocument, x_uid: Annotated[str, Header()]):
     ).split_text(document.raw_text)
     log.info(f'created {len(chunks)} chunks')
 
-    with vectorstore.batch() as batch:
-        for chunk in chunks:
-            batch.add_data_object({
-                "title": document.title,
-                "content": chunk,
-                "user_id": user_id,
-                "url": document.url
-            }, "Document")
-        batch.flush()
-    
     firebase_data = {
-        'folder': 'unsorted', 
-        'timestamp': document.timestamp, 
-        'url': document.url, 
-        'title': document.title, 
+        'folder': 'unsorted',
+        'timestamp': document.timestamp,
+        'url': document.url,
+        'title': document.title,
         'type': 'url'
     }
-    db.collection('users').document(user_id).collection('bookmarks').add(firebase_data)
+    time, bookmark_ref = db.collection('users').document(user_id).collection('bookmarks').add(firebase_data)
+
+    try:
+        with vectorstore.batch() as batch:
+            for chunk in chunks:
+                batch.add_data_object({
+                    "title": document.title,
+                    "content": chunk,
+                    "user_id": user_id,
+                    "url": document.url,
+                    "firebase_id": bookmark_ref.id,     # all chunks have same firebase id
+                }, "Document")
+            batch.flush()
+    except Exception as e:
+        log.error(e)
+        col_ref = db.collection('users').document(user_id).collection('bookmarks')
+        col_ref.filter('url', '==', document.url).delete()  # do not keep in firebase if vectorstore fails
+        return {'success': False, 'error': str(e)}
 
     return {'success': True}

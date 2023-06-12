@@ -110,13 +110,13 @@ async function setFoldersAndCurUrl(user) {
   // first we want to grab the uid and the current url
   // then we want to send a post request to the backend to get the folders and a status of whether the current url is in the user's bookmarks
   // then we want to update the popup.html with the folders and the status
-  const obj = {
-    uid: user.uid,
-    url: window.location.href
-  }
+  // const obj = {
+  //   uid: ,
+  //   : 
+  // }
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
     let activeTab = tabs[0];
-    chrome.tabs.sendMessage(activeTab.id, { "command": "getFoldersAndCurUrlStatus", 'message': obj }, async function (response) {
+    chrome.tabs.sendMessage(activeTab.id, { "command": "getFoldersAndCurUrlStatus", 'uid': user.uid,"url": window.location.href }, async function (response) {
       updatePopupGivenFolders(response);
     }
     );

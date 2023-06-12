@@ -46,6 +46,6 @@ def get_vectorstore() -> weaviate.Client:
     return weaviate_client
 
 
-cred = credentials.Certificate('../bookmarkai-c7f69-0e7393f3fe4e.json')
+cred = credentials.Certificate(get_root_path().joinpath('bookmarkai-c7f69-0e7393f3fe4e.json'))
 app = firebase_admin.initialize_app(cred)
 firebase_app = firestore.client()

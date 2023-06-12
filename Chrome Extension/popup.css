@@ -1,0 +1,259 @@
+button {
+	/* round corders */
+	background: linear-gradient(90deg, rgba(205,91,149,1) 0%, rgba(152,70,202,1) 5%, rgba(255,215,14,1) 50%, #ffe478 75%);
+	border-radius: 5px;
+	cursor: pointer;
+	margin: 10px;
+	padding: 10px;
+	background-color: #47cae2;
+	border: none;
+	color: white;
+	margin-bottom: 30px;
+	flex: 1 1 auto;
+	margin: 10px;
+	transition: all 0.3s ease-in-out;
+	background-size: 4000% auto;
+}
+
+a {
+	color: black
+}
+
+.text-white {
+	color: white;
+}
+.text-black {
+	color: black;
+}
+
+img {
+	margin-top: 20px;
+}
+
+.invis {
+	visibility: hidden;
+}
+
+.grow:hover {
+	background-position: 5% center;
+	transform: scale(1.1);
+}
+
+.press:active {
+	background-position: 50% center;
+	transform: scale(1.3);
+}
+
+.flex{
+	display: flex;
+}
+/* make UL textwhite */
+ul{
+	color: white;
+}
+
+
+
+
+
+
+
+.grow.added {
+	color:black;
+	background-position: 100% center;
+}
+
+
+html {
+	box-sizing: border-box;
+	-webkit-font-smoothing: antialiased;
+}
+
+* {
+	box-sizing: inherit;
+}
+
+*:before,
+*:after {
+	box-sizing: inherit;
+}
+
+.container {
+	display: flex;
+	flex-direction: column;
+	justify-content: start;
+	align-items: center;
+	/* full size with and height */
+	width: 100%;
+	height: 100%;
+}
+
+body {
+	background: #202124;
+	width: 300px;
+	height: 200px;
+}
+body.active {
+	background: #202124;
+	width: 300px;
+	height: 350px;
+}
+
+
+
+.select-btn {
+
+	width: 250px;
+  
+	display: flex;
+  
+	overflow: hidden;
+  
+	background: #fff;
+  
+	margin-top: 10px;
+  
+	padding: 7px;
+
+	background-color: #ffffff;
+  
+	font-size: 14px;
+  
+	font-weight: 400;
+  
+	border-radius: 8px;
+  
+	align-items: center;
+  
+	cursor: pointer;
+  
+	justify-content: space-between;
+  
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  
+  }
+  
+   .options {
+  
+	position: absolute;
+  
+	width: 250px;
+  
+	overflow: auto;
+  
+	max-height: 150px;
+  
+	padding: 10px;
+  
+	/* margin-top: 10px; */
+  
+	border-radius: 8px;
+  
+	background: #fff;
+  
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  
+	display: none;
+  
+	animation: fadeInDown 0.35s both;
+  
+  }
+  
+   .options .option {
+  
+	display: flex;
+  
+	height: 30px;
+  
+	cursor: pointer;
+  
+	padding: 0 16px;
+  
+	border-radius: 8px;
+  
+	align-items: center;
+  
+	background: #fff;
+  
+  }
+  
+   .options .option:hover {
+  
+	background: #f2f2f2;
+  
+  }
+  
+   .options .option .option-text {
+  
+	font-size: 14px;
+  
+	color: #333;
+  
+  }
+  
+  .select-btn svg {
+	color:black;
+  
+	height: 24px;
+  
+	width: 24px;
+  
+	transition: 0.2s;
+  
+  }
+  
+  .active .select-btn svg {
+  
+	transform: rotate(180deg);
+  
+  }
+  
+  .active .options {
+  
+	display: block;
+  
+	opacity: 0;
+  
+	z-index: 10;
+  
+	animation: fadeInUp 0.4s both;
+  
+  }
+  
+  @keyframes fadeInUp {
+  
+	from {
+  
+	  transform: translate3d(0, 30px, 0);
+  
+	}
+  
+	to {
+  
+	  transform: translate3d(0, 0, 0);
+  
+	  opacity: 1;
+  
+	}
+  
+  }
+  
+  @keyframes fadeInDown {
+  
+	from {
+  
+	  transform: translate3d(0, 0, 0);
+  
+	  opacity: 1;
+  
+	}
+  
+	to {
+  
+	  transform: translate3d(0, 20px, 0);
+  
+	  opacity: 0;
+  
+	}
+  
+  }

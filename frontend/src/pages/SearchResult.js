@@ -7,10 +7,20 @@ import DesktopChatScreen from '../components/Desktop/DesktopChatScreen.js';
 import MobileChatScreen from '../components/Mobile/MobileChatScreen.js'
 import { EventSourcePolyfill } from 'event-source-polyfill';
 import {AuthContext} from "../components/context/AuthContext";
+import { FileContext } from '../utils/FileContext.js';
 
 const EventSource = EventSourcePolyfill;
 
+function getQueryString(selectedFiles) {
+    if (selectedFiles.length == 0) {
+        return ''
+    } else {
+        return selectedFiles.map((str) => `&selected_context=${str}`).join('');
+    }
+}
+
 export default function SearchResult() {
+    const { selectedFiles } = useContext(FileContext)
     
     const [searchParams, setSearchParams] = useSearchParams();
     const q = searchParams.get('q');
@@ -20,7 +30,7 @@ export default function SearchResult() {
 
     useEffect(() => {
         setResponseMessages([])
-        const eventSource = new EventSource(`http://localhost:8000/chat?q=${q}`, {
+        const eventSource = new EventSource(`http://localhost:8000/chat?q=${q}${getQueryString(selectedFiles)}`, {
             headers: {
                 'X-UID': user.uid
             }

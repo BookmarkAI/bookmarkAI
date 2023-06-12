@@ -58,10 +58,7 @@ function StyledButton(props){
                     </Typography>
                 </Box>
             
-            <IconButton size="small">
-               <AddBookmarksToFolder/>
-            </IconButton>
-           
+    
             </Button>   
         </Box>
         

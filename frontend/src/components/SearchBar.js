@@ -25,7 +25,7 @@ function SearchBar(props) {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const [query, setQuery] = useState(searchParams.get('q'));
-  const { chatEnabled, enableChat } = useContext(FileContext);
+  const { chatEnabled, enableChat, selectedFiles } = useContext(FileContext);
 
   const location = useLocation();
   const currentPathname = location.pathname;
@@ -70,7 +70,7 @@ function SearchBar(props) {
         onChange={changeQuery}
         onKeyDown={keyPress}
         sx={{ ml: 1, flex: 1, fontSize: fontsize }}
-        placeholder={placeholder}
+        placeholder={selectedFiles.length < 1 ? placeholder : `Search Among ${selectedFiles.length} Bookmarks`}
         inputProps={{ 'aria-label': 'search google maps' }}
       />
       

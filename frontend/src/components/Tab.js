@@ -10,6 +10,7 @@ import Box from '@mui/material/Box';
 import FilterDrawer from './Mobile/FilterDrawer';
 import { useContext } from 'react';
 import { FileContext } from '../utils/FileContext';
+import { TypeContext } from '../utils/TypeContext';
 
 const AntTabs = styled(Tabs)({
   borderBottom: '1.5px solid #e8e8e8',
@@ -63,15 +64,16 @@ function DesktopTab(props) {
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+  const { handleTypeSelect } = useContext(TypeContext);
 
   return (
     <Box sx={{ width: width ? width : '97%' }}>
       <Box sx={{ bgcolor: 'transparent'}}>
         <AntTabs value={value} onChange={handleChange} aria-label="ant example" >
           {props.children}
-          <AntTab sx={{fontSize: '17px'}}  label="All" />
-          <AntTab sx={{fontSize: '17px'}}  label="Text"  />
-          <AntTab sx={{fontSize:'17px'}}  label="PDF"  />
+          <AntTab onClick={()=>handleTypeSelect(null)} sx={{fontSize: '17px'}}  label="All" />
+          <AntTab onClick={()=>handleTypeSelect('url')} sx={{fontSize: '17px'}}  label="Text"  />
+          <AntTab onClick={()=>handleTypeSelect('pdf')} sx={{fontSize:'17px'}}  label="PDF"  />
           <AntTab onClick={()=>window.location.replace("https://www.supermark.ai/pricing")} sx={{fontSize: '17px'}}  label="Image  💎"/>
           <AntTab onClick={()=>window.location.replace("https://www.supermark.ai/pricing")} sx={{fontSize: '17px'}}  label="Video  💎"/>
           

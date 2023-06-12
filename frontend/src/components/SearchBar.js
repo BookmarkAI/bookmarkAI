@@ -24,12 +24,17 @@ function SearchBar(props) {
   const { fontsize, style, placeholder, advanced } = props;
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
-  const [query, setQuery] = useState(searchParams.get('q'));
+  console.log(searchParams.get('q'))
+  const [query, setQuery] = useState(searchParams.get('q') || '');
   const { chatEnabled, enableChat, selectedFiles } = useContext(FileContext);
 
   const location = useLocation();
   const currentPathname = location.pathname;
   const user = auth.currentUser;
+
+  useEffect(() => {
+    setQuery(searchParams.get('q') || '')
+  }, [searchParams.get('q')]); 
 
 
   function changeQuery(e){
@@ -100,7 +105,7 @@ function SearchBar(props) {
     </Paper>               
     {advanced && 
       <Box sx={{display: 'flex', flexDirection: 'column', ml: 1}}>
-        <DesktopPromptGenerator/>
+        <DesktopPromptGenerator setQuery={setQuery} query={query}/>
       </Box>}
    </>
   );

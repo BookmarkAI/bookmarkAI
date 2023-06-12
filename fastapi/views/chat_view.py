@@ -7,6 +7,7 @@ import numpy as np
 from fastapi import APIRouter, Header, Query
 from starlette.responses import StreamingResponse
 
+from models.bookmark import VectorStoreBookmarkMetadata
 from models.chat import ChatServiceMessage, UserSearchMessage, ChatEndpointMessage
 from services.context_service import ContextService
 from services.conversation_service import ConversationService
@@ -65,6 +66,13 @@ async def chat(q: str, selected_context: Annotated[List[str] | None, Query] = No
 
 
 @router.post('/search')
-async def search(message: UserSearchMessage, x_uid: Annotated[str, Header()]):
-    relevant_docs = context_service.get_context(message.query, x_uid)
-    return [d.dict() for d in relevant_docs]
+async def search(query: UserSearchMessage, x_uid: Annotated[str, Header()]) -> List[VectorStoreBookmarkMetadata]:
+    relevant_docs = context_service.search(
+        query.query,
+        x_uid,
+        certainty=query.certainty,
+        alpha=query.alpha,
+        limit=query.limit_chunks
+    )
+
+    return sorted(list({d.metadata for d in relevant_docs}), key=lambda x: x.similarity_score, reverse=True)

@@ -18,7 +18,10 @@ class UserChatMessage(BaseModel):
 
 class UserSearchMessage(BaseModel):
     query: str
-
+    use_hybrid: bool = True
+    certainty: float = 0.8
+    limit_chunks: int = 10
+    alpha: float = 0.25
 
 class ChatEndpointMessage(BaseModel):
     chat_response: str

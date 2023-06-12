@@ -47,7 +47,7 @@ async def sse_generator(messages_generator: AsyncGenerator[ChatServiceMessage, N
 
 
 @router.get('/chat', responses={200: {"content": {"text/event-stream": {}}}})
-async def chat(q: str, selected_context: Annotated[List[str] | None, Query] = None, x_uid: Annotated[str | None, Header()] = None):
+async def chat(q: str, selected_context: Annotated[list[str] | None, Query()] = None, x_uid: Annotated[str | None, Header()] = None):
     if not (x_uid):
         raise Exception("user not authenticated")
     conversation_service = ConversationService(context_service=context_service, uid=x_uid)

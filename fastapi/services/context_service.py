@@ -2,7 +2,6 @@ from typing import List, Dict, Any
 
 import tiktoken
 import weaviate
-from langchain.schema import Document
 from config import Config
 from models.bookmark import VectorStoreBookmark
 
@@ -26,6 +25,23 @@ class ContextService:
         return relevant_docs
 
     @classmethod
+    def __build_id_in_filter(cls, selected_context: List[str]) -> Dict[str, Any]:
+        filters = []
+
+        for context in selected_context:
+            filters.append({
+                "path": "firebase_id",
+                "operator": "Equal",
+                "valueString": context
+            })
+
+        where_filter = {
+            "operator": "Or",
+            "operands": filters
+        }
+        return where_filter
+
+    @classmethod
     def __get_where_filter(cls, user_id: str, selected_context: List[str] | None) -> Dict[str, Any]:
         where_filter_user = {
             "path": ["user_id"],
@@ -38,11 +54,7 @@ class ContextService:
                 "operator": "And",
                 "operands": [
                     where_filter_user,
-                    {
-                        "path": ["firebase_id"],
-                        "operator": "In",
-                        "valueStringArray": selected_context
-                    }
+                    cls.__build_id_in_filter(selected_context)
                 ]
             }
         else:
@@ -96,8 +108,6 @@ class ContextService:
             'id': d.get('firebase_id'),
             'similarity_score': d.get('_additional', {}).get('certainty'),
         }) for d in docs]
-        max_score = max([(b.metadata.similarity_score, b) for b in bookmarks], key=lambda x: x[0])
-        print(f'max_score: {max_score[0]}, best_chunk: {max_score[1]}')
         return bookmarks
 
     @classmethod

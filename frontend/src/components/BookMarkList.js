@@ -30,12 +30,6 @@ function DesktopBookMarkList({ spacing, select, topk, bookmarks, fetchBookmarks 
             >
 
             {bookmarks.map((doc, i) => (
-                topk ? 
-
-            (i < topk) && <Grid item xs={12} sm={6} md={4}>
-                    <DesktopBookmarkCard select={select} {...doc} i={i} fetchBookmarks={fetchBookmarks}/>
-                </Grid>
-                :
                 <Grid item xs={12} sm={6} md={4} >
                     <DesktopBookmarkCard select={select} {...doc} i={i} fetchBookmarks={fetchBookmarks}/>
                 </Grid>

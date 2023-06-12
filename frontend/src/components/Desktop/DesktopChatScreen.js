@@ -8,10 +8,13 @@ import { DesktopBookMarkList } from '../BookMarkList';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
+import {CopyToClipboard} from 'react-copy-to-clipboard';
+import CopySnackbar from '../Mobile/CopySnackbar';
 
 
 export default function DesktopChatScreen({ responseMessages, sources }) {
     const [searchParams, setSearchParams] = useSearchParams();
+    const [openSnackbar, setOpenSnackbar]=useState(false);
     const q = searchParams.get('q')
 
     const [inputValue, setInputValue] = useState('');
@@ -23,7 +26,7 @@ export default function DesktopChatScreen({ responseMessages, sources }) {
 
     return(
         <>
-
+            <CopySnackbar open={openSnackbar} setOpen={setOpenSnackbar}/>
             <Grid container spacing={2} sx={{mt: 2}} >
                 <Grid item xs={2.5} sx={{  pr: 3}} >
                    <Box sx={{ maxHeight: 'calc(100vh - 150px)',pl: 2, overflow: "auto"}}>
@@ -48,7 +51,10 @@ export default function DesktopChatScreen({ responseMessages, sources }) {
                                     </MuiMarkdown>
                                 </Typography>  
                                 <Box sx={{display: "flex", justifyContent: "flex-end", pr: 2}}>
-                                    <ContentCopyIcon sx={{fontSize:"20px", m: 1}}/> 
+                                    <CopyToClipboard text={responseMessages.map(mes => mes.chat_response).join('')}>
+                                        <ContentCopyIcon onClick={()=>setOpenSnackbar(true)} sx={{fontSize:"20px", m: 1}}/> 
+                                    </CopyToClipboard>
+                                    
                                     <ThumbUpOffAltIcon sx={{fontSize:"20px", m: 1}}/>
                                     <ThumbDownOffAltIcon sx={{fontSize:"20px", m: 1}}/>
                                 </Box>

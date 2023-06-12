@@ -4,6 +4,7 @@ import folderImg from '../../assets/folder/5.png'
 import { useNavigate } from 'react-router';
 import ScrollHeader from './ScrollHeader';
 
+
 export default function MobileFolder({folder, select}){
     const navigate = useNavigate();
     return (
@@ -29,12 +30,9 @@ export default function MobileFolder({folder, select}){
         </Box>
 
         <Box>
-            { select ? 
-                <Checkbox/>:
-                <IconButton>
-                    <MoreVertIcon/>
-                </IconButton>
-            }
+            
+                <Checkbox/>
+            
         </Box>
     </Box>
         </>

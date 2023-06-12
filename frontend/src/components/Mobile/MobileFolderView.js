@@ -15,6 +15,7 @@ import { MobileSearchBar } from "../SearchBar";
 import TuneIcon from '@mui/icons-material/Tune';
 import { getAllBookmarks } from "../../services/service";
 import ScrollHeader from './ScrollHeader';
+import AddBookmarksToFolder from '../AddBookmarksToFolder';
 
 const theme = createTheme({
     components: {
@@ -46,8 +47,12 @@ export default function MobileFolderView() {
     const { id } = useParams();
     const selectedFolder = id;
 
-    useEffect(() => {
+    function fetchBookmarks(){
         getAllBookmarks().then((response) => setAllBookmarks(response));
+    }
+
+    useEffect(() => {
+       fetchBookmarks();
     }, []);
 
     const filteredBookmarks = selectedFolder
@@ -60,7 +65,9 @@ export default function MobileFolderView() {
         <>
         
         <CssBaseline/>
-            <ScrollHeader/>
+            <ScrollHeader>
+                <AddBookmarksToFolder folder={selectedFolder} fetchBookmarks={fetchBookmarks}/>
+            </ScrollHeader>
         
             <Grid xs={12} sx={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
                 <MobileSearchBar placeholder={"Ask about 12 bookmarks"}>
@@ -114,7 +121,7 @@ export default function MobileFolderView() {
             </Collapse>
 
             <Box position="sticky" overflow="auto" height="65vh">
-                <MobileBookMarkList select={select} bookmarks={filteredBookmarks}/>
+                <MobileBookMarkList select={select} bookmarks={filteredBookmarks} fetchBookmarks={fetchBookmarks}/>
             </Box>
 
         

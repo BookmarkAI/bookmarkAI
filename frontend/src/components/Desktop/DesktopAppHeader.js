@@ -28,6 +28,8 @@ export default function DesktopAppHeader() {
     navigate('/browse')
   }
 
+  
+
   return (
     
     <AppBar position="sticky" elevation="0" sx={{ backgroundColor: "transparent"}}>

@@ -24,12 +24,17 @@ function SearchBar(props) {
   const { fontsize, style, placeholder, advanced } = props;
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
-  const [query, setQuery] = useState(searchParams.get('q'));
-  const { chatEnabled, enableChat } = useContext(FileContext);
+  console.log(searchParams.get('q'))
+  const [query, setQuery] = useState(searchParams.get('q') || '');
+  const { chatEnabled, enableChat, selectedFiles } = useContext(FileContext);
 
   const location = useLocation();
   const currentPathname = location.pathname;
   const user = auth.currentUser;
+
+  useEffect(() => {
+    setQuery(searchParams.get('q') || '')
+  }, [searchParams.get('q')]); 
 
 
   function changeQuery(e){
@@ -70,7 +75,7 @@ function SearchBar(props) {
         onChange={changeQuery}
         onKeyDown={keyPress}
         sx={{ ml: 1, flex: 1, fontSize: fontsize }}
-        placeholder={placeholder}
+        placeholder={selectedFiles.length < 1 ? placeholder : `Search Among ${selectedFiles.length} Bookmarks`}
         inputProps={{ 'aria-label': 'search google maps' }}
       />
       
@@ -100,7 +105,7 @@ function SearchBar(props) {
     </Paper>               
     {advanced && 
       <Box sx={{display: 'flex', flexDirection: 'column', ml: 1}}>
-        <DesktopPromptGenerator/>
+        <DesktopPromptGenerator setQuery={setQuery} query={query}/>
       </Box>}
    </>
   );

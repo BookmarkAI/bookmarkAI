@@ -9,11 +9,10 @@ import { FileContext } from '../../utils/FileContext';
 import { FolderContext } from '../../utils/FolderContext';
 import { TypeContext } from '../../utils/TypeContext';
 import AddIcon from '@mui/icons-material/Add';
-import { getAllBookmarks } from '../../services/service'
+import { getAllBookmarks, getAllConversations } from '../../services/service'
 import AddBookmarksToFolder from '../AddBookmarksToFolder';
 
 export default function DesktopBrowseScreen(props) {
-    const [ grid, setGrid ] = useState(true);
     const { selectedFiles, resetSelectedFiles, updateSelectedFiles} = useContext(FileContext);
     const { selectedFolder } = useContext(FolderContext);
     const { selectedType } = useContext(TypeContext);

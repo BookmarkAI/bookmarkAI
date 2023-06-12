@@ -33,6 +33,7 @@ function App() {
                 <Route element={<ProtectedRoute><Layout/></ProtectedRoute>}>
                   <Route path="/browse" element={<ProtectedRoute><BrowseScreen/></ProtectedRoute>}/>
                   <Route path="/search" element={<ProtectedRoute><SearchResult/></ProtectedRoute>}/>
+                  <Route path="/search/:id" element={<ProtectedRoute><SearchResult/></ProtectedRoute>}/>
                 </Route>
               </Routes>
             </Desktop>

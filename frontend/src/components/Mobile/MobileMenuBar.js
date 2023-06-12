@@ -38,8 +38,6 @@ function TypeButton(props) {
 }
 
 
-
-
 export default function MobileMenuBar(props) {
     const { select, setSelect, setOpen } = props;
     const { handleTypeSelect, selectedType } = useContext(TypeContext);

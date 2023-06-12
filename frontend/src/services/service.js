@@ -4,6 +4,35 @@ import { collection, query, getDocs, getDoc, doc, where, updateDoc } from "fireb
 
 
 
+async function getAllConversations() {
+    var conversations = []
+    if (auth.currentUser != null) {
+        const q = query(collection(db, "users", auth.currentUser.uid, "conversations"));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots
+            const conversation = {
+                id: doc.id,
+                ...doc.data(),
+              };
+        
+              conversations.push(conversation);
+        
+          });
+    }
+    return conversations
+}
+
+async function getConversation(conversationId) {
+    if (auth.currentUser != null) {
+        const docRef = doc(db, 'users', auth.currentUser.uid, "conversations", conversationId);
+        const docSnapshot = await getDoc(docRef);
+        return docSnapshot.data()
+    }
+}
+
+
+
 async function getAllBookmarks() {
     var bookmarks = []
     if (auth.currentUser != null) {
@@ -49,5 +78,5 @@ async function updateBookmarkFolder(bookmarkId, folder) {
         }
     }
 }
-export {getAllBookmarks, getAllFolders, updateBookmarkFolder}
+export {getAllBookmarks, getAllFolders, updateBookmarkFolder, getAllConversations, getConversation}
 

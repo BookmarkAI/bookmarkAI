@@ -5,21 +5,42 @@
 
     <link rel="stylesheet" href="popup.css" />
   </head>
-  <body>
+  <body id="body">
     <div class="container">
-      <img src="supermark_both.png" alt="" width="200" >     </img>
+      <img src="supermark_both.png" alt="" width="200" />
 
-      <span class ='text-white' id="message" hidden></span>
-      <a target="_blank" rel="noopener" href="http://localhost:3000/signin">
-      <button class="grow press" hidden id="signin">
-        Sign in &#x2197
-      </button>
-    </a>
-      <button class="grow press" hidden id="extractButton">
+      <!--   for (let i = 0; i < folders.length; i++) {
+    const folder = folders[i];
+    const li = document.createElement('li');
+    li.textContent = folder;
+    folderList.appendChild(li);
+  } -->
+      <span class="text-white" id="message" hidden></span>
+      <a target="_blank" rel="noopener" href="http://localhost:3000/login">
+        <button class="grow press" id="signin">
+          Sign in &#x2197
+        </button>
+      </a>
+      <div class="flex">
+        <button class="grow press" hidden id="extractButton">
           Add to AI Bookmarks!
         </button>
-        <script src="popup.js"></script>
       </div>
 
+      <div class="text-white">Selected Folder:</div>
+      <div class="select-menu" class="margin-bottom-20">
+        <div class="select-btn" id="select-btn">
+          <span class="sBtn-text" id="sBtn-text">Folders</span>
+          <svg role="img" viewBox="0 0 512 512">
+            <path
+              d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"
+            />
+          </svg>
+        </div>
+        <ul class="options" id="options"></ul>
+      </div>
+
+      <script src="popup.js"></script>
+    </div>
   </body>
 </html>

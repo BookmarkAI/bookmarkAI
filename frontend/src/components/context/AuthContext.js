@@ -11,11 +11,12 @@ export const AuthProvider = ({ children }) => {
   const [cookies, setCookie] = useCookies(["user"]);
   useEffect(() => {
     auth.onAuthStateChanged(user => {
-      // clear all cookies
+      // if cookie is named userCookie clear it
       document.cookie.split(";").forEach((c) => {
-        document.cookie = c
-          .replace(/^ +/, "")
-          .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+        if (c.indexOf("userCookie") === 0){
+          document.cookie = c
+            .replace(/^ +/, "")
+            .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");}
       });
 
       setUser(user);

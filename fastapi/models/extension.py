@@ -14,3 +14,9 @@ class ExtensionDocument(BaseModel):
 class UrlMetadataInfo(BaseModel):
     is_bookmarked: bool
     folders: List[str]
+
+class ExtensionPDFDocument(BaseModel):
+    pdf_bytes: list
+    url: str
+    title: str
+    timestamp: int

@@ -212,18 +212,24 @@ async function init() {
   const user = await setUser()
 
   if (user != false) {
+    container.style.justifyContent = "start";
     signin.hidden = true;
     message.textContent = 'Hello, ' + user.displayName
     message.hidden = false;
     extractButton.hidden = false;
 
-    // consoleLog("TEST")
+
+    prompt.hidden = false;
+    select_menu.hidden = false;
     setFoldersAndCurUrl(user)
 
   } else {
+    // if user is signed out
     signin.hidden = false;
     message.hidden = true;
     extractButton.hidden = true;
+    container.style.justifyContent = "center";
+
   }
 }
 

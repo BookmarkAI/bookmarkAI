@@ -81,7 +81,7 @@ html {
 .container {
 	display: flex;
 	flex-direction: column;
-	justify-content: start;
+	/* justify-content: start; */
 	align-items: center;
 	/* full size with and height */
 	width: 100%;

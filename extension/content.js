@@ -84,6 +84,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
 
 async function getInit(obj, uid, sendResponse) {
+
     return fetch('http://127.0.0.1:8000/init', {
         method: 'POST',
         headers: {

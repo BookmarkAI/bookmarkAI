@@ -27,7 +27,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 // { raw_text: str, url: str, UID: str, title: str, image_urls: str[] }
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.command === 'extractText') {
-        const text= extractText(document.body);
+        const text = extractText(document.body);
         // get the url of the current tab
         const url = window.location.href;
         // get the title of the current tab
@@ -84,7 +84,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
 
 async function getInit(obj, uid, sendResponse) {
-    return fetch('http://127.0.0.1:8000', {
+    return fetch('http://127.0.0.1:8000/init', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -111,10 +111,8 @@ async function getInit(obj, uid, sendResponse) {
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.command === 'getFoldersAndCurUrlStatus') {
         const obj = { url: request.url };
-        // const res = { bookmarked: false, folders: ["unsorted","folder1", "folder2"] };
-        // sendResponse(res);
 
-        getInit(obj, request.UID, sendResponse);
+        getInit(obj, request.uid, sendResponse);
         return true;
     
 }}

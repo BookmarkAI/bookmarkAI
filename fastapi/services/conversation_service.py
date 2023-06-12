@@ -78,8 +78,8 @@ class ConversationService:
             'answer': answer,
         })
 
-    async def chat(self, message: str):
-        context = self.context_service.get_context(message=message, user_id=self.uid)
+    async def chat(self, message: str, selected_context: List[str] | None):
+        context = self.context_service.get_context(message=message, user_id=self.uid, selected_context=selected_context)
         full_response = ''
 
         token_generator = self._get_message_generator(

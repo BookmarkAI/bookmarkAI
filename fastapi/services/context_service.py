@@ -13,17 +13,38 @@ class ContextService:
     def __init__(self, client: weaviate.Client):
         self.client = client
 
-    def get_context(self, message: str, user_id: str, certainty: float = 0.8) -> List[VectorStoreBookmark]:
-        relevant_docs = self.__get_relevant_documents(message, user_id, certainty)
+    def get_context(self, message: str, user_id: str, selected_context: List[str] | None = None,  certainty: float = 0.8) -> List[VectorStoreBookmark]:
+        relevant_docs = self.__get_relevant_documents(message, user_id, selected_context, certainty)
         limited_context = self.__limit_context(relevant_docs, 3000)
         return limited_context
 
-    def __get_relevant_documents(self, message: str, user_id: str, certainty: float) -> List[VectorStoreBookmark]:
-        where_filter = {
+    @classmethod
+    def __get_where_filter(cls, user_id: str, selected_context: List[str] | None) -> Dict[str, Any]:
+        where_filter_user = {
             "path": ["user_id"],
             "operator": "Equal",
             "valueString": user_id
         }
+
+        if selected_context:
+            where_filter = {
+                "operator": "And",
+                "operands": [
+                    where_filter_user,
+                    {
+                        "path": ["firebase_id"],
+                        "operator": "In",
+                        "valueStringArray": selected_context
+                    }
+                ]
+            }
+        else:
+            where_filter = where_filter_user
+
+        return where_filter
+
+    def __get_relevant_documents(self, message: str, user_id: str, selected_context: List[str] | None, certainty: float) -> List[VectorStoreBookmark]:
+        where_filter = self.__get_where_filter(user_id, selected_context)
 
         res = self.client.query.get(
             "Document", ["title", "url", "content", "firebase_id"]
@@ -32,20 +53,14 @@ class ContextService:
         ).with_near_text({
             "concepts": [message],
             "certainty": certainty,
-        }).with_additional(
-            ['certainty']
-        ).do()
+        }).do()
 
-        docs: List[Dict[str, Any]] = sorted(
-            res['data']['Get']['Document'],
-            key=lambda x: x.get('_additional', {}).get('certainty', 0),
-            reverse=True
-        )
+        docs: List[Dict[str, Any]] = res['data']['Get']['Document']
 
         return [VectorStoreBookmark(page_content=d.pop('content'), metadata={
-            'title': d.pop('title'),
-            'url': d.pop('url'),
-            'id': d.pop('firebase_id'),
+            'title': d.get('title'),
+            'url': d.get('url'),
+            'id': d.get('firebase_id'),
         }) for d in docs]
 
     @classmethod

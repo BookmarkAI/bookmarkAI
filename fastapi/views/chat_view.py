@@ -1,10 +1,10 @@
 import json
 import logging
-from typing import AsyncGenerator, Annotated
+from typing import AsyncGenerator, Annotated, List
 
 import numpy as np
 
-from fastapi import APIRouter, Header
+from fastapi import APIRouter, Header, Query
 from starlette.responses import StreamingResponse
 
 from models.chat import ChatServiceMessage, UserSearchMessage, ChatEndpointMessage
@@ -46,10 +46,13 @@ async def sse_generator(messages_generator: AsyncGenerator[ChatServiceMessage, N
 
 
 @router.get('/chat', responses={200: {"content": {"text/event-stream": {}}}})
-async def chat(q: str, x_uid: Annotated[str, Header()]):
+async def chat(q: str, selected_context: Annotated[List[str] | None, Query] = None, x_uid: Annotated[str | None, Header()] = None):
+    if not (x_uid):
+        raise Exception("user not authenticated")
     conversation_service = ConversationService(context_service=context_service, uid=x_uid)
     completion = conversation_service.chat(
         message=q,
+        selected_context=selected_context,
     )
     sse = StreamingResponse(
         sse_generator(completion, q, conversation_service),

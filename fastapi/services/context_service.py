@@ -18,6 +18,13 @@ class ContextService:
         limited_context = self.__limit_context(relevant_docs, 3000)
         return limited_context
 
+    def search(self, query: str, user_id: str, use_hybrid: bool = True, certainty: float = 0.8, limit: int = 3, alpha: float = 0.25) -> List[VectorStoreBookmark]:
+        if use_hybrid:
+            relevant_docs = self.__hybrid_search(query, user_id, limit, alpha)
+        else:
+            relevant_docs = self.__get_relevant_documents(query, user_id, None, certainty)
+        return relevant_docs
+
     @classmethod
     def __get_where_filter(cls, user_id: str, selected_context: List[str] | None) -> Dict[str, Any]:
         where_filter_user = {
@@ -43,6 +50,31 @@ class ContextService:
 
         return where_filter
 
+    def __hybrid_search(self, message: str, user_id: str, limit: int, alpha: float) -> List[VectorStoreBookmark]:
+        where_filter = self.__get_where_filter(user_id, None)
+        res = self.client.query.get(
+            "Document", ["title", "url", "content", "firebase_id"]
+        ).with_where(
+            where_filter
+        ).with_hybrid(
+            query=message,
+            alpha=alpha
+        ).with_limit(
+            limit
+        ).with_additional(
+            ['score']
+        ).do()
+
+        docs: List[Dict[str, Any]] = res['data']['Get']['Document']
+        bookmarks = [VectorStoreBookmark(page_content=d.pop('content'), metadata={
+            'title': d.get('title'),
+            'url': d.get('url'),
+            'id': d.get('firebase_id'),
+            'similarity_score': d.get('_additional', {}).get('score'),
+        }) for d in docs]
+        return bookmarks
+
+
     def __get_relevant_documents(self, message: str, user_id: str, selected_context: List[str] | None, certainty: float) -> List[VectorStoreBookmark]:
         where_filter = self.__get_where_filter(user_id, selected_context)
 
@@ -53,15 +85,20 @@ class ContextService:
         ).with_near_text({
             "concepts": [message],
             "certainty": certainty,
-        }).do()
-
+        }).with_additional(
+            ['certainty']
+        ).do()
         docs: List[Dict[str, Any]] = res['data']['Get']['Document']
 
-        return [VectorStoreBookmark(page_content=d.pop('content'), metadata={
+        bookmarks = [VectorStoreBookmark(page_content=d.pop('content'), metadata={
             'title': d.get('title'),
             'url': d.get('url'),
             'id': d.get('firebase_id'),
+            'similarity_score': d.get('_additional', {}).get('certainty'),
         }) for d in docs]
+        max_score = max([(b.metadata.similarity_score, b) for b in bookmarks], key=lambda x: x[0])
+        print(f'max_score: {max_score[0]}, best_chunk: {max_score[1]}')
+        return bookmarks
 
     @classmethod
     def __limit_context(cls, context: List[VectorStoreBookmark], token_limit: int) -> List[VectorStoreBookmark]:

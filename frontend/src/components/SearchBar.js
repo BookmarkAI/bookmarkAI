@@ -18,6 +18,7 @@ import CommentsDisabledIcon from '@mui/icons-material/CommentsDisabled';
 import CommentIcon from '@mui/icons-material/Comment';
 import { useContext } from 'react';
 import { FileContext } from '../utils/FileContext';
+import { TypeContext } from '../utils/TypeContext.js';
 
 
 function SearchBar(props) {
@@ -26,6 +27,7 @@ function SearchBar(props) {
   const [searchParams, setSearchParams] = useSearchParams();
   const [query, setQuery] = useState(searchParams.get('q') || '');
   const { chatEnabled, enableChat, selectedFiles } = useContext(FileContext);
+  const { handleTypeSelect } = useContext(TypeContext);
 
   const location = useLocation();
   const currentPathname = location.pathname;

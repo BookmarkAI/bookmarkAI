@@ -71,11 +71,9 @@ function DesktopTab(props) {
       <Box sx={{ bgcolor: 'transparent'}}>
         <AntTabs value={value} onChange={handleChange} aria-label="ant example" >
           {props.children}
-          <AntTab onClick={()=>handleTypeSelect(null)} sx={{fontSize: '17px'}}  label="All" />
-          <AntTab onClick={()=>handleTypeSelect('url')} sx={{fontSize: '17px'}}  label="Text"  />
-          <AntTab onClick={()=>handleTypeSelect('pdf')} sx={{fontSize:'17px'}}  label="PDF"  />
-          <AntTab onClick={()=>window.location.replace("https://www.supermark.ai/pricing")} sx={{fontSize: '17px'}}  label="Image  💎"/>
-          <AntTab onClick={()=>window.location.replace("https://www.supermark.ai/pricing")} sx={{fontSize: '17px'}}  label="Video  💎"/>
+          
+          {/* <AntTab onClick={()=>window.location.replace("https://www.supermark.ai/pricing")} sx={{fontSize: '17px'}}  label="Image  💎"/>
+          <AntTab onClick={()=>window.location.replace("https://www.supermark.ai/pricing")} sx={{fontSize: '17px'}}  label="Video  💎"/> */}
           
         </AntTabs> 
       </Box>
@@ -84,16 +82,26 @@ function DesktopTab(props) {
 }
 
 function BrowseTab() {
+  const { handleTypeSelect } = useContext(TypeContext);
   return (
-    <DesktopTab/>
+    <DesktopTab>
+      <AntTab onClick={()=>handleTypeSelect(null)} sx={{fontSize: '17px'}}  label="All" />
+      <AntTab onClick={()=>handleTypeSelect('url')} sx={{fontSize: '17px'}}  label="Text"  />
+      <AntTab onClick={()=>handleTypeSelect('pdf')} sx={{fontSize:'17px'}}  label="PDF"  />
+    </DesktopTab>
   )
 }
 
 function SearchTab(props) {
-  const { chatEnabled } = useContext(FileContext)
+  const { display, setDisplay } = props;
+  const { chatEnabled } = useContext(FileContext);
+  const { handleTypeSelect } = useContext(TypeContext);
   return (
     <DesktopTab>
-      {chatEnabled && <AntTab sx={{fontSize: '17px'}}  label="Chat" />}
+      {chatEnabled && <AntTab onClick={()=>setDisplay('chat')} sx={{fontSize: '17px'}}  label="Chat" />}
+      <AntTab onClick={()=>setDisplay('all')} sx={{fontSize: '17px'}}  label="All" />
+      <AntTab onClick={()=>setDisplay('url')} sx={{fontSize: '17px'}}  label="Text"  />
+      <AntTab onClick={()=>setDisplay('pdf')} sx={{fontSize:'17px'}}  label="PDF"  />
     </DesktopTab>
   )
 }

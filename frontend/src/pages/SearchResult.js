@@ -8,6 +8,7 @@ import MobileChatScreen from '../components/Mobile/MobileChatScreen.js'
 import { EventSourcePolyfill } from 'event-source-polyfill';
 import {AuthContext} from "../components/context/AuthContext";
 import { FileContext } from '../utils/FileContext.js';
+import { TypeContext } from '../utils/TypeContext.js';
 import { getBookmark } from '../services/service.js';
 
 const EventSource = EventSourcePolyfill;
@@ -30,13 +31,12 @@ export default function SearchResult() {
     const [ searchResult, setSearchResult ] = useState([]);
     const { user } = useContext(AuthContext);
 
-
     useEffect(() => {
         const fetchData = async () => {
             try {
               const response = await fetch('http://localhost:8000/search', {
                 method: 'POST',
-                body: JSON.stringify({ query: 'test' }),
+                body: JSON.stringify({ query: q }),
                 headers: {
                     'X-UID': user.uid,
                     'Content-Type': 'application/json'
@@ -44,13 +44,8 @@ export default function SearchResult() {
               });
               if (response.ok) {
                 const data = await response.json();
-                console.log(data)
-                return data;
-                // console.log(Array.from(
-                //     data.reduce(
-                //         (map, doc) => map.set(doc.url, doc), new Map()
-                //     ).values()
-                // ))
+                return data
+ 
               } else {
                 throw new Error('Request failed');
               }
@@ -124,11 +119,11 @@ export default function SearchResult() {
     return(
         <>
         <Desktop>
-            <DesktopChatScreen responseMessages={responseMessages} sources={sources} />
+            <DesktopChatScreen responseMessages={responseMessages} sources={sources} searchResult={searchResult} />
         </Desktop>
 
         <Mobile>
-            <MobileChatScreen responseMessages={responseMessages} sources={sources} />
+            <MobileChatScreen responseMessages={responseMessages} sources={sources} searchResult={searchResult} />
         </Mobile>
 
        

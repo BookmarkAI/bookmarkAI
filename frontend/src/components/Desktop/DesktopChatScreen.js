@@ -1,7 +1,7 @@
 import { useSearchParams } from 'react-router-dom'
 import { Typography, Box, Grid, Paper, InputBase, Stack } from '@mui/material';
 import { MuiMarkdown } from 'mui-markdown';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import DesktopChatList from './DesktopChatList'
 import { SearchTab } from '../Tab';
@@ -11,13 +11,24 @@ import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import CopySnackbar from '../Mobile/CopySnackbar';
+import { TypeContext } from '../../utils/TypeContext';
 import { getAllConversations, getConversation } from '../../services/service';
+import { FileContext } from '../../utils/FileContext';
 
 
-export default function DesktopChatScreen({ responseMessages, sources }) {
+
+export default function DesktopChatScreen({ responseMessages, sources, searchResult}) {
+    const { chatEnabled } = useContext(FileContext)
+
     const [ searchParams, setSearchParams ] = useSearchParams();
     const [ openSnackbar, setOpenSnackbar ] = useState(false);
     const [ chatHistory, setChatHistory ] = useState([]);
+
+    const [ display, setDisplay ] = useState(chatEnabled ? 'chat' : 'all')
+
+  
+
+    console.log(searchResult)
     const { id } = useParams();
     const q = searchParams.get('q')
 
@@ -38,7 +49,6 @@ export default function DesktopChatScreen({ responseMessages, sources }) {
 
     useEffect(() => {
         fetchChatHistory();
-        console.log(id);
         if (id) {
             getConversation(id).then((response) => {
                 setQuestion(response.question);
@@ -67,9 +77,9 @@ export default function DesktopChatScreen({ responseMessages, sources }) {
 
                 </Grid>
                 <Grid item xs={9.5}>
-                    <SearchTab/>
+                    <SearchTab setDisplay={setDisplay} display={display}/>
                     
-                    <Box sx={{ maxHeight: 'calc(100vh - 150px)', overflow: "auto"}}>
+                    {display=='chat' && <Box sx={{ maxHeight: 'calc(100vh - 150px)', overflow: "auto"}}>
                         <Box sx={{display: "flex", flexDirection: "column", pb: 2, mt: 3, mb: 3, mr: 8, borderBottom: 1, borderColor: '#bbbbbb'}}>
                                 <Typography variant="h6">{question}</Typography>
                                 <Typography variant="body1" fontSize='20px' sx={{mr:1, mt: 1}}>
@@ -94,8 +104,31 @@ export default function DesktopChatScreen({ responseMessages, sources }) {
                         <Typography variant="h6" sx={{fontWeight: 500}}gutterBottom>
                             Source Bookmarks
                         </Typography>
-                        <DesktopBookMarkList bookmarks={sources} grid={true}/>
+                        <DesktopBookMarkList bookmarks={sources}/>
                     </Box>
+                    }
+
+                    {display == 'all' && 
+                        <Box sx={{display: "flex", flexDirection: "column", pb: 2, mt: 3, mb: 3, mr: 8}}>
+                        <DesktopBookMarkList bookmarks={searchResult}/>
+                        </Box>
+                    }
+
+                    {display == 'url' && 
+                    <Box sx={{display: "flex", flexDirection: "column", pb: 2, mt: 3, mb: 3, mr: 8}}>
+                        <DesktopBookMarkList bookmarks={searchResult.filter((bookmark) => bookmark.type === 'url')}/>
+                        </Box>
+                    }
+                    
+
+                    {display == 'pdf' && 
+                    <Box sx={{display: "flex", flexDirection: "column", pb: 2, mt: 3, mb: 3, mr: 8}}>
+                        <DesktopBookMarkList bookmarks={searchResult.filter((bookmark) => bookmark.type === 'pdf')}/>
+                    </Box>
+                    }
+
+
+
                 </Grid>
             </Grid>
         </>

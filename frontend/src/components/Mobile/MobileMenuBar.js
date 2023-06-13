@@ -73,13 +73,13 @@ export default function MobileMenuBar(props) {
                         {/* <MenuButton size="small" onClick={()=>handleSelect('pdf')} sx={{textTransform: "none"}} variant="outlined">
                             PDF
                         </MenuButton> */}
-                        <MenuButton size="small" onClick={()=>window.location.replace("https://www.supermark.ai/pricing")} sx={{ minWidth: 100}} variant="outlined">
+                        {/* <MenuButton size="small" onClick={()=>window.location.replace("https://www.supermark.ai/pricing")} sx={{ minWidth: 100}} variant="outlined">
                             Image &nbsp; <Typography variant="h7">💎</Typography>
                         </MenuButton>
                         <MenuButton size="small" onClick={()=>window.location.replace("https://www.supermark.ai/pricing")} sx={{minWidth: 90}} variant="outlined">
                             Video &nbsp; <Typography variant="h7">💎</Typography>
                         </MenuButton> 
-                        
+                         */}
                     </Stack>                
             </Toolbar>
         </>

@@ -8,6 +8,7 @@ import MobileChatScreen from '../components/Mobile/MobileChatScreen.js'
 import { EventSourcePolyfill } from 'event-source-polyfill';
 import {AuthContext} from "../components/context/AuthContext";
 import { FileContext } from '../utils/FileContext.js';
+import { getBookmark } from '../services/service.js';
 
 const EventSource = EventSourcePolyfill;
 
@@ -26,7 +27,39 @@ export default function SearchResult() {
     const q = searchParams.get('q');
     const [responseMessages, setResponseMessages] = useState([]);
     const [sources, setSources] = useState([]);
+    const [ searchResult, setSearchResult ] = useState([]);
     const { user } = useContext(AuthContext);
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+              const response = await fetch('http://localhost:8000/search', {
+                method: 'POST',
+                body: JSON.stringify({ query: 'test' }),
+                headers: {
+                    'X-UID': user.uid
+                }
+              });
+              if (response.ok) {
+                const data = await response.json();
+                console.log(data)
+                // console.log(Array.from(
+                //     data.reduce(
+                //         (map, doc) => map.set(doc.url, doc), new Map()
+                //     ).values()
+                // ))
+              } else {
+                throw new Error('Request failed');
+              }
+            } catch (error) {
+              // Handle any errors
+            }
+          };
+      
+          fetchData();
+
+    }, [])
 
     useEffect(() => {
         setResponseMessages([])
@@ -44,9 +77,6 @@ export default function SearchResult() {
             } else {
                 setResponseMessages((messages) => [...messages, msg]);
             }
-            
-            console.log(responseMessages.map(mes => mes.chat_response).join(''))
-            console.log(responseMessages.flatMap(mes => mes.documents))
           };
 
           // Cleanup on component unmount

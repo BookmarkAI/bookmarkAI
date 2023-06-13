@@ -27,7 +27,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 // { raw_text: str, url: str, UID: str, title: str, image_urls: str[] }
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.command === 'extractText') {
-        const text= extractText(document.body);
+        const text = extractText(document.body);
         // get the url of the current tab
         const url = window.location.href;
         // get the title of the current tab
@@ -36,11 +36,11 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         function img_find() {
             var imgs = document.getElementsByTagName("img");
             var imgSrcs = [];
-        
+
             for (var i = 0; i < imgs.length; i++) {
                 imgSrcs.push(imgs[i].src);
             }
-        
+
             return imgSrcs;
         }
 
@@ -49,12 +49,12 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         const timestamp = currentDate.getTime();
 
         // console.log(text); // or you can send this data back using sendResponse
-        const obj = { 
+        const obj = {
             raw_text: text,
             url: url,
             UID: request.UID,
-            title: title, 
-            image_urls: image_urls, 
+            title: title,
+            image_urls: image_urls,
             timestamp: Math.round(timestamp / 1000)
         }
         console.log(obj);
@@ -68,16 +68,58 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             body: JSON.stringify(obj)
 
         })
-        .then(response => response.json())
-        .then(data => {
-            // Process the response from the POST request
-            console.log("data");
-            console.log(data);
-        })
-        .catch(error => {
-            // Handle any errors
-            console.error(error);
-        });
+            .then(response => response.json())
+            .then(data => {
+                // Process the response from the POST request
+                console.log("data");
+                console.log(data);
+            })
+            .catch(error => {
+                // Handle any errors
+                console.error(error);
+            });
 
-}});
+    }
+});
+
+
+
+
+
+// event listener to fetch folders and status of cururl AKA init
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    if (request.command === 'getFoldersAndCurUrlStatus') {
+        const obj = { url: window.location.href };
+
+        getInit(obj, request.uid, sendResponse);
+        return true;
+    
+}}
+);
+
+// this calls the init endpoint
+async function getInit(obj, uid, sendResponse) {
+
+    return fetch('http://127.0.0.1:8000/init', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-UID': uid
+        },
+        body: JSON.stringify(obj)
+
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Process the response from the POST request
+        console.log("RES BACK FROM SERVER");
+        console.log("Data", data);
+        sendResponse(data);
+    })
+    .catch(error => {
+        // Handle any errors
+        console.error(error);
+    });
+}
+
 

@@ -138,8 +138,6 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
     }
 });
 
-
-
 // event listener to fetch folders and status of cururl AKA init
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.command === 'getFoldersAndCurUrlStatus') {

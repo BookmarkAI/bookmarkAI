@@ -83,6 +83,21 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 });
 
 
+
+
+
+// event listener to fetch folders and status of cururl AKA init
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    if (request.command === 'getFoldersAndCurUrlStatus') {
+        const obj = { url: window.location.href };
+
+        getInit(obj, request.uid, sendResponse);
+        return true;
+    
+}}
+);
+
+// this calls the init endpoint
 async function getInit(obj, uid, sendResponse) {
 
     return fetch('http://127.0.0.1:8000/init', {
@@ -108,17 +123,3 @@ async function getInit(obj, uid, sendResponse) {
 }
 
 
-// event listener to fetch folders and status of cururl
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    if (request.command === 'getFoldersAndCurUrlStatus') {
-        const obj = { url: window.location.href };
-
-        getInit(obj, request.uid, sendResponse);
-        return true;
-    
-}}
-);
-
-// required endpoints:
-// /store POST {'raw_text': stting, 'url': string, 'UID': string, 'title': string, 'image_urls': string[], 'timestamp': int} -> {'status': bool}
-// /init POST {'url': string, 'UID': string} -> {'bookmarked': bool, 'folders': string[]}

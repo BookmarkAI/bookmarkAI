@@ -131,7 +131,7 @@ async function setFoldersAndCurUrl(user) {
 async function updatePopupGivenFolders(response) {
   consoleLog(response)
 
-  const curUrlStatus = response.bookmarked;
+  const curUrlStatus = response.is_bookmarked;
   if (curUrlStatus == true) {
     extractButton.classList.add('added');
     extractButton.textContent = 'Added to Bookmarks!';

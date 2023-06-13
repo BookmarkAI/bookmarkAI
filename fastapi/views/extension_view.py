@@ -17,22 +17,14 @@ log = logging.getLogger(__name__)
 
 
 @router.post('/store')
-def store(document: ExtensionDocument, x_uid: Annotated[str, Header()]):
+async def store(document: ExtensionDocument, x_uid: Annotated[str, Header()]):
     vectorstore = get_vectorstore()
     user_id = x_uid
     chunks = CharacterTextSplitter(
         chunk_size=config.chunk_size, chunk_overlap=config.chunk_overlap, separator='.'
     ).split_text(document.raw_text)
     log.info(f'created {len(chunks)} chunks')
-
-    firebase_data = {
-        'folder': 'unsorted',
-        'timestamp': document.timestamp,
-        'url': document.url,
-        'title': document.title,
-        'type': 'url'
-    }
-    time, bookmark_ref = db.collection('users').document(user_id).collection('bookmarks').add(firebase_data)
+    bookmark_ref = await AsyncBookmarkStoreService().add_bookmark(user_id, document)
 
     try:
         with vectorstore.batch() as batch:

@@ -9,6 +9,7 @@ class ExtensionDocument(BaseModel):
     title: str
     image_urls: list
     timestamp: int
+    folder: str
 
 
 class UrlMetadataInfo(BaseModel):

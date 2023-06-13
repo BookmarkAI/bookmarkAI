@@ -188,14 +188,12 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 // this calls the init endpoint
 async function getInit(obj, uid, sendResponse) {
 
-    return fetch('http://127.0.0.1:8000/init', {
-        method: 'POST',
+    return fetch(`http://127.0.0.1:8000/info?url=${obj.url}`, {
+        method: 'GET',
         headers: {
             'Content-Type': 'application/json',
             'X-UID': uid
         },
-        body: JSON.stringify(obj)
-
     })
     .then(response => response.json())
     .then(data => {

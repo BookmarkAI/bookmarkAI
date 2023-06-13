@@ -36,6 +36,10 @@ export default function DesktopChatScreen({ responseMessages, sources, searchRes
     const [ answer, setAnswer ] = useState(null)
     
 
+    useEffect(() => {
+        setDisplay(chatEnabled ? 'chat' : 'all')
+    }, [chatEnabled]);
+
     
 
     const [inputValue, setInputValue] = useState('');

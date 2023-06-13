@@ -5,6 +5,7 @@ from typing import List
 from google.cloud.firestore_v1 import ArrayUnion
 
 from models.bookmark_store import UserDoc
+from models.extension import ExtensionDocument
 from models.extension import ExtensionDocument, ExtensionPDFDocument
 from utils.db import firebase_app, async_firebase_app
 

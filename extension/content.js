@@ -111,7 +111,7 @@ async function getInit(obj, uid, sendResponse) {
 // event listener to fetch folders and status of cururl
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.command === 'getFoldersAndCurUrlStatus') {
-        const obj = { url: request.url };
+        const obj = { url: window.location.href };
 
         getInit(obj, request.uid, sendResponse);
         return true;

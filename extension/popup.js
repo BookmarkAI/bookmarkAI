@@ -116,7 +116,10 @@ async function setFoldersAndCurUrl(user) {
   // }
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
     let activeTab = tabs[0];
-    chrome.tabs.sendMessage(activeTab.id, { "command": "getFoldersAndCurUrlStatus", 'uid': user.uid,"url": window.location.href }, async function (response) {
+    consoleLog("cururl")
+    consoleLog(window.location.href)
+    consoleLog("cururl")
+    chrome.tabs.sendMessage(activeTab.id, { "command": "getFoldersAndCurUrlStatus", 'uid': user.uid }, async function (response) {
       updatePopupGivenFolders(response);
     }
     );

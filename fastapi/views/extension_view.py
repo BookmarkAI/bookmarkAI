@@ -1,10 +1,13 @@
+import asyncio
 import logging
 from typing import Annotated
 from fastapi import APIRouter, Header
 from langchain.text_splitter import CharacterTextSplitter
 
 from config import Config
-from models.extension import ExtensionDocument
+from models.extension import ExtensionDocument, UrlMetadataInfo
+from services.bookmark_store_service import AsyncBookmarkStoreService
+from services.context_service import ContextService
 from utils.db import get_vectorstore, firebase_app as db
 
 router = APIRouter()
@@ -48,3 +51,14 @@ def store(document: ExtensionDocument, x_uid: Annotated[str, Header()]):
         return {'success': False, 'error': str(e)}
 
     return {'success': True}
+
+
+@router.get('/info')
+async def url_metadata(url: str, x_uid: Annotated[str, Header()]) -> UrlMetadataInfo:
+    service = AsyncBookmarkStoreService()
+    bookmarks, folders = await asyncio.gather(service.get_bookmarks_by_url(x_uid, url), service.get_user_folders(x_uid))
+    return UrlMetadataInfo(
+        is_bookmarked=len(bookmarks) > 0,
+        folders=folders,
+    )
+

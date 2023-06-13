@@ -3,6 +3,7 @@ from datetime import datetime
 import firebase_admin
 import weaviate
 from firebase_admin import credentials, firestore
+from google.cloud.firestore_v1 import AsyncClient
 
 from config import Config
 from utils.files import get_root_path
@@ -46,6 +47,11 @@ def get_vectorstore() -> weaviate.Client:
     return weaviate_client
 
 
-cred = credentials.Certificate(get_root_path().joinpath('bookmarkai-c7f69-0e7393f3fe4e.json'))
+cred_path = get_root_path().joinpath('bookmarkai-c7f69-0e7393f3fe4e.json')
+cred = credentials.Certificate(cred_path)
 app = firebase_admin.initialize_app(cred)
 firebase_app = firestore.client()
+
+async_firebase_app = AsyncClient.from_service_account_json(
+    cred_path
+)

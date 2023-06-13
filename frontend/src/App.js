@@ -14,7 +14,7 @@ import { FolderProvider } from './utils/FolderContext';
 import SignInPage from './pages/SignInPage';
 import { AuthProvider } from "./components/context/AuthContext";
 import ProtectedRoute from './utils/ProtectedRoute';
-
+import { TypeProvider } from './utils/TypeContext';
 
 
 function App() {
@@ -22,34 +22,37 @@ function App() {
   return (
     <AuthProvider>
       <FileProvider>
+        <TypeProvider>
         {/* Folder provider is only relevant to desktop application */}
-      <FolderProvider>
-        <BrowserRouter>
-          <Desktop>
-            <Routes>
-              <Route path="/" element={<ProtectedRoute><HomeScreen/></ProtectedRoute>} />
-              <Route path="/login" element={<SignInPage/>}/>
-              <Route element={<ProtectedRoute><Layout/></ProtectedRoute>}>
-                <Route path="/browse" element={<ProtectedRoute><BrowseScreen/></ProtectedRoute>}/>
-                <Route path="/search" element={<ProtectedRoute><SearchResult/></ProtectedRoute>}/>
-              </Route>
-            </Routes>
-          </Desktop>
+        <FolderProvider>
+          <BrowserRouter>
+            <Desktop>
+              <Routes>
+                <Route path="/" element={<ProtectedRoute><HomeScreen/></ProtectedRoute>} />
+                <Route path="/login" element={<SignInPage/>}/>
+                <Route element={<ProtectedRoute><Layout/></ProtectedRoute>}>
+                  <Route path="/browse" element={<ProtectedRoute><BrowseScreen/></ProtectedRoute>}/>
+                  <Route path="/search" element={<ProtectedRoute><SearchResult/></ProtectedRoute>}/>
+                  <Route path="/search/:id" element={<ProtectedRoute><SearchResult/></ProtectedRoute>}/>
+                </Route>
+              </Routes>
+            </Desktop>
 
-          <Mobile>
-            <Routes>
-              <Route path="/" element={<ProtectedRoute><HomeScreen/></ProtectedRoute>} />
-              <Route path="/login" element={<SignInPage />}/>
-              <Route element={<ProtectedRoute><Layout/></ProtectedRoute>}>
-                <Route path="/browse" element={<ProtectedRoute><BrowseScreen/></ProtectedRoute>}/>
-                <Route path="/search" element={<ProtectedRoute><SearchResult/></ProtectedRoute>}/>
-                <Route path="/folders" element={<ProtectedRoute><MobileFoldersScreen/></ProtectedRoute>}/>
-                <Route path="/folder/:id" element={<ProtectedRoute><MobileFolderView/></ProtectedRoute>} />
-              </Route>
-            </Routes>
-          </Mobile>
-        </BrowserRouter>
-      </FolderProvider>
+            <Mobile>
+              <Routes>
+                <Route path="/" element={<ProtectedRoute><HomeScreen/></ProtectedRoute>} />
+                <Route path="/login" element={<SignInPage />}/>
+                <Route element={<ProtectedRoute><Layout/></ProtectedRoute>}>
+                  <Route path="/browse" element={<ProtectedRoute><BrowseScreen/></ProtectedRoute>}/>
+                  <Route path="/search" element={<ProtectedRoute><SearchResult/></ProtectedRoute>}/>
+                  <Route path="/folders" element={<ProtectedRoute><MobileFoldersScreen/></ProtectedRoute>}/>
+                  <Route path="/folder/:id" element={<ProtectedRoute><MobileFolderView/></ProtectedRoute>} />
+                </Route>
+              </Routes>
+            </Mobile>
+          </BrowserRouter>
+        </FolderProvider>
+      </TypeProvider>
     </FileProvider>
     </AuthProvider>
   );

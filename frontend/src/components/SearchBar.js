@@ -24,7 +24,6 @@ function SearchBar(props) {
   const { fontsize, style, placeholder, advanced } = props;
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
-  console.log(searchParams.get('q'))
   const [query, setQuery] = useState(searchParams.get('q') || '');
   const { chatEnabled, enableChat, selectedFiles } = useContext(FileContext);
 
@@ -115,7 +114,7 @@ function SearchBar(props) {
 
 function DesktopSearchBar(props) {
   const { height, width, advanced } = props; 
-  const style = {height, width, display: 'flex', alignItems: 'center', justifyContent: 'center', border:1, pl: 1, pr:1, pt: 0.8, pb: 0.8, borderColor: "#DFE1E5", borderRadius:1}
+  const style = {height, width, display: 'flex', alignItems: 'center', justifyContent: 'center', border:1, pl: 1, pr:1, pt: 0.8, pb: 0.8,  borderColor: "#DFE1E5", borderRadius:1}
   return (
     <SearchBar fontsize={18} style={style} placeholder={"Search Your Own Internet"} advanced={advanced}>
       {props.children}

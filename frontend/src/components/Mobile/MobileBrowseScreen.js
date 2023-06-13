@@ -12,6 +12,8 @@ import { MobileSearchBar } from "../SearchBar";
 import TuneIcon from '@mui/icons-material/Tune';
 import { getAllBookmarks } from "../../services/service";
 import ScrollHeader from './ScrollHeader';
+import { TypeContext } from "../../utils/TypeContext";
+import { useContext } from "react";
 
 
 
@@ -20,6 +22,8 @@ export default function MobileBrowseScreen() {
     const [ open, setOpen ] = React.useState(false);
     const [ selectAll, setSelectAll ] = useState(false);
     const [ allBookmarks, setAllBookmarks ] = useState([]);
+    const { selectedType } = useContext(TypeContext);
+
     function fetchBookmarks() {
         getAllBookmarks().then((response) => setAllBookmarks(response));
     }
@@ -28,6 +32,8 @@ export default function MobileBrowseScreen() {
     useEffect(() => {
         fetchBookmarks();
     }, []);    
+
+    const filteredBookmarks = selectedType ? allBookmarks.filter((bookmark) => bookmark.type === selectedType) : allBookmarks;
 
     return(
         <>
@@ -73,7 +79,7 @@ export default function MobileBrowseScreen() {
                 </Box>
             </Collapse>
 
-        <MobileBookMarkList select={select} bookmarks={allBookmarks} fetchBookmarks={fetchBookmarks}/>
+        <MobileBookMarkList select={select} bookmarks={filteredBookmarks} fetchBookmarks={fetchBookmarks}/>
         <Toolbar/>
 
         </>

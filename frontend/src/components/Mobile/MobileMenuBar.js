@@ -3,6 +3,8 @@ import TuneIcon from '@mui/icons-material/Tune';
 import FilterDrawer from "./FilterDrawer";
 import * as React from 'react';
 import { styled } from '@mui/system';
+import { useContext } from 'react';
+import { TypeContext } from "../../utils/TypeContext";
 
 const MenuButton = styled(Button)({
     borderRadius: 20, 
@@ -17,11 +19,28 @@ const MenuButton = styled(Button)({
       },
 });
 
-
+function TypeButton(props) {
+    const { isClicked, handleSelect, type } = props;
+    return (
+       
+        <Button style={{
+            borderRadius: 20,
+            border: '1px solid',
+            borderColor: isClicked ? '#E5F1FE': '#dddddd', 
+            backgroundColor: isClicked ?  '#E5F1FE' : 'transparent',
+            color: isClicked ? '#458BE9' : '#767676',
+            textTransform: 'none',
+        }} onClick={()=>handleSelect(type)} variant="outlined">
+            {props.children}
+        </Button>
+       
+    )
+}
 
 
 export default function MobileMenuBar(props) {
-    const { select, setSelect, open, setOpen, onClickText, textClicked} = props;
+    const { select, setSelect, setOpen } = props;
+    const { handleTypeSelect, selectedType } = useContext(TypeContext);
 
     const toggleSelect= (newOpen: boolean) => () => {
         setSelect(newOpen);
@@ -31,6 +50,13 @@ export default function MobileMenuBar(props) {
         setOpen(newOpen);
     };
 
+    function handleSelect(newType) {
+        if (selectedType == newType) {
+            handleTypeSelect(null)
+        } else {
+            handleTypeSelect(newType)
+        }
+    }
 
     return(
         <>
@@ -38,13 +64,15 @@ export default function MobileMenuBar(props) {
             <Toolbar position="sticky" sx={{display: 'flex', justifyContent: 'space-between', maxWidth: '100vw', overflow: 'auto'}}>
             
                     <Stack direction="row" spacing={0.5} overflow="scroll" >
-                        {/* <MenuButton size="small" onClick={onClickText} sx={{textTransform: "none"}} variant={textClicked ? "contained" : "outlined"}> */}
-                        <MenuButton size="small" onClick={onClickText} sx={{textTransform: "none"}} variant="outlined">
+                        <TypeButton isClicked={selectedType == 'url'} type={'url'} handleSelect={handleSelect}>Links</TypeButton>
+                        <TypeButton isClicked={selectedType == 'pdf'} type={'pdf'} handleSelect={handleSelect}>PDF</TypeButton>
+
+                        {/* <MenuButton size="small" onClick={()=>handleSelect('url')} sx={{textTransform: "none"}} variant="outlined">
                             Links
-                        </MenuButton>
-                        <MenuButton size="small" sx={{textTransform: "none"}} variant="outlined">
+                        </MenuButton> */}
+                        {/* <MenuButton size="small" onClick={()=>handleSelect('pdf')} sx={{textTransform: "none"}} variant="outlined">
                             PDF
-                        </MenuButton>
+                        </MenuButton> */}
                         <MenuButton size="small" onClick={()=>window.location.replace("https://www.supermark.ai/pricing")} sx={{ minWidth: 100}} variant="outlined">
                             Image &nbsp; <Typography variant="h7">💎</Typography>
                         </MenuButton>
@@ -52,15 +80,7 @@ export default function MobileMenuBar(props) {
                             Video &nbsp; <Typography variant="h7">💎</Typography>
                         </MenuButton> 
                         
-                    </Stack>
-
-                    {/* <Box>
-                        <IconButton onClick={toggleSelect(!select)}> 
-                            <TuneIcon/>
-                        </IconButton>
-                    </Box>
-                 */}
-                
+                    </Stack>                
             </Toolbar>
         </>
     )

@@ -6,12 +6,13 @@ import { useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
-
+import { useNavigate } from 'react-router';
 
 
 function DesktopFolder(props){
-    const { q } = props;
+    const { question, id } = props;
     const [ clicked, setClicked ] =  useState(false);
+    const navigate = useNavigate();
 
 
     const getButtonStyles = () => {
@@ -47,8 +48,8 @@ function DesktopFolder(props){
     return(
         <>
        
-        <Box sx={{borderRadius: 3, display:"flex", flexDirection: "row", justifyContent: 'space-between', alignItems: 'flex-end', "-webkit-mask-image": "-webkit-gradient(linear, left top, right top, from(rgba(0,0,0,1)), to(rgba(0,0,0,1)))"}}>
-            <Button onClick={()=>setClicked(!clicked)} sx={{textTransform: "none", color: "#dddddd", justifyContent: 'flex-start'}}>   
+        <Box sx={{borderRadius: 3, mr: 4, display:"flex", flexDirection: "row", justifyContent: 'space-between', alignItems: 'flex-end', "-webkit-mask-image": "-webkit-gradient(linear, left top, right top, from(rgba(0,0,0,1)), to(rgba(0,0,0,1)))"}}>
+            <Button fullWidth onClick={()=>navigate(`/search/${id}`)} sx={{textTransform: "none", color: "#dddddd", justifyContent: 'flex-start'}}>   
                 <Box sx={{display: "flex", flexDirection: "row", alignItems: "center"}}>
                     {props.children}
                     <Typography noWrap variant="h7" sx={{
@@ -58,7 +59,7 @@ function DesktopFolder(props){
                         fontWeight: 350,
                         color: "#333333",
                         maxWidth: "200px",}}>
-                        {q}
+                        {question}
                     </Typography>
                 </Box>
             </Button>  
@@ -69,14 +70,14 @@ function DesktopFolder(props){
     )
 }
 
-export default function DesktopChatList() {
+export default function DesktopChatList({chatHistory}) {
     return (
         <>
         {/* Folder List */}
       
                 <Stack spacing={0}>
     
-                    {chat_history.map((doc, i) => (              
+                    {chatHistory.map((doc, i) => (              
                          <DesktopFolder {...doc}>
                             <ChatBubbleIcon  sx={{ fontSize: 17 }}/>
                          </DesktopFolder>

@@ -74,7 +74,7 @@ export default function MobileChatScreen({ responseMessages, sources }) {
         
         {/* <FilterDrawer open={open} setOpen={setOpen}/> */}
         <Grid container>
-            <Card item xs={12} sx={{display: "flex", ml: 2, mr: 2}}>
+            <Card item xs={12} sx={{width:'100%',display: "flex", ml: 2, mr: 2}}>
                 
 
                 <Stack spacing={1} p={2}>

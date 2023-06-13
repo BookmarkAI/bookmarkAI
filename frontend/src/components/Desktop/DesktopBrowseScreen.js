@@ -7,14 +7,16 @@ import DesktopFolderList from './DesktopFolderList';
 import { useContext, useEffect } from 'react';
 import { FileContext } from '../../utils/FileContext';
 import { FolderContext } from '../../utils/FolderContext';
+import { TypeContext } from '../../utils/TypeContext';
 import AddIcon from '@mui/icons-material/Add';
-import { getAllBookmarks } from '../../services/service'
+import { getAllBookmarks, getAllConversations } from '../../services/service'
 import AddBookmarksToFolder from '../AddBookmarksToFolder';
 
 export default function DesktopBrowseScreen(props) {
-    const [ grid, setGrid ] = useState(true);
     const { selectedFiles, resetSelectedFiles, updateSelectedFiles} = useContext(FileContext);
     const { selectedFolder } = useContext(FolderContext);
+    const { selectedType } = useContext(TypeContext);
+
     const [ allBookmarks, setAllBookmarks ] = useState([]);
     console.log(selectedFiles)
 
@@ -34,9 +36,12 @@ export default function DesktopBrowseScreen(props) {
     }, []);
 
 
+    const filteredByType = selectedType ? allBookmarks.filter((bookmark) => bookmark.type === selectedType) : allBookmarks;
+
     const filteredBookmarks = selectedFolder
-    ? allBookmarks.filter((bookmark) => bookmark.folder === selectedFolder)
-    : allBookmarks;
+    ? filteredByType.filter((bookmark) => bookmark.folder === selectedFolder)
+    : filteredByType;
+    
 
     return(
         <>

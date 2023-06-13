@@ -2,6 +2,8 @@ import abc
 import asyncio
 from typing import List
 
+from google.cloud.firestore_v1 import ArrayUnion
+
 from models.bookmark_store import UserDoc
 from models.extension import ExtensionDocument
 from utils.db import firebase_app, async_firebase_app
@@ -48,7 +50,7 @@ class AsyncBookmarkStoreService(BaseBookmarkStoreService):
         }
         add_bookmark_task = user_doc_ref.collection('bookmarks').add(firebase_data)
         create_new_folder_task = user_doc_ref.update({
-            'folders': firebase_app.firestore.ArrayUnion([document.folder])
+            'folders': ArrayUnion([document.folder])
         })
         bookmark_task, folder_task = await asyncio.gather(add_bookmark_task, create_new_folder_task)
         return bookmark_task[1]  # bookmark_task: Tuple[timestamp, ref]

@@ -109,7 +109,8 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
             UID: request.UID,
             title: title,
             image_urls: image_urls,
-            timestamp: Math.round(timestamp / 1000)
+            timestamp: Math.round(timestamp / 1000),
+            folder: request.folder
         }
         console.log(obj);
 
@@ -169,8 +170,6 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
 
     }
 });
-
-
 
 
 

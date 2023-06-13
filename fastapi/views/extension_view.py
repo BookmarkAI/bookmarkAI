@@ -34,7 +34,6 @@ def store(document: ExtensionDocument, x_uid: Annotated[str, Header()]):
     }
     time, bookmark_ref = db.collection('users').document(user_id).collection('bookmarks').add(firebase_data)
 
-
     try:
         with vectorstore.batch() as batch:
             for chunk in chunks:
@@ -43,7 +42,7 @@ def store(document: ExtensionDocument, x_uid: Annotated[str, Header()]):
                     "content": chunk,
                     "user_id": user_id,
                     "url": document.url,
-                    "firebase_id": bookmark_ref.id,     # all chunks have same firebase id
+                    "firebase_id": bookmark_ref.id,  # all chunks have same firebase id
                 }, "Document")
             batch.flush()
     except Exception as e:
@@ -54,28 +53,25 @@ def store(document: ExtensionDocument, x_uid: Annotated[str, Header()]):
 
     return {'success': True}
 
+
 @router.post('/storepdf')
 def store(document: ExtensionPDFDocument, x_uid: Annotated[str, Header()]):
     vectorstore = get_vectorstore()
     user_id = x_uid
     pdf_bytes = bytes(document.pdf_bytes)
-    with open('received_pdf.pdf', 'wb') as f:
-        f.write(pdf_bytes)
 
     pdf_text = ''
-    with open('received_pdf.pdf', 'rb') as file:
-        reader = PyPDF2.PdfReader(file)
-        num_pages = len(reader.pages)
+    reader = PyPDF2.PdfReader(pdf_bytes)
+    num_pages = len(reader.pages)
 
-        for page_number in range(num_pages):
-            page = reader.pages[page_number]
-            pdf_text += page.extract_text()
+    for page_number in range(num_pages):
+        page = reader.pages[page_number]
+        pdf_text += page.extract_text()
 
     chunks = CharacterTextSplitter(
         chunk_size=config.chunk_size, chunk_overlap=config.chunk_overlap, separator='.'
     ).split_text(pdf_text)
     log.info(f'created {len(chunks)} chunks')
-
 
     firebase_data = {
         'folder': 'unsorted',
@@ -99,7 +95,7 @@ def store(document: ExtensionPDFDocument, x_uid: Annotated[str, Header()]):
                     "content": chunk,
                     "user_id": user_id,
                     "url": document.url,
-                    "firebase_id": bookmark_ref.id,     # all chunks have same firebase id
+                    "firebase_id": bookmark_ref.id,  # all chunks have same firebase id
                 }, "Document")
             batch.flush()
     except Exception as e:
@@ -119,4 +115,3 @@ async def url_metadata(url: str, x_uid: Annotated[str, Header()]) -> UrlMetadata
         is_bookmarked=len(bookmarks) > 0,
         folders=folders,
     )
-

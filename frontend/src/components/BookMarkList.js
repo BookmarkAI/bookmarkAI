@@ -18,7 +18,15 @@ function DesktopBookMarkList({ spacing, select, topk, bookmarks, fetchBookmarks 
     const { selectedFiles, updateSelectedFiles } = useContext(FileContext);
     const { selectedFolder } = useContext(FolderContext);
     const { user } = useContext(AuthContext);
-  
+    const [sortedBookmarks, setSortedBookmarks] = useState([]);
+
+
+    useEffect(() => {
+        const sorted = [...bookmarks].sort((a, b) => a.timestamp - b.timestamp);
+        console.log(sorted);
+        setSortedBookmarks(sorted);
+    }, [bookmarks]);
+
     return (
         <>
     
@@ -29,7 +37,7 @@ function DesktopBookMarkList({ spacing, select, topk, bookmarks, fetchBookmarks 
                 sx={style}
             >
 
-            {bookmarks.map((doc, i) => (
+            {sortedBookmarks.map((doc, i) => (
                 <Grid item xs={12} sm={6} md={4} >
                     <DesktopBookmarkCard select={select} {...doc} i={i} fetchBookmarks={fetchBookmarks}/>
                 </Grid>

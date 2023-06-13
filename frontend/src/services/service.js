@@ -31,6 +31,13 @@ async function getConversation(conversationId) {
     }
 }
 
+async function getBookmark(bookmarkId) {
+    if (auth.currentUser != null) {
+        const docRef = doc(db, 'users', auth.currentUser.uid, "bookmarks", bookmarkId);
+        const docSnapshot = await getDoc(docRef);
+        return docSnapshot.data()
+    }
+}
 
 
 async function getAllBookmarks() {
@@ -78,5 +85,5 @@ async function updateBookmarkFolder(bookmarkId, folder) {
         }
     }
 }
-export {getAllBookmarks, getAllFolders, updateBookmarkFolder, getAllConversations, getConversation}
+export {getAllBookmarks, getAllFolders, updateBookmarkFolder, getAllConversations, getConversation, getBookmark }
 

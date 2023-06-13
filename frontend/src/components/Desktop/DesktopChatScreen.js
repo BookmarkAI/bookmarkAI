@@ -19,12 +19,13 @@ export default function DesktopChatScreen({ responseMessages, sources }) {
     const [ openSnackbar, setOpenSnackbar ] = useState(false);
     const [ chatHistory, setChatHistory ] = useState([]);
     const { id } = useParams();
+    const q = searchParams.get('q')
 
     const [ question, setQuestion ] = useState("")
     const [ answer, setAnswer ] = useState(null)
     
 
-    const q = searchParams.get('q')
+    
 
     const [inputValue, setInputValue] = useState('');
     function handleInputChange(e){
@@ -44,9 +45,9 @@ export default function DesktopChatScreen({ responseMessages, sources }) {
                 setAnswer(response.answer);
             })
         } else {
-            setQuestion(q);
+            setQuestion(searchParams.get('q'));
         }
-    }, [id]);
+    }, [id,searchParams.get('q')]);
 
    
     return(

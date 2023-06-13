@@ -38,12 +38,14 @@ export default function SearchResult() {
                 method: 'POST',
                 body: JSON.stringify({ query: 'test' }),
                 headers: {
-                    'X-UID': user.uid
+                    'X-UID': user.uid,
+                    'Content-Type': 'application/json'
                 }
               });
               if (response.ok) {
                 const data = await response.json();
                 console.log(data)
+                return data;
                 // console.log(Array.from(
                 //     data.reduce(
                 //         (map, doc) => map.set(doc.url, doc), new Map()
@@ -57,7 +59,7 @@ export default function SearchResult() {
             }
           };
       
-          fetchData();
+          fetchData().then(data => setSearchResult(data));
 
     }, [])
 

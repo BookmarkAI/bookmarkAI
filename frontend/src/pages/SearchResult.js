@@ -32,7 +32,7 @@ export default function SearchResult() {
             try {
               const response = await fetch('http://localhost:8000/search', {
                 method: 'POST',
-                body: JSON.stringify({ query: q }),
+                body: JSON.stringify({ query: q, limit_chunks: 20, certainty: 0.95, alpha: 0.2 }),
                 headers: {
                     'X-UID': user.uid,
                     'Content-Type': 'application/json'
@@ -58,7 +58,7 @@ export default function SearchResult() {
             setSearchResult(updatedData);
           });
 
-    }, [])
+    }, [searchParams])
 
     useEffect(() => {
         setResponseMessages([])

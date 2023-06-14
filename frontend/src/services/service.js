@@ -21,7 +21,7 @@ async function getAllConversations() {
           });
     }
 
-    // conversations.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+    conversations.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 
     return conversations
 }

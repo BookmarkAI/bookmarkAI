@@ -4,6 +4,7 @@ import InputBase from '@mui/material/InputBase';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
+import Button from '@mui/material/Button';
 import SearchIcon from '@mui/icons-material/Search';
 import { useState, useEffect  } from 'react';
 import { useNavigate, createSearchParams, useSearchParams } from 'react-router-dom';
@@ -24,7 +25,7 @@ function SearchBar(props) {
   const navigate = useNavigate();
   const [searchParams ] = useSearchParams();
   const [query, setQuery] = useState(searchParams.get('q') || '');
-  const { chatEnabled, enableChat, selectedFiles } = useContext(FileContext);
+  const { chatEnabled, enableChat, selectedFiles, resetSelectedFiles } = useContext(FileContext);
 
   const user = auth.currentUser;
 
@@ -99,7 +100,8 @@ function SearchBar(props) {
         {props.children}
       </Box>
 
-    </Paper>               
+    </Paper>  
+           
     {advanced && 
       
       <Stack sx={{display: 'flex', flexDirection: 'row', ml: 1}} spacing={1} direction="row">
@@ -116,9 +118,7 @@ function DesktopSearchBar(props) {
   const { height, width, advanced } = props; 
   const style = {height, width, display: 'flex', alignItems: 'center', justifyContent: 'center', border:1, pl: 1, pr:1, pt: 0.8, pb: 0.8,  borderColor: "#DFE1E5", borderRadius:1}
   return (
-    <SearchBar fontsize={18} style={style} placeholder={"Chat with your bookmarks"} advanced={advanced}>
-      {props.children}
-    </SearchBar>
+    <SearchBar fontsize={18} style={style} placeholder={"Chat with your bookmarks"} advanced={advanced}/>
   )
 }
 

@@ -23,6 +23,7 @@ class UserSearchMessage(BaseModel):
     limit_chunks: int = 10
     alpha: float = 0.25
 
+
 class ChatEndpointMessage(BaseModel):
     chat_response: str
     documents: List[VectorStoreBookmarkMetadata]

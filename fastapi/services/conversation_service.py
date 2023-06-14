@@ -1,4 +1,5 @@
 import asyncio
+from datetime import datetime
 from typing import AsyncIterator, List
 from langchain import PromptTemplate
 from langchain.callbacks import AsyncIteratorCallbackHandler
@@ -76,6 +77,7 @@ class ConversationService:
             'question': question,
             'context_urls': list({doc.metadata.url for doc in context}),
             'answer': answer,
+            'timestamp': int(datetime.now().timestamp()),
         })
 
     async def chat(self, message: str, selected_context: List[str] | None):

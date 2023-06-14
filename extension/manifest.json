@@ -14,9 +14,9 @@
     }
   ], 
   "icons": {
-    "16": "extension_logo.png", 
-    "48": "extension_logo.png", 
-    "128": "extension_logo.png"
+    "16": "bookmark_extension_logo.png", 
+    "48": "bookmark_extension_logo.png", 
+    "128": "bookmark_extension_logo.png"
   }, 
   "web_accessible_resources": [
     {

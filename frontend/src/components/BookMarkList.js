@@ -19,7 +19,7 @@ function DesktopBookMarkList({ spacing, select, topk, bookmarks, fetchBookmarks 
                 sx={style}
             >
 
-            {sortedBookmarks.map((doc, i) => (
+            {bookmarks.map((doc, i) => (
                 <Grid item xs={12} sm={6} md={4} >
                     <DesktopBookmarkCard select={select} {...doc} i={i} fetchBookmarks={fetchBookmarks}/>
                 </Grid>

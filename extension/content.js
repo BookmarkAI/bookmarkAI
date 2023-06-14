@@ -60,12 +60,13 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
         if (url.includes(".pdf")) {
             const pdfBytes = await fetchPDFBytes(url);
             const formattedPDFBytes = Array.from(pdfBytes)
-            title = url.split('/').pop().split('.').slice(0, -1).join('.');
+            const title = url.split('/').pop().split('.').slice(0, -1).join('.');
             const obj = {
                 pdf_bytes: formattedPDFBytes,
                 url: url,
                 title: title,
-                timestamp: Math.round(timestamp / 1000)
+                timestamp: Math.round(timestamp / 1000),
+                folder: request.folder
             }
             console.log(obj);
 
@@ -89,58 +90,28 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
                 console.error(error);
             });
         } else {
-        function img_find() {
-            var imgs = document.getElementsByTagName("img");
-            var imgSrcs = [];
+            function img_find() {
+                var imgs = document.getElementsByTagName("img");
+                var imgSrcs = [];
 
-            for (var i = 0; i < imgs.length; i++) {
-                imgSrcs.push(imgs[i].src);
+                for (var i = 0; i < imgs.length; i++) {
+                    imgSrcs.push(imgs[i].src);
+                }
+
+                return imgSrcs;
             }
 
-            return imgSrcs;
-        }
+            const image_urls = img_find()
 
-        const image_urls = img_find()
-
-        // console.log(text); // or you can send this data back using sendResponse
-        const obj = {
-            raw_text: text,
-            url: url,
-            UID: request.UID,
-            title: title,
-            image_urls: image_urls,
-            timestamp: Math.round(timestamp / 1000),
-            folder: request.folder
-        }
-        console.log(obj);
-
-        return fetch('http://localhost:8000/store', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-UID': request.UID,
-            },
-            body: JSON.stringify(obj)
-
-        })
-            .then(response => response.json())
-            .then(data => {
-                // Process the response from the POST request
-                console.log("data");
-                console.log(data);
-            })
-            .catch(error => {
-                // Handle any errors
-                console.error(error);
-            });
-
+            // console.log(text); // or you can send this data back using sendResponse
             const obj = {
                 raw_text: text,
                 url: url,
                 UID: request.UID,
                 title: title,
                 image_urls: image_urls,
-                timestamp: Math.round(timestamp / 1000)
+                timestamp: Math.round(timestamp / 1000),
+                folder: request.folder
             }
             console.log(obj);
 
@@ -153,21 +124,17 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
                 body: JSON.stringify(obj)
 
             })
-            .then(response => response.json())
-            .then(data => {
-                // Process the response from the POST request
-                console.log("data");
-                console.log(data);
-            })
-            .catch(error => {
-                // Handle any errors
-                console.error(error);
-            });
+                .then(response => response.json())
+                .then(data => {
+                    // Process the response from the POST request
+                    console.log("data");
+                    console.log(data);
+                })
+                .catch(error => {
+                    // Handle any errors
+                    console.error(error);
+                });
         }
-
-
-
-
     }
 });
 

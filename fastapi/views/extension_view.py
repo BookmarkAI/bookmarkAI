@@ -1,4 +1,5 @@
 import asyncio
+import io
 import logging
 from typing import Annotated
 from fastapi import APIRouter, Header
@@ -47,13 +48,13 @@ async def store(document: ExtensionDocument, x_uid: Annotated[str, Header()]):
 
 
 @router.post('/storepdf')
-def store(document: ExtensionPDFDocument, x_uid: Annotated[str, Header()]):
+async def store_pdf(document: ExtensionPDFDocument, x_uid: Annotated[str, Header()]):
     vectorstore = get_vectorstore()
     user_id = x_uid
     pdf_bytes = bytes(document.pdf_bytes)
 
     pdf_text = ''
-    reader = PyPDF2.PdfReader(pdf_bytes)
+    reader = PyPDF2.PdfReader(io.BytesIO(pdf_bytes))
     num_pages = len(reader.pages)
 
     for page_number in range(num_pages):
@@ -64,20 +65,7 @@ def store(document: ExtensionPDFDocument, x_uid: Annotated[str, Header()]):
         chunk_size=config.chunk_size, chunk_overlap=config.chunk_overlap, separator='.'
     ).split_text(pdf_text)
     log.info(f'created {len(chunks)} chunks')
-
-    firebase_data = {
-        'folder': 'unsorted',
-        'timestamp': document.timestamp,
-        'url': document.url,
-        'title': document.title,
-        'type': 'pdf'
-    }
-    bookmark_ref = db.collection('users').document(user_id).collection('bookmarks').add(firebase_data)
-    # docsCount = 0
-    # for doc in bookmark_ref:
-    #     docsCount += 1
-    # if docsCount == 0:
-    #     bookmark_ref = db.collection('users').document(user_id).collection('bookmarks').add(firebase_data)
+    bookmark_ref = await AsyncBookmarkStoreService().add_bookmark(user_id, document)
 
     try:
         with vectorstore.batch() as batch:

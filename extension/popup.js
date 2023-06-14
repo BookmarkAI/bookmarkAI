@@ -1,3 +1,4 @@
+
 document.getElementById('extractButton').addEventListener('click', async () => {
   // if button is already added, do nothing
   if (document.getElementById('extractButton').classList.contains('added')) {
@@ -8,7 +9,7 @@ document.getElementById('extractButton').addEventListener('click', async () => {
   button.textContent = 'Added to Bookmarks!';
   uid = await getUID()
   // Send a message to the active tab
-  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+  chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
     let activeTab = tabs[0];
     let selectBtn_text = document.getElementById('sBtn-text');
     chrome.tabs.sendMessage(activeTab.id, { "command": "extractText", "UID": uid, "folder": selectBtn_text.textContent});
@@ -32,14 +33,14 @@ async function getUID() {
     .map(cookie => JSON.parse(decodeURIComponent(cookie.value)))
     .filter(cookie => cookie.uid !== null);
 
-    
+
     if (user_cookies.length === 0) {
       message.hidden = true;
       signin.hidden = false;
       return 'null'
     }
     const user = user_cookies[0];
-    
+
   // if user is signed out, show sign in button and hide message
   if (user.uid == null) {
     message.hidden = true;
@@ -57,7 +58,7 @@ async function getCurFolder() {
     .map(cookie => cookie.value)
     .filter(cookie => cookie.value !== null);
 
-    
+
     if (folder_cookies.length === 0) {
       return 'Unsorted'
     }
@@ -112,7 +113,7 @@ async function setFoldersAndCurUrl(user) {
   // then we want to update the popup.html with the folders and the status
   // const obj = {
   //   uid: ,
-  //   : 
+  //   :
   // }
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
     let activeTab = tabs[0];
@@ -130,7 +131,7 @@ async function setFoldersAndCurUrl(user) {
 async function updatePopupGivenFolders(response) {
   consoleLog(response)
 
-  const curUrlStatus = response.bookmarked;
+  const curUrlStatus = response.is_bookmarked;
   if (curUrlStatus == true) {
     extractButton.classList.add('added');
     extractButton.textContent = 'Added to Bookmarks!';
@@ -150,7 +151,7 @@ async function updatePopupGivenFolders(response) {
 // // add svg as child of select button
 // selectBtn.insertAdjacentHTML('beforeend', svgCode);
 
-  for (let i = 0; i < options.length; i++) {      
+  for (let i = 0; i < options.length; i++) {
     const folder = options[i];
     const option = document.createElement('li');
     option.classList.add("option");
@@ -168,7 +169,7 @@ async function updatePopupGivenFolders(response) {
 }
 
 function dropdown_logic() {
-  
+
   const optionMenu = document.querySelector(".select-menu")
 
   const selectBtn_text = document.getElementById('sBtn-text');
@@ -192,7 +193,7 @@ function dropdown_logic() {
       // then replace the option text with the button text, then log the current folder cookie
       const temp = selectBtn_text.textContent;
       selectBtn_text.textContent = option.textContent;
-      
+
       option.textContent = temp;
 
       log_current_folder_cookie(selectBtn_text.textContent)
@@ -236,10 +237,4 @@ async function init() {
   }
 }
 
-// async function test() {
-//   var temp = await getCurFolder()
-//   consoleLog("folder|")
-//   consoleLog(temp)
-// }
-// test()
 init()

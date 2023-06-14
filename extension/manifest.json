@@ -2,7 +2,7 @@
   "name": "BookmarkAI",
   "version": "1.0",
   "manifest_version": 3,
-  "permissions": ["activeTab", "cookies"],
+  "permissions": ["activeTab", "cookies", "scripting", "storage"],
   "host_permissions": ["<all_urls>"],
   "action": {
     "default_popup": "popup.html"
@@ -17,5 +17,15 @@
     "16": "extension_logo.png", 
     "48": "extension_logo.png", 
     "128": "extension_logo.png"
-  }
+  }, 
+  "web_accessible_resources": [
+    {
+      "resources": [ "pdfjs/build/pdf.js" ],
+      "matches": [ "https://*/*" ]
+    }, 
+    {
+      "resources": [ "pdfjs/build/pdf.worker.js" ],
+      "matches": [ "https://*/*" ]
+    }
+  ]
 }

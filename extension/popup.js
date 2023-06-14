@@ -131,7 +131,7 @@ async function setFoldersAndCurUrl(user) {
 async function updatePopupGivenFolders(response) {
   consoleLog(response)
 
-  const curUrlStatus = response.is_bookmarked;
+  const curUrlStatus = response?.is_bookmarked || false;
   if (curUrlStatus == true) {
     extractButton.classList.add('added');
     extractButton.textContent = 'Added to Bookmarks!';
@@ -139,7 +139,7 @@ async function updatePopupGivenFolders(response) {
   // response is a list of folders and a boolean of whether the current url is in the user's bookmarks
   // we want to update the popup.html with the folders and the status
   const cur_folder = await getCurFolder()
-  const options = response.folders.filter(folder => folder !== cur_folder);
+  const options = response?.folders ? response.folders.filter(folder => folder !== cur_folder) : [];
   const options_element = document.getElementById('options');
   const selectBtn_text = document.getElementById('sBtn-text');
 
@@ -165,14 +165,65 @@ async function updatePopupGivenFolders(response) {
     options_element.appendChild(option);
   }
 
+  // Add text field for custom folder name
+  const customFieldInput = document.createElement('input');
+  customFieldInput.setAttribute('type', 'text');
+  customFieldInput.setAttribute('placeholder', 'New Folder Name');
+  customFieldInput.classList.add("text-black");
+
+  customFieldInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      const newFolderName = customFieldInput.value.trim();
+      if (newFolderName !== '') {
+        // Add the new folder to the options list
+        const newOption = document.createElement('li');
+        newOption.classList.add("option");
+        newOption.classList.add("text-black");
+        newOption.textContent = newFolderName;
+        newOption.value = options.length;
+
+        newOption.addEventListener(
+            'click',
+            (event) => selectOptionHandler(event, newOption)
+        );
+
+        options_element.insertBefore(newOption, customFieldInput);
+        // Clear the input field
+        customFieldInput.value = '';
+      }
+    } else if (e.key === 'Escape') {
+      // Clear the input field
+      customFieldInput.value = '';
+    }
+  });
+  options_element.appendChild(customFieldInput);
   dropdown_logic()
 }
+
+const selectOptionHandler = (event, option) => {
+      // consoleLog("option/")
+      // consoleLog(option.textContent)
+      // consoleLog("option/")
+
+      // when an option is clicked, we want to set the button text to the option text
+      // then replace the option text with the button text, then log the current folder cookie
+      event.stopPropagation();
+      const optionMenu = document.querySelector(".select-menu");
+      const selectBtn_text = document.getElementById('sBtn-text');
+
+      const temp = selectBtn_text.textContent;
+      selectBtn_text.textContent = option.textContent;
+      option.textContent = temp;
+      log_current_folder_cookie(selectBtn_text.textContent)
+      // remove current_folder cookie
+
+      optionMenu.classList.toggle("active")
+      body.classList.toggle("active")
+    };
 
 function dropdown_logic() {
 
   const optionMenu = document.querySelector(".select-menu")
-
-  const selectBtn_text = document.getElementById('sBtn-text');
   const selectBtn = document.getElementById('select-btn');
   const options_element_array = optionMenu.querySelectorAll(".option")
 
@@ -183,33 +234,12 @@ function dropdown_logic() {
 
 
   options_element_array.forEach((option) => {
-
-    option.addEventListener("click", () => {
-      // consoleLog("option/")
-      // consoleLog(option.textContent)
-      // consoleLog("option/")
-
-      // when an option is clicked, we want to set the button text to the option text
-      // then replace the option text with the button text, then log the current folder cookie
-      const temp = selectBtn_text.textContent;
-      selectBtn_text.textContent = option.textContent;
-
-      option.textContent = temp;
-
-      log_current_folder_cookie(selectBtn_text.textContent)
-      // remove current_folder cookie
-
-      optionMenu.classList.toggle("active")
-      body.classList.toggle("active")
-
-
-    });
-
+    option.addEventListener(
+        "click", (event) => selectOptionHandler(event, option)
+    );
   });
 
 }
-
-
 
 async function init() {
 

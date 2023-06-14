@@ -50,7 +50,13 @@ export default function SearchResult() {
             }
           };
       
-          fetchData().then(data => setSearchResult(data));
+          fetchData().then(data => {
+            const updatedData = data.map(bookmark => {
+              const type = bookmark.url.endsWith(".pdf") ? "pdf" : "url";
+              return { ...bookmark, type };
+            });
+            setSearchResult(updatedData);
+          });
 
     }, [])
 

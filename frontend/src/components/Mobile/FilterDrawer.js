@@ -5,21 +5,18 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { grey } from '@mui/material/colors';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import Skeleton from '@mui/material/Skeleton';
 import Typography from '@mui/material/Typography';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import TuneIcon from '@mui/icons-material/Tune';
 import { IconButton, Stack, Chip, Grid } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
 import { MobileBookMarkList } from '../BookMarkList';
 import { getAllBookmarks, getAllFolders } from '../../services/service';
-import { useState, useEffect } from 'react';
-
+import { useState, useEffect, useContext } from 'react';
+import { FileContext } from '../../utils/FileContext'
+import SelectScope from '../SelectScope';
 
 
 const drawerBleeding = 56;
-const sampleTags = ["Kyuhee", "Bookmark AI", "Technology", "AI", "Startups", "San Francisco", "GenerativeAI", "Productivity"]
-
 
 interface Props {
   /**
@@ -51,20 +48,8 @@ const Puller = styled(Box)(({ theme }) => ({
 export default function SwipeableEdgeDrawer(props: Props) {
   const { window } = props;
   const [ open, setOpen ] = React.useState(false);
-  const [ allBookmarks, setAllBookmarks ] = useState([]);
-  const [allFolders, setAllFolders] = useState([]);
+  const { selectedFiles } = useContext(FileContext)
 
-  function fetchFolderList() {
-      getAllFolders().then((response) => setAllFolders(response))
-  }
-  
-
-  useEffect(() => {
-      getAllBookmarks().then((response) => setAllBookmarks(response));
-      fetchFolderList();
-  }, []);
-  
-  
 
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
@@ -114,7 +99,13 @@ export default function SwipeableEdgeDrawer(props: Props) {
         >
           <Puller onClick={()=>console.log('test')}/>
           <Grid xs={12} sx={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Typography sx={{ p: 2, color: 'text.secondary' }}>Select Bookmarks</Typography>
+            {selectedFiles.length < 1 ? <Typography sx={{ p: 2, color: 'text.secondary' }}>Select Bookmarks</Typography> :
+       
+              <Typography sx={{ p: 2, color: 'text.secondary' }}>
+                  {selectedFiles.length} bookmarks selected
+              
+                    </Typography>     
+           }
             {open && <Button onClick={()=>setOpen(false)}>Done</Button>}
           </Grid>
           
@@ -129,24 +120,7 @@ export default function SwipeableEdgeDrawer(props: Props) {
             overflow: 'auto',
           }}
         >
-            <Typography sx={{ml: 1, mb: 1}}>
-              Folders
-            </Typography>
-            <Stack direction="row" spacing={0} sx={{flexWrap: "wrap"}} >  
-                {allFolders.map((tag) => (
-                    <Box sx={{mt: 0.4, mb: 0.4, ml: 0.5}}>
-                        <Chip label={tag}>
-                            {tag}
-                        </Chip>
-                    </Box>
-                ))}
-            </Stack>
-
-            <Typography sx={{mt: 2, ml: 1}}>
-              Bookmarks
-            </Typography>
-
-            <MobileBookMarkList select={true} bookmarks={allBookmarks}/> 
+           <SelectScope/>
             
         </StyledBox>
       </SwipeableDrawer>

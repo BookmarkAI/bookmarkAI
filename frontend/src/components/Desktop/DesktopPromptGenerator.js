@@ -12,6 +12,7 @@ import { Create } from '@mui/icons-material';
 
 
 
+
 function CreatePrompt(selectedChips) {
   let role = selectedChips['role'] ? `You are an experienced ${selectedChips['role']}. ` : ""
   let tone = selectedChips['tone'] ? `Your tone is ${selectedChips['tone']}. `: ""
@@ -113,8 +114,9 @@ export default function DesktopPromptGenerator({query, setQuery}) {
 
   return (
     <div>
-      <Button variant="contained" disabled={chatEnabled ? false : true} onClick={handleClick} sx={{minHeight:'46px', color: "white", background: 'linear-gradient(to right, #cd5b95, #9846ca)', pl: 2, textTransform: "none"}}>
-        Advanced Search       
+      <Button variant="contained" disabled={chatEnabled ? false : true} onClick={handleClick} sx={{minHeight:'46px', color: "white", background: '#404752', pl: 2, textTransform: "none",  '&:hover': {background: '#404752', border: 1, borderColor: '#aaaaaa'}}}>
+        <BoltIcon/>
+           Prompt
       </Button>
       <Popover
         id={id}

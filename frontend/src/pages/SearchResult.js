@@ -1,20 +1,16 @@
 import { useSearchParams } from 'react-router-dom'
 import {useContext, useEffect, useState} from 'react';
-import { usersRef, db} from '../fb.js';
-import { doc, setDoc, collection} from "firebase/firestore"; 
 import { Desktop, Mobile } from '../utils/MediaQuery';
 import DesktopChatScreen from '../components/Desktop/DesktopChatScreen.js';
 import MobileChatScreen from '../components/Mobile/MobileChatScreen.js'
 import { EventSourcePolyfill } from 'event-source-polyfill';
 import {AuthContext} from "../components/context/AuthContext";
 import { FileContext } from '../utils/FileContext.js';
-import { TypeContext } from '../utils/TypeContext.js';
-import { getBookmark } from '../services/service.js';
 
 const EventSource = EventSourcePolyfill;
 
 function getQueryString(selectedFiles) {
-    if (selectedFiles.length == 0) {
+    if (selectedFiles.length === 0) {
         return ''
     } else {
         return selectedFiles.map((str) => `&selected_context=${str}`).join('');
@@ -24,7 +20,7 @@ function getQueryString(selectedFiles) {
 export default function SearchResult() {
     const { selectedFiles } = useContext(FileContext)
     
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams] = useSearchParams();
     const q = searchParams.get('q');
     const [responseMessages, setResponseMessages] = useState([]);
     const [sources, setSources] = useState([]);
@@ -93,27 +89,6 @@ export default function SearchResult() {
             )
         )
     }, [responseMessages])
-
-   async function keyPress(e){
-        if(e.key === 'Enter'){
-            e.preventDefault();
-            setResponseMessages([])
-            if (user.uid != null) {
-                const queryRef = doc(collection(db, "users", user.uid, "queries"));
-                await setDoc(queryRef, {
-                    query: inputValue, 
-                    time: new Date()
-                }); 
-            }
-            setSearchParams({q:inputValue});
-            setInputValue('')
-        }
-    }
-    const [inputValue, setInputValue] = useState('');
-    function handleInputChange(e){
-        setInputValue(e.target.value);
-    }
-
 
 
     return(

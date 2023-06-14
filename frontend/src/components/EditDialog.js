@@ -1,11 +1,8 @@
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import * as React from 'react';
-import SelectTags from './Mobile/SelectTags';
-import { IconButton, Box, Toolbar, Typography, Button, Grid, FormControl, Select, InputLabel, Stack, Menu, MenuItem, MenuList } from '@mui/material';
-import ModeEditIcon from '@mui/icons-material/ModeEdit';
+import { IconButton, Box, Typography, Button, Grid, FormControl, Select, InputLabel, Stack, Menu, MenuItem } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { getAllFolders, updateBookmarkFolder } from '../services/service';
 import { useState, useEffect } from 'react';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
@@ -27,13 +24,6 @@ function EditDialog({title, url, id, folder, open, setOpen, fetchBookmarks}){
     useEffect(() => {
         fetchFolderList();
     }, []);
-    
-
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-
-
   
     const handleClose = async () => {
         console.log(id)

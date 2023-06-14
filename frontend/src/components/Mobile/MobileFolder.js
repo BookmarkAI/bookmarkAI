@@ -1,8 +1,6 @@
-import { Card, Box, CardMedia, IconButton, Typography, Checkbox } from '@mui/material';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import {  Box, CardMedia, Typography, Checkbox } from '@mui/material';
 import folderImg from '../../assets/folder/5.png'
 import { useNavigate } from 'react-router';
-import ScrollHeader from './ScrollHeader';
 
 
 export default function MobileFolder({folder, select}){
@@ -10,12 +8,13 @@ export default function MobileFolder({folder, select}){
     return (
         <>
 
-    <Box sx={{display: "flex", flexDirection: "row", borderBottom: 0.2, justifyContent: "space-between", borderColor: "#d3d3d3" }}>
+    <Box onClick={()=>navigate(`/folder/${folder}`)} sx={{display: "flex", flexDirection: "row", borderBottom: 0.2, justifyContent: "space-between", borderColor: "#d3d3d3" }}>
 
                     
-        <Box onClick={()=>navigate(`/folder/${folder}`)} sx={{display: "flex", flexDirection: "row", alignItems: "center"}}>
+        <Box  sx={{display: "flex", flexDirection: "row", alignItems: "center"}}>
             <CardMedia sx={{m: 1}}>
                 <img 
+                alt={"folder"}
                 src={folderImg} 
                 style={{
                     height: '40px',
@@ -27,12 +26,6 @@ export default function MobileFolder({folder, select}){
                     {folder}
                 </Typography>
             </Box>
-        </Box>
-
-        <Box>
-            
-                <Checkbox/>
-            
         </Box>
     </Box>
         </>

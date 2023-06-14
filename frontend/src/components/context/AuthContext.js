@@ -37,11 +37,11 @@ export const AuthProvider = ({ children }) => {
 
 
     })
-  }, [])
+  })
 
   if (isLoading) {
     // Render loading indicator or any other desired UI element while isLoading is true
-    return <div>Loading...</div>;
+    return <div/>;
   }
 
 

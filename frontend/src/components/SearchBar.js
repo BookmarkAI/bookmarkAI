@@ -1,41 +1,36 @@
 import * as React from 'react';
 import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
+import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
-import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import SendIcon from '@mui/icons-material/Send'
 import SearchIcon from '@mui/icons-material/Search';
-import DirectionsIcon from '@mui/icons-material/Directions';
 import { useState, useEffect  } from 'react';
-import { useNavigate, createSearchParams, useSearchParams, useLocation } from 'react-router-dom';
+import { useNavigate, createSearchParams, useSearchParams } from 'react-router-dom';
 import DesktopPromptGenerator from './Desktop/DesktopPromptGenerator.js';
 import { Tooltip } from '@mui/material';
-
-import { auth, usersRef, db} from '../fb.js';
-import { doc, updateDoc, arrayUnion, collection, setDoc } from "firebase/firestore"; 
+import { auth, db} from '../fb.js';
+import { doc, collection, setDoc } from "firebase/firestore"; 
 import CommentsDisabledIcon from '@mui/icons-material/CommentsDisabled';
 import CommentIcon from '@mui/icons-material/Comment';
 import { useContext } from 'react';
 import { FileContext } from '../utils/FileContext';
-import { TypeContext } from '../utils/TypeContext.js';
+import FilterDrawer from './Mobile/FilterDrawer';
+import DesktopAdvancedSearch from './Desktop/DesktopAdvancedSearch';
 
 
 function SearchBar(props) {
   const { fontsize, style, placeholder, advanced } = props;
   const navigate = useNavigate();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams ] = useSearchParams();
   const [query, setQuery] = useState(searchParams.get('q') || '');
   const { chatEnabled, enableChat, selectedFiles } = useContext(FileContext);
-  const { handleTypeSelect } = useContext(TypeContext);
 
-  const location = useLocation();
-  const currentPathname = location.pathname;
   const user = auth.currentUser;
 
   useEffect(() => {
     setQuery(searchParams.get('q') || '')
-  }, [searchParams.get('q')]); 
+  }, [ searchParams ]); 
 
 
   function changeQuery(e){
@@ -43,7 +38,7 @@ function SearchBar(props) {
   }
 
   async function keyPress(e){
-        if(e.key === 'Enter' &&  query != ""){
+        if(e.key === 'Enter' &&  query !== ""){
             e.preventDefault();
             if (user.uid !== null) {
               const queryRef = doc(collection(db, "users", user.uid, "queries"));
@@ -76,7 +71,7 @@ function SearchBar(props) {
         onChange={changeQuery}
         onKeyDown={keyPress}
         sx={{ ml: 1, flex: 1, fontSize: fontsize }}
-        placeholder={selectedFiles.length < 1 ? placeholder : `Search Among ${selectedFiles.length} Bookmarks`}
+        placeholder={selectedFiles.length < 1 ? placeholder : `Chat with ${selectedFiles.length} Bookmarks`}
         inputProps={{ 'aria-label': 'search google maps' }}
       />
       
@@ -99,15 +94,18 @@ function SearchBar(props) {
         </Tooltip>
         
         }
+       
 
         {props.children}
       </Box>
 
     </Paper>               
     {advanced && 
-      <Box sx={{display: 'flex', flexDirection: 'column', ml: 1}}>
+      
+      <Stack sx={{display: 'flex', flexDirection: 'row', ml: 1}} spacing={1} direction="row">
+        <DesktopAdvancedSearch/>
         <DesktopPromptGenerator setQuery={setQuery} query={query}/>
-      </Box>}
+      </Stack>}
    </>
   );
 }
@@ -118,14 +116,13 @@ function DesktopSearchBar(props) {
   const { height, width, advanced } = props; 
   const style = {height, width, display: 'flex', alignItems: 'center', justifyContent: 'center', border:1, pl: 1, pr:1, pt: 0.8, pb: 0.8,  borderColor: "#DFE1E5", borderRadius:1}
   return (
-    <SearchBar fontsize={18} style={style} placeholder={"Search Your Own Internet"} advanced={advanced}>
+    <SearchBar fontsize={18} style={style} placeholder={"Chat with your bookmarks"} advanced={advanced}>
       {props.children}
     </SearchBar>
   )
 }
 
 function MobileSearchBar(props) {
-  const { placeholder } = props;
   const style = {display: 'flex', alignItems: 'center', justifyContent: 'center', border:1, height: 40, pr: 1, width: '95%', borderColor: "#DFE1E5", borderRadius:10}
   return (
     <SearchBar fontsize={17} style={style} placeholder={"Search"} {...props}>

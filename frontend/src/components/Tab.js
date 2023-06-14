@@ -1,13 +1,8 @@
-import ChatIcon from '@mui/icons-material/Chat';
-import ArticleIcon from '@mui/icons-material/Article';
-import ImageIcon from '@mui/icons-material/Image';
-import { useNavigate } from 'react-router-dom';
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
-import FilterDrawer from './Mobile/FilterDrawer';
 import { useContext } from 'react';
 import { FileContext } from '../utils/FileContext';
 import { TypeContext } from '../utils/TypeContext';
@@ -60,11 +55,9 @@ const AntTab = styled((props: StyledTabProps) => <Tab disableRipple {...props} /
 function DesktopTab(props) {
   const { width } = props;
   const [value, setValue] = React.useState(0);
-  const navigate = useNavigate();
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
-  const { handleTypeSelect } = useContext(TypeContext);
 
   return (
     <Box sx={{ width: width ? width : '97%' }}>
@@ -93,9 +86,8 @@ function BrowseTab() {
 }
 
 function SearchTab(props) {
-  const { display, setDisplay } = props;
+  const { setDisplay } = props;
   const { chatEnabled } = useContext(FileContext);
-  const { handleTypeSelect } = useContext(TypeContext);
   return (
     <DesktopTab>
       {chatEnabled && <AntTab onClick={()=>setDisplay('chat')} sx={{fontSize: '17px'}}  label="Chat" />}

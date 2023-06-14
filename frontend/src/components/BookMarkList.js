@@ -9,7 +9,6 @@ import ControlledCheckbox from "./ControlledCheckbox";
 
 function DesktopBookMarkList({ spacing, select, topk, bookmarks, fetchBookmarks }) {
     const style = {pr: 3}
-  
     return (
         <>
     
@@ -20,7 +19,7 @@ function DesktopBookMarkList({ spacing, select, topk, bookmarks, fetchBookmarks 
                 sx={style}
             >
 
-            {bookmarks.map((doc, i) => (
+            {sortedBookmarks.map((doc, i) => (
                 <Grid item xs={12} sm={6} md={4} >
                     <DesktopBookmarkCard select={select} {...doc} i={i} fetchBookmarks={fetchBookmarks}/>
                 </Grid>

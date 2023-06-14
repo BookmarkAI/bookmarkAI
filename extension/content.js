@@ -145,7 +145,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
         getInit(obj, request.uid, sendResponse);
         return true;
-
+    
 }}
 );
 

@@ -6,7 +6,7 @@ document.getElementById('extractButton').addEventListener('click', async () => {
   }
   var button = document.getElementById('extractButton');
   button.classList.add('added');
-  button.textContent = 'Added to Bookmarks!';
+  button.textContent = 'Added to Bookmarks';
   uid = await getUID()
   // Send a message to the active tab
   chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
@@ -144,12 +144,6 @@ async function updatePopupGivenFolders(response) {
   const selectBtn_text = document.getElementById('sBtn-text');
 
   selectBtn_text.textContent = cur_folder;
-//   const svgCode = `
-// <svg role="img" viewBox="0 0 512 512">
-//   <path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/>
-// </svg>`;
-// // add svg as child of select button
-// selectBtn.insertAdjacentHTML('beforeend', svgCode);
 
   for (let i = 0; i < options.length; i++) {
     const folder = options[i];
@@ -159,17 +153,21 @@ async function updatePopupGivenFolders(response) {
     option.textContent = folder;
     option.value = String(i);
 
-    // add an event listener to the option that calls log_current_folder_cookie(folder)
-
-
     options_element.appendChild(option);
   }
 
   // Add text field for custom folder name
   const customFieldInput = document.createElement('input');
   customFieldInput.setAttribute('type', 'text');
-  customFieldInput.setAttribute('placeholder', 'New Folder Name');
+  customFieldInput.setAttribute('placeholder', 'Add New Folder');
   customFieldInput.classList.add("text-black");
+
+  customFieldInput.style.color = "black";
+  customFieldInput.style.backgroundColor = "white";
+  customFieldInput.style.border = "0px";
+  customFieldInput.style.margin = "5px"; 
+  customFieldInput.style.marginLeft = "15px"; 
+  customFieldInput.style.fontSize= "13px"; 
 
   customFieldInput.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {

@@ -6,7 +6,7 @@ document.getElementById('extractButton').addEventListener('click', async () => {
   }
   var button = document.getElementById('extractButton');
   button.classList.add('added');
-  button.textContent = 'Added to Bookmarks!';
+  button.textContent = 'Added to Bookmarks';
   uid = await getUID()
   // Send a message to the active tab
   chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
@@ -159,8 +159,15 @@ async function updatePopupGivenFolders(response) {
   // Add text field for custom folder name
   const customFieldInput = document.createElement('input');
   customFieldInput.setAttribute('type', 'text');
-  customFieldInput.setAttribute('placeholder', 'New Folder Name');
+  customFieldInput.setAttribute('placeholder', 'Add New Folder');
   customFieldInput.classList.add("text-black");
+
+  customFieldInput.style.color = "black";
+  customFieldInput.style.backgroundColor = "white";
+  customFieldInput.style.border = "0px";
+  customFieldInput.style.margin = "5px"; 
+  customFieldInput.style.marginLeft = "15px"; 
+  customFieldInput.style.fontSize= "13px"; 
 
   customFieldInput.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {

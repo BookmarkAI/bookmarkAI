@@ -97,12 +97,12 @@ html {
 body {
 	background: #202124;
 	width: 300px;
-	height: 200px;
+	height: 190px;
 }
 body.active {
 	background: #202124;
 	width: 300px;
-	height: 350px;
+	height: 250px;
 }
 
 
@@ -110,6 +110,7 @@ body.active {
 .select-btn {
 
 	width: 125px;
+	height: 35px;
   
 	display: flex;
   
@@ -127,7 +128,7 @@ body.active {
   
 	font-weight: 400;
   
-	border-radius: 8px;
+	border-radius: 5px;
   
 	align-items: center;
   
@@ -147,7 +148,7 @@ body.active {
   
 	overflow: auto;
   
-	max-height: 150px;
+	max-height: 100px;
   
 	padding: 10px;
   

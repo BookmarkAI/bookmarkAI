@@ -38,7 +38,7 @@ export default function DesktopAppHeader() {
                     <Box onClick={onClickHandler} sx={{mr:3}}>
                         <img 
                             src={logo} 
-                            alt="Split.it Logo" 
+                            alt="Supermark Logo" 
                             style={{
                                 width: 200
 

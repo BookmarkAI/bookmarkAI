@@ -10,6 +10,7 @@ import { useState } from 'react';
 import { useContext } from 'react';
 import { FileContext } from '../../utils/FileContext';
 import BookmarkMenu from '../EditDialog';
+import ControlledCheckbox from '../ControlledCheckbox';
 
 
 const colorArray = [
@@ -38,22 +39,11 @@ function addDefaultSrc(ev) {
 
 function DesktopMiniBookmarkCard(props) { 
   const { title, url, i } = props;
-  const { selectedFiles, updateSelectedFiles, removeSelectedFiles } = useContext(FileContext);
-
-  const clicked = selectedFiles.includes(title)
-
-  function handleClick() {
-    if (!clicked) {
-        updateSelectedFiles(title);
-    } else {
-        removeSelectedFiles(title);
-    }
-  }
 
   const navigate = useNavigate();
 
   return (
-    <Box sx={{mr: 2, mb: 2,  background: clicked ? '#dddddd' : "white", borderRadius: 4}}>
+    <Box sx={{mr: 2, mb: 2,  background: "white", borderRadius: 4}}>
           <Box sx={{ml: 0.5,  mt: 1}}>
             
 
@@ -73,7 +63,7 @@ function DesktopMiniBookmarkCard(props) {
                 </Box> 
             </Box>
 
-            <Box onClick={handleClick}>
+            <Box onClick={()=>{window.open(url, "_blank")}}>
               <Typography sx={{overflow: "hidden",
                   textOverflow: "ellipsis",
                   display: "-webkit-box",
@@ -95,27 +85,17 @@ function DesktopBookmarkCard(props) {
   const { title, url, id, i, fetchBookmarks } = props;
   const { selectedFiles, updateSelectedFiles, removeSelectedFiles } = useContext(FileContext);
 
-  const clicked = selectedFiles.includes(id)
-
-  function handleClick() {
-    if (!clicked) {
-        updateSelectedFiles(id);
-    } else {
-        removeSelectedFiles(id);
-    }
-  }
-
   const navigate = useNavigate();
 
   return (
-    <Box sx={{mr: 2, mb: 2,  background: clicked ? '#dddddd' : "white", borderRadius: 4}}>
+    <Box sx={{mr: 2, mb: 2,  background: "white", borderRadius: 4}}>
         
-          <Box onClick={handleClick} sx={{background: colorArray[i%colorArray.length], filter: clicked ? "brightness(85%)" : "brightness(100%)", minHeight: 150, mb: 2, borderRadius: 4, display: "flex", justifyContent: "flex-end", alignItems: "flex-start"}}>
-            <LaunchIcon onClick={()=>{window.open(url, "_blank")}} sx={{color: "white", m: 2}}/>
+          <Box onClick={()=>updateSelectedFiles(id)} sx={{background: colorArray[i%colorArray.length], minHeight: 150, mb: 2, borderRadius: 4, display: "flex", justifyContent: "flex-end", alignItems: "flex-start"}}>
+           <ControlledCheckbox id={id}/>
           </Box>
 
           <Box sx={{ml: 0.5,  mt: 1}}>
-            <Box onClick={handleClick}>
+            <Box onClick={()=>{window.open(url, "_blank")}}>
               <Typography sx={{overflow: "hidden",
                   textOverflow: "ellipsis",
                   display: "-webkit-box",

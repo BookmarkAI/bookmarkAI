@@ -101,13 +101,15 @@ export default function SelectBookmarkCard({folder, fetchBookmarks}) {
         setOpen(true);
     };
 
-    const handleClose = () => {
-        selected.forEach(file => {
-            updateBookmarkFolder(file, folder)
-        });
-        setSelected([])
-        setOpen(false);
-        fetchBookmarks();
+    const handleClose = async () => {
+      const updatePromises = selected.map((file) => {
+        return updateBookmarkFolder(file, folder);
+      });
+    
+      await Promise.all(updatePromises);
+      setSelected([])
+      setOpen(false);
+      fetchBookmarks();
     };
 
    

@@ -12,18 +12,24 @@ import TuneIcon from '@mui/icons-material/Tune';
 import { getAllBookmarks } from "../../services/service";
 import ScrollHeader from './ScrollHeader';
 import AddBookmarksToFolder from '../AddBookmarksToFolder';
+import { FileContext } from "../../utils/FileContext";
+import { useContext } from "react";
 
 
 
 export default function MobileFolderView() {
     const [ select, setSelect ] = useState(false);
-    const [ selectAll, setSelectAll ] = useState(false);
     const [ allBookmarks, setAllBookmarks ] = useState([]); 
+    const { resetSelectedFiles, selectedFiles, updateSelectedFiles } = useContext(FileContext);
     const { id } = useParams();
     const selectedFolder = id;
 
     function fetchBookmarks(){
         getAllBookmarks().then((response) => setAllBookmarks(response));
+    }
+
+    function selectAll(){ 
+        filteredBookmarks.forEach((bookmark) => updateSelectedFiles(bookmark.id))
     }
 
     useEffect(() => {
@@ -71,7 +77,7 @@ export default function MobileFolderView() {
 
             <Box onClick={()=>setSelect(!select)} sx={{display: "flex", width: "100%", alignItems: "center", justifyContent:"space-between", background:'linear-gradient(to right, #BB70EE, #87A5ED)'}}>
                 <Typography variant="body2" sx={{pl:1, color: "white", fontWeight: 440}}>
-                Select bookmarks and ask a question ✍️
+                {selectedFiles.length < 1 ? "Select bookmarks and ask a question ✍️" : `${selectedFiles.length} bookmarks selected ✍️`}
                 </Typography>
                 <IconButton onClick={()=>setSelect(!select)}>
                     {!select?
@@ -85,12 +91,12 @@ export default function MobileFolderView() {
 
             <Collapse in={select} >
                 <Box sx={{display: "flex", justifyContent: "space-between"}}>
-                <Button onClick={()=>setSelectAll(!selectAll)} sx={{textTransform:"none"}}>
-                    { selectAll ? "Deselect All" : "Select All"}
+                <Button onClick={()=>resetSelectedFiles()} sx={{textTransform:"none"}}>
+                        Deselect all {selectedFiles.length} bookmarks
                 </Button>
 
-                <Button onClick={()=>{setSelect(!select); setSelectAll(false)}} sx={{textTransform: "none"}}>
-                    Cancel
+                <Button onClick={selectAll} sx={{textTransform: "none"}}>
+                   Select all
                 </Button>
                 </Box>
             </Collapse>

@@ -2,7 +2,7 @@ import * as React from 'react';
 import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import { Box} from '@mui/material';
+import { Box } from '@mui/material';
 import SelectScope from '../SelectScope';
 
 
@@ -40,7 +40,7 @@ export default function DesktopAdvancedSearch() {
         }}
       >
         <Box sx={{width: '400px', height: '600px', overflow:'auto', p: 2}}>
-          <SelectScope/>
+          <SelectScope handleClose={handleClose}/>
         </Box>
       </Popover>
       

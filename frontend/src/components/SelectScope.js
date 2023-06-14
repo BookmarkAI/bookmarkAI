@@ -2,16 +2,17 @@ import * as React from 'react';
 import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import { Stack, Box, Chip, IconButton, Grid } from '@mui/material';
+import { Stack, Box, Chip, IconButton, Grid, DialogTitle } from '@mui/material';
 import { useContext, useState, useEffect } from 'react';
 import { FileContext } from '../utils/FileContext';
 import { MobileBookMarkList } from './BookMarkList';
 import { getAllBookmarks, getAllFolders } from '../services/service';
+import ScopingBookmarkCard from './ScopingBookmarkCard';
+import { Desktop } from '../utils/MediaQuery'
 
 
 
-
-export default function SelectScope() {
+export default function SelectScope({ handleClose }) {
   const [ allBookmarks, setAllBookmarks ] = useState([]);
   const [allFolders, setAllFolders] = useState([]);
   const { selectedFiles, updateSelectedFiles, removeSelectedFiles, resetSelectedFiles, chatEnabled } = useContext(FileContext);
@@ -51,18 +52,22 @@ export default function SelectScope() {
     <div>
       
        
+            
+            <Desktop>
+        
             <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-            <Typography sx={{ ml: 1, mb: 1}}>
+                <Typography sx={{ ml: 1, mb: 1}}>
                 Select Bookmarks
                 </Typography>
-                <Button sx={{textTransform: 'none'}} onClick={()=>resetSelectedFiles()}>
-                    Deselect all {selectedFiles.length} bookmarks
+                <Button sx={{textTransform: 'none'}} onClick={handleClose}>
+                <Typography sx={{fontWeight: 500}}>
+                    Done
+                </Typography>
                 </Button>
             </Box>
-
+          
+            </Desktop>
             
-                
-
                 
             <Stack direction="row" spacing={0} sx={{flexWrap: "wrap"}} >  
                 <Box sx={{mt: 0.4, mb: 0.4, ml: 0.5}}>
@@ -89,10 +94,23 @@ export default function SelectScope() {
             </Box>
 
 
-            
+            <Grid
+                container
+                spacing={0}
+                justify="center"
+            >
 
-            <MobileBookMarkList select={true} bookmarks={filteredBookmarks}/> 
-        
+            {filteredBookmarks.map((doc, i) => (
+                <Grid item xs={12}>
+                     <Box sx={{display: "flex", flexDirection: "column", borderBottom: 0.2, borderColor: "#d3d3d3" }}>
+                    <ScopingBookmarkCard {...doc}/>
+                    </Box>
+                    
+                </Grid>
+            ))}
+        </Grid>
+
+    
    
       
     </div>

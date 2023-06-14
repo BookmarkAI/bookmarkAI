@@ -3,6 +3,7 @@ import MobileBookmarkCard from "./Mobile/MobileBookmarkCard";
 import { DesktopBookmarkCard } from "./Desktop/DesktopBookmarkCard";
 import BookmarkMenu from "./EditDialog";
 import MoreVertIcon from '@mui/icons-material/MoreVert'
+import ControlledCheckbox from "./ControlledCheckbox";
 
 
 
@@ -30,7 +31,7 @@ function DesktopBookMarkList({ spacing, select, topk, bookmarks, fetchBookmarks 
     )
 }
 
-function MobileBookMarkList({ spacing, select, topk, selectedFolder, bookmarks, fetchBookmarks}) {
+function MobileBookMarkList({ spacing, select, bookmarks, fetchBookmarks}) {
     return (
         <Grid
             container
@@ -39,21 +40,15 @@ function MobileBookMarkList({ spacing, select, topk, selectedFolder, bookmarks, 
         >
 
             {bookmarks.map((doc, i) => (
-                topk ? 
-
-            (i < topk) && <Grid item xs={12}>
-                <Box sx={{display: "flex", flexDirection: "column", borderBottom: 0.2, borderColor: "#d3d3d3" }}>
-                    <MobileBookmarkCard select={select} {...doc}/> 
-                    </Box>
-                </Grid>
-                :
                 <Grid item xs={12}>
                      <Box sx={{display: "flex", flexDirection: "column", borderBottom: 0.2, borderColor: "#d3d3d3" }}>
                     <MobileBookmarkCard select={select} {...doc}>
                         <Box sx={{ mt:3 }}>
+                        {select ? <ControlledCheckbox {...doc}/> :
                         <BookmarkMenu {...doc} fetchBookmarks={fetchBookmarks}>
                             <MoreVertIcon sx={{color: "#808080"}}/>
                         </BookmarkMenu>
+                        }
                         </Box>
                     </MobileBookmarkCard>
                     </Box>

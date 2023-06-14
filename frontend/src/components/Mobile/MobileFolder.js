@@ -8,10 +8,10 @@ export default function MobileFolder({folder, select}){
     return (
         <>
 
-    <Box sx={{display: "flex", flexDirection: "row", borderBottom: 0.2, justifyContent: "space-between", borderColor: "#d3d3d3" }}>
+    <Box onClick={()=>navigate(`/folder/${folder}`)} sx={{display: "flex", flexDirection: "row", borderBottom: 0.2, justifyContent: "space-between", borderColor: "#d3d3d3" }}>
 
                     
-        <Box onClick={()=>navigate(`/folder/${folder}`)} sx={{display: "flex", flexDirection: "row", alignItems: "center"}}>
+        <Box  sx={{display: "flex", flexDirection: "row", alignItems: "center"}}>
             <CardMedia sx={{m: 1}}>
                 <img 
                 alt={"folder"}
@@ -26,12 +26,6 @@ export default function MobileFolder({folder, select}){
                     {folder}
                 </Typography>
             </Box>
-        </Box>
-
-        <Box>
-            
-                <Checkbox/>
-            
         </Box>
     </Box>
         </>

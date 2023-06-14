@@ -34,23 +34,23 @@ function addDefaultSrc(ev) {
 
 export default function MobileBookmarkCard(props) {
   const { title, id, url, timestamp, folder } = props;
-  const { selectedFiles, updateSelectedFiles, removeSelectedFiles } = useContext(FileContext);
-  const clicked = selectedFiles.includes(id);
-  function handleClick() {
-    if (!clicked) {
-        updateSelectedFiles(id);
-    } else {
-        removeSelectedFiles(id);
-    }
-  }
+  // const { selectedFiles, updateSelectedFiles, removeSelectedFiles } = useContext(FileContext);
+  // const clicked = selectedFiles.includes(id);
+  // function handleClick() {
+  //   if (!clicked) {
+  //       updateSelectedFiles(id);
+  //   } else {
+  //       removeSelectedFiles(id);
+  //   }
+  // }
 
 
   return (
   <>
-      <Box sx={{ display: "flex", justifyContent: 'space-between', maxWidth: 600, background: clicked ? '#dddddd' : "white", }}>
+      <Box sx={{ display: "flex", justifyContent: 'space-between', maxWidth: 600, background: "white", }}>
       
         {/* Code to navigate to the link */}
-        <Box onClick={handleClick} sx={{ display: "flex"}}>
+        <Box sx={{ display: "flex"}}>
           <Box sx={{ minWidth: 50, display: "flex", alignItems: "center", justifyContent: "center", ml: 1, mr: 1}}>
             <img
               src={getIcon(url)}

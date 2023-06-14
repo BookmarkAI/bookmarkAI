@@ -38,7 +38,7 @@ function FolderMenu({fetchFolderList}) {
           open={Boolean(anchorEl)}
           onClose={handleMenuClose}>
           <MenuItem><DesktopAddFolderDialog fetchFolderList={handleMenuClose}/></MenuItem>
-        </Menu>} 
+        </Menu>
       </div>
     );
   };
@@ -68,17 +68,9 @@ export default function MobileFoldersScreen() {
         <ScrollHeader>
             <FolderMenu fetchFolderList={fetchFolderList}/>
         </ScrollHeader>
-        <Grid xs={12} sx={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-            <MobileSearchBar placeholder={"Ask about 12 bookmarks"}>
-                <Box>
-                    <IconButton onClick={()=>setSelect(!select)}> 
-                        <TuneIcon/>
-                    </IconButton>
-                </Box>
-            </MobileSearchBar>
-        </Grid>
 
-            <Box onClick={()=>setSelect(!select)} sx={{mt: 1.5, display: "flex", width: "100%", alignItems: "center", justifyContent:"space-between", background:'linear-gradient(to right, #BB70EE, #87A5ED)'}}>
+
+            {/* <Box onClick={()=>setSelect(!select)} sx={{mt: 1.5, display: "flex", width: "100%", alignItems: "center", justifyContent:"space-between", background:'linear-gradient(to right, #BB70EE, #87A5ED)'}}>
                 <Typography variant="body2" sx={{pl:1, color: "white", fontWeight: 440}}>
                 Select folders and ask questions ✍️
                 </Typography>
@@ -90,7 +82,7 @@ export default function MobileFoldersScreen() {
                     }      
                 </IconButton>
             
-            </Box>
+            </Box> */}
 
         
             <Collapse in={select} >
@@ -106,7 +98,7 @@ export default function MobileFoldersScreen() {
             </Collapse>
 
 
-            <Grid xs={12} sx={{display: "flex", flexDirection: "column", m:1}}>
+            <Grid xs={12} sx={{display: "flex", flexDirection: "column", m:2}}>
                 <Stack spacing={1}>
                     {allFolders.map((folder, i) => (              
                          <MobileFolder folder={folder} select={select}/>

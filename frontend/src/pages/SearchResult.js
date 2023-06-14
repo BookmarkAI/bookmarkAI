@@ -60,6 +60,8 @@ export default function SearchResult() {
             });
             setSearchResult(updatedData);
           });
+        } else {
+          setSearchResult([]);
         }
 
     }, [searchParams])

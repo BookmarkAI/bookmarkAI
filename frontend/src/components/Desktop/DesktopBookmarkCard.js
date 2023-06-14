@@ -85,12 +85,20 @@ function DesktopBookmarkCard(props) {
   const { title, url, id, i, fetchBookmarks } = props;
   const { selectedFiles, updateSelectedFiles, removeSelectedFiles } = useContext(FileContext);
 
+  function handleClick(id) {
+    if (selectedFiles.includes(id)) {
+      removeSelectedFiles(id)
+    } else {
+      updateSelectedFiles(id)
+    }
+  }
+
   const navigate = useNavigate();
 
   return (
     <Box sx={{mr: 2, mb: 2,  background: "white", borderRadius: 4}}>
         
-          <Box onClick={()=>updateSelectedFiles(id)} sx={{background: colorArray[i%colorArray.length], minHeight: 150, mb: 2, borderRadius: 4, display: "flex", justifyContent: "flex-end", alignItems: "flex-start"}}>
+          <Box onClick={()=>handleClick(id)} sx={{background: colorArray[i%colorArray.length], minHeight: 150, mb: 2, borderRadius: 4, display: "flex", justifyContent: "flex-end", alignItems: "flex-start"}}>
            <ControlledCheckbox id={id}/>
           </Box>
 

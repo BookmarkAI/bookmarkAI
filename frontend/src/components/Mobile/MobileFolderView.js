@@ -1,8 +1,5 @@
 import { MobileBookMarkList } from "../BookMarkList";
-import useScrollTrigger from '@mui/material/useScrollTrigger';
-import Slide from '@mui/material/Slide';
 import * as React from 'react';
-import MobileTopBar from './MobileTopBar';
 import { useState, useEffect } from "react";
 import { Box, Typography, IconButton, Collapse, Button, Toolbar, Grid } from '@mui/material'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
@@ -10,38 +7,16 @@ import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp'
 import CssBaseline from "@mui/material/CssBaseline";
 import folder from '../../assets/folder/5.png'
 import { useParams } from 'react-router-dom';
-import { createTheme, ThemeProvider } from "@mui/material";
 import { MobileSearchBar } from "../SearchBar";
 import TuneIcon from '@mui/icons-material/Tune';
 import { getAllBookmarks } from "../../services/service";
 import ScrollHeader from './ScrollHeader';
 import AddBookmarksToFolder from '../AddBookmarksToFolder';
 
-const theme = createTheme({
-    components: {
-        MuiCssBaseline: {
-            styleOverrides: (themeParam) => ({
-                body: {
-                    margin: 0,
-                    overflow: 'hidden',
-                    height: '100%'
-                  },
-                  html: {
-                    margin: 0,
-                    height: '100%',
-                    overflow: 'hidden'
-                  }
-
-              }),
-        },
-      },
-});
-
 
 
 export default function MobileFolderView() {
     const [ select, setSelect ] = useState(false);
-    const [ open, setOpen ] = React.useState(false);
     const [ selectAll, setSelectAll ] = useState(false);
     const [ allBookmarks, setAllBookmarks ] = useState([]); 
     const { id } = useParams();

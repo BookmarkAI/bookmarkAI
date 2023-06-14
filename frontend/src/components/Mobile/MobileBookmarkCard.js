@@ -1,14 +1,9 @@
 import * as React from 'react';
 import Typography from '@mui/material/Typography';
-import { IconButton, Box, CardActionArea, CardActions, Collapse, InputLabel } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { Box } from '@mui/material';
 import icon from '../../assets/favicon.ico';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
 import { useContext } from 'react';
 import { FileContext } from '../../utils/FileContext';
-
 
 
 function formatDateTime(dateTime) {
@@ -36,32 +31,6 @@ function addDefaultSrc(ev) {
   ev.target.src = icon
 }
 
-function BasicSelect() {
-  const [age, setAge] = React.useState('');
-
-  const handleChange = (event) => {
-    setAge(event.target.value);
-  };
-
-  return (
-    <Box sx={{ minWidth: 120 }}>
-      <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">Age</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={age}
-          label="Age"
-          onChange={handleChange}
-        >
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
-        </Select>
-      </FormControl>
-    </Box>
-  );
-}
 
 export default function MobileBookmarkCard(props) {
   const { title, id, url, timestamp, folder } = props;
@@ -69,16 +38,11 @@ export default function MobileBookmarkCard(props) {
   const clicked = selectedFiles.includes(id);
   function handleClick() {
     if (!clicked) {
-      console.log(selectedFiles)
-       console.log(id);
         updateSelectedFiles(id);
     } else {
         removeSelectedFiles(id);
     }
   }
-
-
-  const navigate = useNavigate();
 
 
   return (
@@ -90,6 +54,7 @@ export default function MobileBookmarkCard(props) {
           <Box sx={{ minWidth: 50, display: "flex", alignItems: "center", justifyContent: "center", ml: 1, mr: 1}}>
             <img
               src={getIcon(url)}
+              alt={"icon"}
               onError={addDefaultSrc}
               style={{
                 height: 25

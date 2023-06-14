@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import {  Box, Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
 import icon from '../assets/favicon.ico';
 import { getAllBookmarks } from '../services/service';
 import { useState, useEffect } from 'react';
@@ -63,6 +62,7 @@ function BookmarkCard(props) {
           <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", ml: 1, mr: 1}}>
             <img
               src={getIcon(url)}
+              alt={""}
               onError={addDefaultSrc}
               style={{
                 height: 25

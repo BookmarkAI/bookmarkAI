@@ -1,33 +1,11 @@
-import { Box, Grid, Button } from '@mui/material';
+import { Grid, Button } from '@mui/material';
 import logo from '../../assets/supermark_both.png';
 import { useNavigate } from 'react-router-dom';
 import { MobileSearchBar } from '../../components/SearchBar';
-import HomeHeader from '../../components/HomeHeader';
-import { createTheme, ThemeProvider } from "@mui/material";
-import CssBaseline from "@mui/material/CssBaseline";
-import MobileFooter from './MobileFooter';
 import MobileHomeHeader from './MobileHomeHeader';
 import FilterDrawer from './FilterDrawer';
 
-const theme = createTheme({
-    components: {
-        MuiCssBaseline: {
-            styleOverrides: (themeParam) => ({
-                body: {
-                    backgroundColor: "#0D0012",
-                    overflow: 'hidden',
-                    height: '100%'
-                  },
-                  html: {
-                    margin: 0,
-                    height: '100%',
-                    overflow: 'hidden'
-                  }
 
-              }),
-        },
-      },
-});
 
 export default function MobileHomeScreen(props) {
     const navigate = useNavigate();

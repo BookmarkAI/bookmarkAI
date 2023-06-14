@@ -1,5 +1,5 @@
 import { useSearchParams } from 'react-router-dom'
-import { Typography, Box, Grid, Paper, InputBase, Stack } from '@mui/material';
+import { Typography, Box, Grid } from '@mui/material';
 import { MuiMarkdown } from 'mui-markdown';
 import { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
@@ -11,7 +11,6 @@ import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import CopySnackbar from '../Mobile/CopySnackbar';
-import { TypeContext } from '../../utils/TypeContext';
 import { getAllConversations, getConversation } from '../../services/service';
 import { FileContext } from '../../utils/FileContext';
 
@@ -20,7 +19,7 @@ import { FileContext } from '../../utils/FileContext';
 export default function DesktopChatScreen({ responseMessages, sources, searchResult}) {
     const { chatEnabled } = useContext(FileContext)
 
-    const [ searchParams, setSearchParams ] = useSearchParams();
+    const [ searchParams ] = useSearchParams();
     const [ openSnackbar, setOpenSnackbar ] = useState(false);
     const [ chatHistory, setChatHistory ] = useState([]);
 
@@ -30,7 +29,6 @@ export default function DesktopChatScreen({ responseMessages, sources, searchRes
 
     console.log(searchResult)
     const { id } = useParams();
-    const q = searchParams.get('q')
 
     const [ question, setQuestion ] = useState("")
     const [ answer, setAnswer ] = useState(null)
@@ -40,12 +38,6 @@ export default function DesktopChatScreen({ responseMessages, sources, searchRes
         setDisplay(chatEnabled ? 'chat' : 'all')
     }, [chatEnabled]);
 
-    
-
-    const [inputValue, setInputValue] = useState('');
-    function handleInputChange(e){
-        setInputValue(e.target.value);
-    }
 
     function fetchChatHistory() {
         getAllConversations().then((response) => setChatHistory(response));
@@ -61,7 +53,7 @@ export default function DesktopChatScreen({ responseMessages, sources, searchRes
         } else {
             setQuestion(searchParams.get('q'));
         }
-    }, [id,searchParams.get('q')]);
+    }, [id,searchParams]);
 
    
     return(
@@ -83,7 +75,7 @@ export default function DesktopChatScreen({ responseMessages, sources, searchRes
                 <Grid item xs={9.5}>
                     <SearchTab setDisplay={setDisplay} display={display}/>
                     
-                    {display=='chat' && <Box sx={{ maxHeight: 'calc(100vh - 150px)', overflow: "auto"}}>
+                    {display==='chat' && <Box sx={{ maxHeight: 'calc(100vh - 150px)', overflow: "auto"}}>
                         <Box sx={{display: "flex", flexDirection: "column", pb: 2, mt: 3, mb: 3, mr: 8, borderBottom: 1, borderColor: '#bbbbbb'}}>
                                 <Typography variant="h6">{question}</Typography>
                                 <Typography variant="body1" fontSize='20px' sx={{mr:1, mt: 1}}>
@@ -112,20 +104,20 @@ export default function DesktopChatScreen({ responseMessages, sources, searchRes
                     </Box>
                     }
 
-                    {display == 'all' && 
+                    {display === 'all' && 
                         <Box sx={{display: "flex", flexDirection: "column", pb: 2, mt: 3, mb: 3, mr: 8}}>
                         <DesktopBookMarkList bookmarks={searchResult}/>
                         </Box>
                     }
 
-                    {display == 'url' && 
+                    {display === 'url' && 
                     <Box sx={{display: "flex", flexDirection: "column", pb: 2, mt: 3, mb: 3, mr: 8}}>
                         <DesktopBookMarkList bookmarks={searchResult.filter((bookmark) => bookmark.type === 'url')}/>
                         </Box>
                     }
                     
 
-                    {display == 'pdf' && 
+                    {display === 'pdf' && 
                     <Box sx={{display: "flex", flexDirection: "column", pb: 2, mt: 3, mb: 3, mr: 8}}>
                         <DesktopBookMarkList bookmarks={searchResult.filter((bookmark) => bookmark.type === 'pdf')}/>
                     </Box>

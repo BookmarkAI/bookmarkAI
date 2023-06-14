@@ -30,6 +30,7 @@ const FileProvider = ({ children }) => {
   };
 
 
+
   const removeSelectedFiles = (file) => {
     setSelectedFiles((prevSelectedFiles) =>
       prevSelectedFiles.filter((selectedFile) => selectedFile !== file)

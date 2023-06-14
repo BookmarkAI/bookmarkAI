@@ -20,6 +20,9 @@ async function getAllConversations() {
         
           });
     }
+
+    // conversations.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
     return conversations
 }
 
@@ -56,6 +59,7 @@ async function getAllBookmarks() {
         
           });
     }
+    bookmarks.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
     return bookmarks
 }
 

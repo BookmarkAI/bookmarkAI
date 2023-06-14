@@ -1,5 +1,4 @@
-import { Box, Grid, IconButton, Typography, Stack, Card} from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { Box, Grid, IconButton, Typography, Card} from '@mui/material';
 import { MuiMarkdown } from 'mui-markdown';
 import MobileTopBar from './MobileTopBar';
 import * as React from 'react';
@@ -7,10 +6,8 @@ import { MobileSearchBar } from '../SearchBar';
 import { MobileBookMarkList } from "../BookMarkList";
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { useSearchParams } from 'react-router-dom';
-import { useState, useEffect } from 'react';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import CopySnackbar from './CopySnackbar';
-import CssBaseline from "@mui/material/CssBaseline";
 import FilterDrawer from './FilterDrawer';
 import ScrollHeader from './ScrollHeader';
 
@@ -19,47 +16,10 @@ export default function MobileChatScreen({ responseMessages, sources }) {
     const [ open, setOpen ] = React.useState(false);
     const [ openSnackbar, setOpenSnackbar ] = React.useState(false);
 
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [ searchParams ] = useSearchParams();
     const q = searchParams.get('q')
     const downRef = React.useRef(null)
-    const [ textClicked, setTextClicked ] = React.useState(false)
-    
-    useEffect(() => {
-        const handleScroll = () => {
-          const element = downRef.current;
-    
-          if (element) {
-            const rect = element.getBoundingClientRect();
-            const isBelowElement =window.pageYOffset >= rect.top;
-    
-            setTextClicked(isBelowElement);
-          }
-        };
-    
-        // Attach the scroll event listener
-        window.addEventListener('scroll', handleScroll);
-    
-        // Clean up the event listener when the component unmounts
-        return () => {
-          window.removeEventListener('scroll', handleScroll);
-        };
-      }, []);
-
-
-
-    function executeScroll() {
-        if (textClicked) {
-            window.scrollTo(0, 0)
-            setTextClicked(false); 
-        } else {
-            downRef.current.scrollIntoView();
-            setTextClicked(true); 
-        }
-    }
-
-
    
-    const navigate = useNavigate();
     return(
         <>
         <ScrollHeader/>
@@ -71,14 +31,12 @@ export default function MobileChatScreen({ responseMessages, sources }) {
         </Grid>
         <CopySnackbar open={openSnackbar} setOpen={setOpenSnackbar}/>
         <MobileTopBar open={open} setOpen={setOpen}/>
-        
-        {/* <FilterDrawer open={open} setOpen={setOpen}/> */}
         <Grid container>
             <Card item xs={12} sx={{width:'100%',display: "flex", ml: 2, mr: 2}}>
                 
 
-                <Stack spacing={1} p={2}>
-                    <Box sx={{display: "flex", justifyContent: "space-between"}}>
+                <Box sx={{width: '100%', display: 'flex', flexDirection: 'column', p: 2}}>
+                    <Box sx={{display: "flex", flexDirection: 'row', width: '100%', justifyContent: "space-between", alignItems: 'center', pb: 1}}>
                         <Typography variant="h6"> 
                             {q}
                         </Typography>
@@ -96,7 +54,7 @@ export default function MobileChatScreen({ responseMessages, sources }) {
                         </MuiMarkdown>
                     </Typography> 
                    
-                </Stack>  
+                </Box>  
                 
     
             </Card>

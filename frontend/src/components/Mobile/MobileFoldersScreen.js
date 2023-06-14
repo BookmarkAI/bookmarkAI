@@ -4,7 +4,6 @@ import { Box, Typography, IconButton, Collapse, Button, Toolbar, Stack, Grid, Me
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import CssBaseline from "@mui/material/CssBaseline";
 import MobileFolder from './MobileFolder';
 import { MobileSearchBar } from "../SearchBar";
 import TuneIcon from '@mui/icons-material/Tune';

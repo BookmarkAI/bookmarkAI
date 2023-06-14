@@ -28,6 +28,7 @@ export default function SearchResult() {
     const { user } = useContext(AuthContext);
 
     useEffect(() => {
+      
         const fetchData = async () => {
             try {
               const response = await fetch('http://localhost:8000/search', {
@@ -49,19 +50,24 @@ export default function SearchResult() {
               // Handle any errors
             }
           };
+
+        if(q) {
       
-          fetchData().then(data => {
+          fetchData().then(data => { 
             const updatedData = data.map(bookmark => {
               const type = bookmark.url.endsWith(".pdf") ? "pdf" : "url";
               return { ...bookmark, type };
             });
             setSearchResult(updatedData);
           });
+        }
 
     }, [searchParams])
 
     useEffect(() => {
         setResponseMessages([])
+
+        if (q) {
         const eventSource = new EventSource(`http://localhost:8000/chat?q=${q}${getQueryString(selectedFiles)}`, {
             headers: {
                 'X-UID': user.uid
@@ -81,7 +87,8 @@ export default function SearchResult() {
           // Cleanup on component unmount
           return () => {
             eventSource.close();
-          };
+          }
+        }
     }, [searchParams])
 
     useEffect(() => {

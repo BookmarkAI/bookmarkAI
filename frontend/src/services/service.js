@@ -3,7 +3,6 @@ import { collection, query, getDocs, getDoc, doc, where, updateDoc } from "fireb
 
 
 
-
 async function getAllConversations() {
     var conversations = []
     if (auth.currentUser != null) {

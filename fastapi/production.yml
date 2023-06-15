@@ -3,11 +3,10 @@ services:
   fastapi:
     build:
       context: .
-      dockerfile: ./dockerfile
+      dockerfile: compose/prod/dockerfile
+    image: supermark-prod-fastapi
     ports:
       - "8000:8000"
-    volumes:
-      - ./:/app
     env_file:
       - ./config/.env.prod
     working_dir: /app

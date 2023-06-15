@@ -1,3 +1,5 @@
+const _FRONTEND_URL = 'http://localhost:3000';
+
 
 document.getElementById('extractButton').addEventListener('click', async () => {
   // if button is already added, do nothing
@@ -96,7 +98,7 @@ async function setUser() {
 
 function log_current_folder_cookie(folder) {
   chrome.cookies.set({
-    url: "http://localhost:3000",
+    url: _FRONTEND_URL,
     name: "current_folder",
     value: folder,
 

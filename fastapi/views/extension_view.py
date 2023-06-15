@@ -25,7 +25,8 @@ async def store(document: ExtensionDocument, x_uid: Annotated[str, Header()]):
         chunk_size=config.chunk_size, chunk_overlap=config.chunk_overlap, separator='.'
     ).split_text(document.raw_text)
     log.info(f'created {len(chunks)} chunks')
-    bookmark_ref = await AsyncBookmarkStoreService().add_bookmark(user_id, document)
+    bookmark_service = AsyncBookmarkStoreService()
+    bookmark_ref = await bookmark_service.add_bookmark(user_id, document)
 
     try:
         with vectorstore.batch() as batch:
@@ -40,8 +41,7 @@ async def store(document: ExtensionDocument, x_uid: Annotated[str, Header()]):
             batch.flush()
     except Exception as e:
         log.error(e)
-        col_ref = db.collection('users').document(user_id).collection('bookmarks')
-        col_ref.filter('url', '==', document.url).delete()  # do not keep in firebase if vectorstore fails
+        await bookmark_service.delete_user_bookmark(user_id, document)
         return {'success': False, 'error': str(e)}
 
     return {'success': True}
@@ -65,7 +65,8 @@ async def store_pdf(document: ExtensionPDFDocument, x_uid: Annotated[str, Header
         chunk_size=config.chunk_size, chunk_overlap=config.chunk_overlap, separator='.'
     ).split_text(pdf_text)
     log.info(f'created {len(chunks)} chunks')
-    bookmark_ref = await AsyncBookmarkStoreService().add_bookmark(user_id, document)
+    bookmark_store_service = AsyncBookmarkStoreService()
+    bookmark_ref = await bookmark_store_service.add_bookmark(user_id, document)
 
     try:
         with vectorstore.batch() as batch:
@@ -80,8 +81,7 @@ async def store_pdf(document: ExtensionPDFDocument, x_uid: Annotated[str, Header
             batch.flush()
     except Exception as e:
         log.error(e)
-        col_ref = db.collection('users').document(user_id).collection('bookmarks')
-        col_ref.filter('url', '==', document.url).delete()  # do not keep in firebase if vectorstore fails
+        await bookmark_store_service.delete_user_bookmark(user_id, document)
         return {'success': False, 'error': str(e)}
 
     return {'success': True}

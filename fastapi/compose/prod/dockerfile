@@ -2,10 +2,13 @@ FROM python:3.10.10-slim-bullseye
 
 WORKDIR /app
 
-COPY ./requirements.txt ./requirements.txt
-COPY ./bookmarkai-c7f69-0e7393f3fe4e.json ./bookmarkai-c7f69-0e7393f3fe4e.json
+COPY ../../requirements.txt .
+
+EXPOSE 8000
 
 RUN apt-get update && apt-get upgrade -y && apt-get install -y build-essential
 RUN pip install -r requirements.txt
 
-CMD ["python", "main.py"]
+COPY ../../ .
+
+CMD uvicorn main:app --host 0.0.0.0 --port $PORT

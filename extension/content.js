@@ -1,3 +1,5 @@
+const _BACKEND_URL = 'https://fastapi-d52v76mlya-uc.a.run.app';
+
 function extractText(node) {
     if (['SCRIPT', 'STYLE', 'NOSCRIPT'].includes(node.nodeName.toUpperCase())) {
         return '';
@@ -70,7 +72,7 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
             }
             console.log(obj);
 
-            return fetch('http://localhost:8000/storepdf', {
+            return fetch(`${_BACKEND_URL}/storepdf`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -115,7 +117,7 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
             }
             console.log(obj);
 
-            return fetch('http://localhost:8000/store', {
+            return fetch(`${_BACKEND_URL}/store`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

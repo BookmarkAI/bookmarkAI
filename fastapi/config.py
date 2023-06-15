@@ -40,3 +40,4 @@ class Config(metaclass=Singleton):
         self.debug_mode = os.getenv("DEBUG_MODE", "False") == "True"
         self.lancedb_url = os.getenv("LANCEDB_URL", "lancedb")
         self.weaviate_url = os.getenv("WEAVIATE_URL", "weaviate")
+        self.weaviate_key = os.getenv("WEAVIATE_KEY", None)

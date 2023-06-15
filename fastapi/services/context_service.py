@@ -100,6 +100,8 @@ class ContextService:
         }).with_additional(
             ['certainty']
         ).do()
+        if res['errors']:
+            raise Exception(res['errors'])
         docs: List[Dict[str, Any]] = res['data']['Get']['Document']
 
         bookmarks = [VectorStoreBookmark(page_content=d.pop('content'), metadata={

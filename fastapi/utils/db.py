@@ -39,7 +39,13 @@ document_schema = {
 def get_vectorstore() -> weaviate.Client:
     config = Config()
     print(f'Connecting to Weaviate at {config.weaviate_url}')
-    weaviate_client = weaviate.Client(config.weaviate_url)
+    weaviate_client = weaviate.Client(
+        config.weaviate_url,
+        auth_client_secret=weaviate.AuthApiKey(config.weaviate_key),
+        additional_headers={
+            "X-OpenAI-Api-Key": Config().openai_api_key
+        }
+    )
 
     if not weaviate_client.schema.exists(document_schema['class']):
         weaviate_client.schema.create_class(document_schema)

@@ -25,7 +25,7 @@ export default function DesktopAppHeader() {
   const { selectedFiles, resetSelectedFiles, chatEnabled } = useContext(FileContext);
 
   function onClickHandler() {
-    navigate('/browse')
+    navigate('/')
   }
 
   
@@ -54,6 +54,21 @@ export default function DesktopAppHeader() {
             </UserMenu>
 
         </Toolbar>
+        <Box sx={{ml: 30}}>
+        <Button onClick={()=>resetSelectedFiles()} sx={{color: "#458be9", textTransform: "none", '&:hover': {
+            backgroundColor: 'white',
+            borderColor: 'transparent',
+            boxShadow: 'none',
+        }}}>
+      
+          
+          
+          Deselect {selectedFiles.length} bookmarks
+      
+                  
+      </Button> 
+      </Box>
+    
     
     </AppBar>
   );

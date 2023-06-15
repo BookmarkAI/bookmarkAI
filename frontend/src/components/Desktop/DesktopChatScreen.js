@@ -1,5 +1,5 @@
 import { useSearchParams } from 'react-router-dom'
-import { Typography, Box, Grid } from '@mui/material';
+import { Typography, Box, Grid, Link, Stack } from '@mui/material';
 import { MuiMarkdown } from 'mui-markdown';
 import { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
@@ -24,6 +24,7 @@ export default function DesktopChatScreen({ responseMessages, sources, searchRes
     const [ chatHistory, setChatHistory ] = useState([]);
 
     const [ display, setDisplay ] = useState(chatEnabled ? 'chat' : 'all')
+    const [ contextUrl, setContextUrl] = useState([]);
 
   
 
@@ -49,6 +50,7 @@ export default function DesktopChatScreen({ responseMessages, sources, searchRes
             getConversation(id).then((response) => {
                 setQuestion(response.question);
                 setAnswer(response.answer);
+                setContextUrl(response.context_urls);
             })
         } else {
             setQuestion(searchParams.get('q'));
@@ -100,6 +102,16 @@ export default function DesktopChatScreen({ responseMessages, sources, searchRes
                         <Typography variant="h6" sx={{fontWeight: 500}}gutterBottom>
                             Source Bookmarks
                         </Typography>
+
+                        {id && 
+                        <Stack spacing={1}>
+                            {contextUrl.map((url, i) => (              
+                            <Link href={url}>
+                                [{i+1}] {url}
+                            </Link>))}
+                        </Stack>
+                        }
+
                         <DesktopBookMarkList bookmarks={sources}/>
                     </Box>
                     }

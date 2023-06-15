@@ -3,7 +3,6 @@ import { collection, query, getDocs, getDoc, doc, where, updateDoc } from "fireb
 
 
 
-
 async function getAllConversations() {
     var conversations = []
     if (auth.currentUser != null) {
@@ -21,7 +20,7 @@ async function getAllConversations() {
           });
     }
 
-    // conversations.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+    conversations.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 
     return conversations
 }

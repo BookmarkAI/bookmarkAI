@@ -160,7 +160,9 @@ export default function SignInPage(props) {
                         {user ? 
                             <SignOut />
                             :
+                      
                             <SignIn/>
+                         
                         } 
                     </Box>  
                 </Box>

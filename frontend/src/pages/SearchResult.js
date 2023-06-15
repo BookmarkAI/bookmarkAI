@@ -7,6 +7,8 @@ import { EventSourcePolyfill } from 'event-source-polyfill';
 import {AuthContext} from "../components/context/AuthContext";
 import { FileContext } from '../utils/FileContext.js';
 
+const BASE_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost:8000";
+
 const EventSource = EventSourcePolyfill;
 
 function getQueryString(selectedFiles) {
@@ -28,11 +30,12 @@ export default function SearchResult() {
     const { user } = useContext(AuthContext);
 
     useEffect(() => {
+      
         const fetchData = async () => {
             try {
-              const response = await fetch('http://localhost:8000/search', {
+              const response = await fetch(`${BASE_URL}/search` , {
                 method: 'POST',
-                body: JSON.stringify({ query: q }),
+                body: JSON.stringify({ query: q, limit_chunks: 20, certainty: 0.95, alpha: 0.2 }),
                 headers: {
                     'X-UID': user.uid,
                     'Content-Type': 'application/json'
@@ -49,20 +52,27 @@ export default function SearchResult() {
               // Handle any errors
             }
           };
+
+        if(q) {
       
-          fetchData().then(data => {
+          fetchData().then(data => { 
             const updatedData = data.map(bookmark => {
               const type = bookmark.url.endsWith(".pdf") ? "pdf" : "url";
               return { ...bookmark, type };
             });
             setSearchResult(updatedData);
           });
+        } else {
+          setSearchResult([]);
+        }
 
-    }, [])
+    }, [searchParams])
 
     useEffect(() => {
         setResponseMessages([])
-        const eventSource = new EventSource(`http://localhost:8000/chat?q=${q}${getQueryString(selectedFiles)}`, {
+
+        if (q) {
+        const eventSource = new EventSource(`${BASE_URL}/chat?q=${q}${getQueryString(selectedFiles)}`, {
             headers: {
                 'X-UID': user.uid
             }
@@ -81,7 +91,8 @@ export default function SearchResult() {
           // Cleanup on component unmount
           return () => {
             eventSource.close();
-          };
+          }
+        }
     }, [searchParams])
 
     useEffect(() => {

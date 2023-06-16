@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }) => {
           {
             domain: window.location.hostname,
             name: "userCookie",
-            sameSite: "lax"
+            sameSite: "none",
           }
       );
 

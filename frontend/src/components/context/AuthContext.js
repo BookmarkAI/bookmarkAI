@@ -28,6 +28,7 @@ export const AuthProvider = ({ children }) => {
           {
             domain: window.location.hostname,
             sameSite: "none",
+            secure: true,
           }
       );
 

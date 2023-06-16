@@ -1,5 +1,5 @@
-const _FRONTEND_URL = 'http://localhost:3000';
-
+const _FRONTEND_URL = 'https://app.supermark.ai/';
+const _COOKIE_DOMAIN = '.https://app.supermark.ai/';
 
 document.getElementById('extractButton').addEventListener('click', async () => {
   // if button is already added, do nothing
@@ -20,7 +20,8 @@ document.getElementById('extractButton').addEventListener('click', async () => {
 
 async function getCookies(domain) {
   try {
-    const cookies = await chrome.cookies.getAll({ domain });
+    const cookies = await chrome.cookies.getAll({domain: domain});
+    console.log(`cookies: ${cookies}`);
     return cookies
   } catch (error) {
     return `Unexpected error: ${error.message}`;
@@ -28,7 +29,7 @@ async function getCookies(domain) {
 }
 
 async function getUID() {
-  const cookies = await getCookies('localhost');
+  const cookies = await getCookies(_COOKIE_DOMAIN);
 
   const user_cookies = cookies
     .filter(cookie => cookie.name === 'userCookie')
@@ -53,7 +54,7 @@ async function getUID() {
 }
 
 async function getCurFolder() {
-  const cookies = await getCookies('localhost');
+  const cookies = await getCookies(_COOKIE_DOMAIN);
 
   const folder_cookies = cookies
     .filter(cookie => cookie.name === 'current_folder')
@@ -79,7 +80,7 @@ function consoleLog(message) {
 
 async function setUser() {
   // reads in a list of json cookies
-  const cookies = await getCookies('localhost');
+  const cookies = await getCookies(_COOKIE_DOMAIN);
 
   const user_cookies = cookies
     .filter(cookie => cookie.name === 'userCookie')

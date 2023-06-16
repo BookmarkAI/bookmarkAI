@@ -23,8 +23,14 @@ export const AuthProvider = ({ children }) => {
 
       setUser(user);
       setCookie("userCookie", user ?
-        JSON.stringify({ url: "http://localhost:3000/",displayName: user.displayName, uid: user.uid })
-        : JSON.stringify({ url: "http://localhost:3000/", displayName: null, uid: null }));
+        JSON.stringify({ url: window.location.hostname,displayName: user.displayName, uid: user.uid })
+        : JSON.stringify({ url: window.location.hostname, displayName: null, uid: null }),
+          {
+            domain: window.location.hostname,
+            name: "userCookie",
+            sameSite: "lax"
+          }
+      );
 
       // we can basically authenticate the extension by setting a cookie here
       // and accessing it in the extension

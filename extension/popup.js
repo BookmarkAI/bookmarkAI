@@ -1,5 +1,5 @@
 const _FRONTEND_URL = 'https://app.supermark.ai/';
-const _COOKIE_DOMAIN = '.https://app.supermark.ai/';
+const _COOKIE_DOMAIN = 'app.supermark.ai';
 
 document.getElementById('extractButton').addEventListener('click', async () => {
   // if button is already added, do nothing

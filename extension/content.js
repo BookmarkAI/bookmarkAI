@@ -1,4 +1,4 @@
-const _BACKEND_URL = 'https://fastapi-d52v76mlya-uc.a.run.app';
+const _BACKEND_URL = 'https://api.supermark.ai/';
 
 function extractText(node) {
     if (['SCRIPT', 'STYLE', 'NOSCRIPT'].includes(node.nodeName.toUpperCase())) {

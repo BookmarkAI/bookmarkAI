@@ -27,7 +27,6 @@ export const AuthProvider = ({ children }) => {
         : JSON.stringify({ url: window.location.hostname, displayName: null, uid: null }),
           {
             domain: window.location.hostname,
-            name: "userCookie",
             sameSite: "none",
           }
       );

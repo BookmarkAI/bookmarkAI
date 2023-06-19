@@ -21,7 +21,6 @@ document.getElementById('extractButton').addEventListener('click', async () => {
 async function getCookies(domain) {
   try {
     const cookies = await chrome.cookies.getAll({domain: domain});
-    console.log(`cookies: ${cookies}`);
     return cookies
   } catch (error) {
     return `Unexpected error: ${error.message}`;

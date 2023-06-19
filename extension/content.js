@@ -17,22 +17,6 @@ function extractText(node) {
     return text.trim();
 }
 
-// function readOnlinePDF() {
-//         let pdfjsLib = chrome.runtime.getURL('pdfjs/build/pdf.js');
-//         console.log(pdfjsLib);
-//         // The workerSrc property should be specified.
-//         pdfjsLib.GlobalWorkerOptions.workerSrc = chrome.runtime.getURL('pdfjs/build/pdf.worker.js');
-//         // Using DocumentInitParameters object to load binary data.
-//         let loadingTask = pdfjsLib.getDocument({url: 'https://apps.who.int/iris/bitstream/handle/10665/67884/WHO_SDE_WSH_03.02.pdf'});
-//         loadingTask.promise.then(function(pdf) {
-//             console.log('PDF loaded');
-//             console.log(pdf);
-//         }, function (reason) {
-//             // PDF loading error
-//             console.error(reason);
-//         });
-// }
-
 function fetchPDFBytes(url) {
     return fetch(url)
       .then(response => response.arrayBuffer())
@@ -70,7 +54,6 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
                 timestamp: Math.round(timestamp / 1000),
                 folder: request.folder
             }
-            console.log(obj);
 
             return fetch(`${_BACKEND_URL}/storepdf`, {
                 method: 'POST',
@@ -105,7 +88,6 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
 
             const image_urls = img_find()
 
-            // console.log(text); // or you can send this data back using sendResponse
             const obj = {
                 raw_text: text,
                 url: url,
@@ -115,7 +97,6 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
                 timestamp: Math.round(timestamp / 1000),
                 folder: request.folder
             }
-            console.log(obj);
 
             return fetch(`${_BACKEND_URL}/store`, {
                 method: 'POST',
@@ -164,8 +145,6 @@ async function getInit(obj, uid, sendResponse) {
     .then(response => response.json())
     .then(data => {
         // Process the response from the POST request
-        console.log("RES BACK FROM SERVER");
-        console.log("Data", data);
         sendResponse(data);
     })
     .catch(error => {

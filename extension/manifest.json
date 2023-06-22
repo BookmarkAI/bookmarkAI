@@ -1,6 +1,6 @@
 {
-  "name": "Supermark.ai",
-  "version": "0.1.0",
+  "name": "Smart Bookmarks: chat with your bookmarks",
+  "version": "0.1.2",
   "manifest_version": 3,
   "permissions": ["activeTab", "cookies"],
   "host_permissions": ["<all_urls>"],

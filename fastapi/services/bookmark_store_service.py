@@ -1,8 +1,9 @@
 import abc
 import asyncio
+from functools import lru_cache
 from typing import List
 
-from google.cloud.firestore_v1 import ArrayUnion
+from google.cloud.firestore_v1 import ArrayUnion, ArrayRemove
 
 from config import Config
 from models.bookmark_store import UserDoc
@@ -35,6 +36,7 @@ class AsyncBookmarkStoreService(BaseBookmarkStoreService):
         self.db = async_firebase_app
         self.config = Config()
 
+    @lru_cache(maxsize=64)
     def get_user_document(self, x_uid: str):
         if config.environment == 'production':
             return self.db.collection('users').document(x_uid)
@@ -73,3 +75,19 @@ class AsyncBookmarkStoreService(BaseBookmarkStoreService):
     async def delete_user_bookmark(self, x_uid: str, document: ExtensionDocument | ExtensionPDFDocument):
         col_ref = self.get_user_document(x_uid).collection('bookmarks')
         await col_ref.filter('url', '==', document.url).delete()
+
+    async def batch_delete(self, x_uid: str, ids: List[str], folders_to_delete: List[str] | None = None):
+        doc_refs = [
+            self.get_user_document(
+                x_uid
+            ).collection(
+                'bookmarks'
+            ).document(_id) for _id in ids
+        ]
+        await asyncio.gather(*[doc_ref.delete() for doc_ref in doc_refs])
+        if folders_to_delete:
+            user_doc_ref = self.get_user_document(x_uid)
+            await user_doc_ref.update({
+                'folders': ArrayRemove(folders_to_delete)
+            })
+

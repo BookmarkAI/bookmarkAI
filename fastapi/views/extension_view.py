@@ -1,7 +1,7 @@
 import asyncio
 import io
 import logging
-from typing import Annotated
+from typing import Annotated, List
 from fastapi import APIRouter, Header
 from langchain.text_splitter import CharacterTextSplitter
 
@@ -95,3 +95,15 @@ async def url_metadata(url: str, x_uid: Annotated[str, Header()]) -> UrlMetadata
         is_bookmarked=len(bookmarks) > 0,
         folders=folders,
     )
+
+@router.post('/batch-delete')
+async def batch_delete(documents: List[str], x_uid: Annotated[str, Header()], folders: List[str] = None):
+    bookmark_service = AsyncBookmarkStoreService()
+    context_service = ContextService(get_vectorstore())
+    try:
+        context_service.batch_delete(x_uid, documents)
+        await bookmark_service.batch_delete(x_uid, documents, folders)
+        return {'success': True}
+    except Exception as e:
+        log.error(e)
+        return {'success': False, 'error': str(e)}

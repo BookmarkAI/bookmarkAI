@@ -74,7 +74,10 @@ class AsyncBookmarkStoreService(BaseBookmarkStoreService):
 
     async def delete_user_bookmark(self, x_uid: str, document: ExtensionDocument | ExtensionPDFDocument):
         col_ref = self.get_user_document(x_uid).collection('bookmarks')
-        await col_ref.filter('url', '==', document.url).delete()
+        docs = col_ref.where("url", '==', document.url).stream()
+
+        for doc in docs:
+            await doc.reference.delete()
 
     async def batch_delete(self, x_uid: str, ids: List[str], folders_to_delete: List[str] | None = None):
         doc_refs = [

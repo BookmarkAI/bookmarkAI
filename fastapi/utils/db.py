@@ -1,4 +1,5 @@
 from datetime import datetime
+from functools import lru_cache
 
 import firebase_admin
 import weaviate
@@ -36,6 +37,7 @@ document_schema = {
 }
 
 
+@lru_cache()
 def get_vectorstore() -> weaviate.Client:
     config = Config()
     print(f'Connecting to Weaviate at {config.weaviate_url}')

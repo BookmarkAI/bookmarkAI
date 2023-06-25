@@ -24,21 +24,31 @@ class ContextService:
             relevant_docs = self.__get_relevant_documents(query, user_id, None, certainty)
         return relevant_docs
 
+    def batch_delete(self, user_id: str, firebase_ids: List[str]):
+        where_filter = self.__get_where_filter(user_id, firebase_ids)
+        self.client.batch.delete_objects(
+            class_name="Document",
+            where=where_filter
+        )
+
     @classmethod
     def __build_id_in_filter(cls, selected_context: List[str]) -> Dict[str, Any]:
-        filters = []
+        filters = [{
+            "path": ["firebase_id"],
+            "operator": "Equal",
+            "valueString": context
+        } for context in selected_context]
 
-        for context in selected_context:
-            filters.append({
-                "path": "firebase_id",
-                "operator": "Equal",
-                "valueString": context
-            })
+        if len(filters) > 1:
+            where_filter = {
+                "operator": "Or",
+                "operands": filters
+            }
+        elif len(filters) == 1:
+            where_filter = filters[0]
+        else:
+            raise ValueError("selected_context must not be empty")
 
-        where_filter = {
-            "operator": "Or",
-            "operands": filters
-        }
         return where_filter
 
     @classmethod

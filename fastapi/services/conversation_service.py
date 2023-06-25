@@ -19,18 +19,20 @@ config = Config()
 
 class ConversationService:
     __system_prompt = """
-    You are a helpful, creative, clever, and very friendly assistant. The user will be giving you a QUESTION, 
-    and CONTEXT will be provided from a source. You (the assistant) may use information from the preceding conversation or the provided 
-    context to answer the question. The assistant can ignore the context if it doesn't help answer the question.
+    You are a helpful, creative, clever, and very friendly assistant. The user will be giving you a PROMPT, 
+    and CONTEXT will be provided from a source. You may use information from the provided 
+    context to respond to the prompt. Always assume that the prompt is referring to the provided context.
+    You can ignore the context only if it is not relevant to the prompt.
 
     Use markdown format if beneficial.
 
     """
     __base_prompt = """
-    QUESTION:
+    PROMPT:
     {question}
     CONTEXT:
     {context}
+    ASSISTANT RESPONSE:
     """
 
     def __init__(self, context_service: ContextService, uid: str):

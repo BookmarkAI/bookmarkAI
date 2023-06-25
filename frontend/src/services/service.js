@@ -1,7 +1,7 @@
 import { auth, db } from "../fb";
 import { collection, query, getDocs, getDoc, doc, where, updateDoc } from "firebase/firestore";
 
-
+const BASE_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost:8000";
 
 async function getAllConversations() {
     var conversations = []
@@ -88,5 +88,22 @@ async function updateBookmarkFolder(bookmarkId, folder) {
         }
     }
 }
-export {getAllBookmarks, getAllFolders, updateBookmarkFolder, getAllConversations, getConversation, getBookmark }
+
+async function deleteBookmarks(idsToDelete, foldersToDelete) {
+    if (auth.currentUser != null) {
+        fetch(
+            `${BASE_URL}/batch-delete/`,
+            {
+                method: 'POST',
+                body: JSON.stringify({ documents: idsToDelete, folders: foldersToDelete || [] }),
+                headers: {
+                    'X-UID': auth.currentUser.uid,
+                    'Content-Type': 'application/json'
+                }
+            }
+        )
+    }
+}
+
+export {getAllBookmarks, getAllFolders, updateBookmarkFolder, getAllConversations, getConversation, getBookmark, deleteBookmarks }
 

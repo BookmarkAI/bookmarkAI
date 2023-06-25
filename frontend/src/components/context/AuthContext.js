@@ -1,3 +1,4 @@
+    /*global chrome*/
 import React, {createContext, useEffect, useState} from 'react';
 import {useCookies} from "react-cookie";
 import {auth} from "../../fb";
@@ -12,7 +13,8 @@ export const AuthContext = createContext();
 // Define the provider
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [cookies, setCookie] = useCookies(["user"]);
+  const [onboarded, setOnboarded] = useState(false);
+  const [cookies, setCookie] = useCookies(["user", "onboarding"]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -26,6 +28,7 @@ export const AuthProvider = ({ children }) => {
       });
 
       setUser(user);
+      setOnboarded(cookies.onboardingCookie.onboarded);
       setCookie("userCookie", user ?
         JSON.stringify({ url: window.location.hostname,displayName: user.displayName, uid: user.uid })
         : JSON.stringify({ url: window.location.hostname, displayName: null, uid: null }),
@@ -57,6 +60,11 @@ export const AuthProvider = ({ children }) => {
   }, [user])
 
 
+  function setOnboardingStatus(status) {
+    setOnboarded(status);
+    setCookie("onboardingCookie", JSON.stringify({ displayName: user.displayName, uid: user.uid, onboarded: status }));
+  }
+
   if (isLoading) {
     // Render loading indicator or any other desired UI element while isLoading is true
     return <div/>;
@@ -67,6 +75,8 @@ export const AuthProvider = ({ children }) => {
     <AuthContext.Provider
       value={{
         user: user,
+        onboarded: onboarded,
+        setOnboardingStatus: setOnboardingStatus,
         setUser: setUser,
         cookies: cookies,
         setCookie: setCookie,

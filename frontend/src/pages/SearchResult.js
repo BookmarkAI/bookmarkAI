@@ -35,7 +35,7 @@ export default function SearchResult() {
             try {
               const response = await fetch(`${BASE_URL}/search` , {
                 method: 'POST',
-                body: JSON.stringify({ query: q, limit_chunks: 20, certainty: 0.95, alpha: 0.2 }),
+                body: JSON.stringify({ query: q, limit_chunks: 10, certainty: 0.9, alpha: 0.8 }),
                 headers: {
                     'X-UID': user.uid,
                     'Content-Type': 'application/json'

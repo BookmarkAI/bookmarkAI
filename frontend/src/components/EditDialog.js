@@ -124,6 +124,7 @@ export default function BookmarkMenu(props) {
             <MenuItem onClick={handleClose}>Copy Link</MenuItem>
           </CopyToClipboard>
           <MenuItem onClick={()=>{window.location.replace(props.url)}}>Visit Link</MenuItem>
+          <MenuItem sx={{color: 'red'}}> Delete </MenuItem>
         </Menu>
       </div>
     );

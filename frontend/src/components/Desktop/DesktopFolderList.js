@@ -11,6 +11,7 @@ import { FolderContext } from '../../utils/FolderContext';
 import { getAllFolders } from '../../services/service';
 import { useEffect } from 'react';
 import AddBookmarksToFolder from '../AddBookmarksToFolder';
+import FolderMenu from './FolderMenu'
 
 
 function StyledButton(props){
@@ -57,8 +58,7 @@ function StyledButton(props){
                         {title}
                     </Typography>
                 </Box>
-            
-    
+                <FolderMenu/>
             </Button>   
         </Box>
         

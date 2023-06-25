@@ -22,7 +22,7 @@ export default function FolderMenu({title, setAllFolders}) {
           setAllFolders((prevFolders) => prevFolders.filter((folder) => folder !== title));
         })
     }
-  
+
     const handleCloseWithDelete = async () => {
       getAllBookmarks().then((response) => deleteFolder(response, title))
       setAnchorEl(null);
@@ -32,12 +32,13 @@ export default function FolderMenu({title, setAllFolders}) {
     const handleClose = async () => {
       setAnchorEl(null);
     };
-    
+
   
     return (
       <div>
         <IconButton onClick={handleClick}>  
             <DeleteIcon  sx={{ fontSize: 17 }}/>
+            <MoreVertIcon/>
         </IconButton>
 
         <Menu

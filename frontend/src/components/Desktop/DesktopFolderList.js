@@ -52,9 +52,13 @@ function StyledButton(props){
        
         <Box sx={{borderRadius: 3, display:"flex", flexDirection: "row", justifyContent: 'space-between', alignItems: 'flex-end'}}>
             <Button variant={clicked ? "contained" : "text"} onClick={handleClick} sx={getButtonStyles()}>   
-
-                {props.children}
-                
+                <Box sx={{display: "flex", flexDirection: "row", alignItems: "center"}}>
+                    {props.children}
+                    <Typography variant="h7" sx={{ml: 1, fontWeight: clicked? 500: 350, color: clicked? "#3D9DFF": "#333333"}}>
+                        {title}
+                    </Typography>
+                </Box>
+                <FolderMenu/>
             </Button>   
         </Box>
         
@@ -97,7 +101,7 @@ function AllBookmarks(){
                         All Bookmarks
                     </Typography>
             </Box>
-            
+
         </StyledButton>
     )
 

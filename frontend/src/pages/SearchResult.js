@@ -6,6 +6,7 @@ import MobileChatScreen from '../components/Mobile/MobileChatScreen.js'
 import { EventSourcePolyfill } from 'event-source-polyfill';
 import {AuthContext} from "../components/context/AuthContext";
 import { FileContext } from '../utils/FileContext.js';
+import ReactGA from "react-ga4";
 
 const BASE_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost:8000";
 
@@ -72,21 +73,19 @@ export default function SearchResult() {
         setResponseMessages([])
 
         if (q) {
-        const eventSource = new EventSource(`${BASE_URL}/chat?q=${q}${getQueryString(selectedFiles)}`, {
-            headers: {
-                'X-UID': user.uid
-            }
-        });
-        eventSource.onmessage = (event) => {
-            const msg = JSON.parse(event.data);
-            console.log(msg);
-            if (msg.done) {
-                console.log('Done!');
-                eventSource.close();
-            } else {
-                setResponseMessages((messages) => [...messages, msg]);
-            }
-          };
+            const eventSource = new EventSource(`${BASE_URL}/chat?q=${q}${getQueryString(selectedFiles)}`, {
+                headers: {
+                    'X-UID': user.uid
+                }
+            });
+            eventSource.onmessage = (event) => {
+                const msg = JSON.parse(event.data);
+                if (msg.done) {
+                    eventSource.close();
+                } else {
+                    setResponseMessages((messages) => [...messages, msg]);
+                }
+              };
 
           // Cleanup on component unmount
           return () => {
@@ -106,6 +105,16 @@ export default function SearchResult() {
             )
         )
     }, [responseMessages])
+
+    useEffect(() => {
+        if (q) {
+            ReactGA.event({
+                category: 'Chat',
+                action: 'Prompt',
+                label: q
+            })
+        }
+    }, [])
 
 
     return(

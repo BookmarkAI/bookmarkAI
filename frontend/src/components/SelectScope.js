@@ -9,7 +9,7 @@ import { MobileBookMarkList } from './BookMarkList';
 import { getAllBookmarks, getAllFolders } from '../services/service';
 import ScopingBookmarkCard from './ScopingBookmarkCard';
 import { Desktop } from '../utils/MediaQuery'
-
+import ReactGA from "react-ga4";
 
 
 export default function SelectScope({ handleClose }) {
@@ -32,8 +32,18 @@ export default function SelectScope({ handleClose }) {
   function handleClickFolder(folder) {
     if (selectedFolder === folder) {
         setSelectedFolder(null)
+        ReactGA.event({
+            category: 'Bookmark',
+            action: 'Select Context',
+            label: 'Deselect Popup'
+        })
     } else {
         setSelectedFolder(folder)
+        ReactGA.event({
+            category: 'Bookmark',
+            action: 'Select Context',
+            label: 'Select Popup'
+        })
     }
   }
 

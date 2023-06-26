@@ -92,7 +92,7 @@ async function updateBookmarkFolder(bookmarkId, folder) {
 async function deleteBookmarks(idsToDelete, foldersToDelete) {
     if (auth.currentUser != null) {
         fetch(
-            `${BASE_URL}/batch-delete/`,
+            `${BASE_URL}/batch-delete`,
             {
                 method: 'POST',
                 body: JSON.stringify({ documents: idsToDelete, folders: foldersToDelete || [] }),

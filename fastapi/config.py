@@ -32,6 +32,7 @@ class Config(metaclass=Singleton):
 
         self.chunk_size = int(os.getenv("CHUNK_SIZE", 1000))
         self.chunk_overlap = int(os.getenv("CHUNK_OVERLAP", 50))
+        self.max_tokens = int(os.getenv("LLM_MAX_TOKENS", 3000))
 
         self.openai_api_key = os.getenv("OPENAI_API_KEY")
         openai.api_key = self.openai_api_key

@@ -14,7 +14,7 @@ class ContextService:
 
     def get_context(self, message: str, user_id: str, selected_context: List[str] | None = None,  certainty: float = 0.8) -> List[VectorStoreBookmark]:
         relevant_docs = self.__get_relevant_documents(message, user_id, selected_context, certainty)
-        limited_context = self.__limit_context(relevant_docs, 3000)
+        limited_context = self.__limit_context(relevant_docs, config.max_tokens)
         return limited_context
 
     def search(self, query: str, user_id: str, use_hybrid: bool = True, certainty: float = 0.8, limit: int = 3, alpha: float = 0.25) -> List[VectorStoreBookmark]:

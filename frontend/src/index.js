@@ -4,8 +4,10 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import ReactGA from "react-ga4";
+import Hotjar from "@hotjar/browser";
 
 ReactGA.initialize('G-SKK2ZTYQGX')
+Hotjar.init(3549886, 6)
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

@@ -26,7 +26,6 @@ export const AuthProvider = ({ children }) => {
       });
 
       setUser(user);
-      Hotjar.identify(user.uid, { name: user.displayName, email: user.email })
       setCookie("userCookie", user ?
         JSON.stringify({ url: window.location.hostname,displayName: user.displayName, uid: user.uid })
         : JSON.stringify({ url: window.location.hostname, displayName: null, uid: null }),
@@ -51,7 +50,10 @@ export const AuthProvider = ({ children }) => {
   })
 
   useEffect(() => {
-      ReactGA.set({ userId: user?.uid })
+      if (user) {
+          ReactGA.set({ userId: user.uid })
+          Hotjar.identify(user.uid, { name: user.displayName, email: user.email })
+      }
   }, [user])
 
 

@@ -7,6 +7,7 @@
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
     "@firebase/firestore": "^3.12.1",
+    "@mozilla/readability": "^0.4.4",
     "@hotjar/browser": "^1.0.9",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.13.3",
@@ -17,6 +18,7 @@
     "event-source-polyfill": "^1.0.31",
     "firebase": "^9.22.2",
     "html-react-parser": "^4.0.0",
+    "jsdom": "^22.1.0",
     "markdown-to-jsx": "^7.2.1",
     "mui-markdown": "^1.0.1",
     "react": "^18.2.0",
@@ -54,5 +56,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "html-loader": "^4.2.0"
   }
 }

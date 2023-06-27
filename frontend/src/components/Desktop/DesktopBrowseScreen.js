@@ -11,6 +11,7 @@ import { TypeContext } from '../../utils/TypeContext';
 import AddIcon from '@mui/icons-material/Add';
 import { getAllBookmarks, getAllConversations } from '../../services/service'
 import AddBookmarksToFolder from '../AddBookmarksToFolder';
+import { DesktopSearchBar } from '../SearchBar';
 
 export default function DesktopBrowseScreen(props) {
     const { selectedFiles, resetSelectedFiles, removeSelectedFiles, updateSelectedFiles} = useContext(FileContext);
@@ -53,8 +54,8 @@ export default function DesktopBrowseScreen(props) {
 
     return(
         <>
-        
-            <Grid container spacing={2} sx={{mt: 2}} >
+            <Toolbar/>
+            <Grid container spacing={2} sx={{mt: 0.5}} >
                 <Grid item xs={2.5} sx={{ pr: 3}} >
                     <Box sx={{ maxHeight: 'calc(100vh - 110px)', overflow: "auto"}}>
                         <Box sx={{pl:2, pr:2}}> 
@@ -72,9 +73,10 @@ export default function DesktopBrowseScreen(props) {
                             <Typography variant="h5" sx={{fontWeight: 550}}> 
                              { selectedFolder ? selectedFolder : "All Bookmarks" }
                             </Typography>
-
+                                    
                             {selectedFolder && <AddBookmarksToFolder folder={selectedFolder} fetchBookmarks={fetchBookmarks}/>}
                         </Box>
+                        
                         <Box sx={{mt: 4}}>
                             <BrowseTab/>
                         </Box>

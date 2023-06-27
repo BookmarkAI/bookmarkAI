@@ -49,7 +49,7 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   marginTop: -5,
   marginBottom: -10,
   marginLeft: -8,
-  marginRight: -14
+  marginRight: -8
 //   borderTop: '1px solid rgba(0, 0, 0, .125)',
 }));
 

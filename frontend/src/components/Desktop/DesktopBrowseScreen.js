@@ -18,9 +18,11 @@ export default function DesktopBrowseScreen(props) {
     const { selectedType } = useContext(TypeContext);
 
     const [ allBookmarks, setAllBookmarks ] = useState([]);
-    console.log(selectedFiles)
+
+
 
     function fetchBookmarks() {
+        console.log("test")
         getAllBookmarks().then((response) => setAllBookmarks(response));
     }
 
@@ -84,12 +86,7 @@ export default function DesktopBrowseScreen(props) {
                             borderColor: 'transparent',
                             boxShadow: 'none',
                         }}}>
-                        
-                            
-                            
-                            Deselect all
-                        
-                                    
+                            Deselect all             
                         </Button>
                             <Button onClick={selectAll} sx={{color: "#458be9", pl: 2, textTransform: "none", '&:hover': {
                                 backgroundColor: 'white',
@@ -99,9 +96,7 @@ export default function DesktopBrowseScreen(props) {
                                 Select All                    
                             </Button>
                         </Box>
-                            <DesktopBookMarkList bookmarks={filteredBookmarks} fetchBookmarks={fetchBookmarks}/>
-                    
-                           
+                            <DesktopBookMarkList bookmarks={filteredBookmarks} fetchBookmarks={fetchBookmarks} setAllBookmarks={setAllBookmarks}/>           
                         </Box>
                     </Box>
                 </Grid>

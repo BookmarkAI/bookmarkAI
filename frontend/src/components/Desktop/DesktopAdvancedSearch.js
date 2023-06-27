@@ -4,8 +4,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { Box } from '@mui/material';
 import SelectScope from '../SelectScope';
-
-
+import ReactGA from "react-ga4";
 
 
 export default function DesktopAdvancedSearch() {
@@ -13,10 +12,20 @@ export default function DesktopAdvancedSearch() {
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
+    ReactGA.event({
+        category: 'Bookmark',
+        action: 'Select Context',
+        label: 'Open Popup'
+    })
   };
   
   const handleClose = () => {
     setAnchorEl(null);
+    ReactGA.event({
+        category: 'Bookmark',
+        action: 'Select Context',
+        label: 'Close Popup'
+    })
   };
 
 

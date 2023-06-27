@@ -1,6 +1,10 @@
 import React, {createContext, useEffect, useState} from 'react';
 import {useCookies} from "react-cookie";
 import {auth} from "../../fb";
+import ReactGA from "react-ga4";
+import Hotjar from '@hotjar/browser';
+
+
 
 // Define the context
 export const AuthContext = createContext();
@@ -22,6 +26,7 @@ export const AuthProvider = ({ children }) => {
       });
 
       setUser(user);
+      Hotjar.identify(user.uid, { name: user.displayName, email: user.email })
       setCookie("userCookie", user ?
         JSON.stringify({ url: window.location.hostname,displayName: user.displayName, uid: user.uid })
         : JSON.stringify({ url: window.location.hostname, displayName: null, uid: null }),
@@ -44,6 +49,11 @@ export const AuthProvider = ({ children }) => {
 
     })
   })
+
+  useEffect(() => {
+      ReactGA.set({ userId: user?.uid })
+  }, [user])
+
 
   if (isLoading) {
     // Render loading indicator or any other desired UI element while isLoading is true

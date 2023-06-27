@@ -3,6 +3,7 @@ import Checkbox from '@mui/material/Checkbox';
 import MobileBookmarkCard from "./Mobile/MobileBookmarkCard";
 import { FileContext } from '../utils/FileContext';
 import { useContext } from 'react';
+import ReactGA from "react-ga4";
 
 export default function ControlledCheckbox({id}) {
     
@@ -12,8 +13,18 @@ export default function ControlledCheckbox({id}) {
     const handleChange = (event) => {
       if(event.target.checked) {
         updateSelectedFiles(id);
+        ReactGA.event({
+            category: 'Bookmark',
+            action: 'Select Context',
+            label: 'Checkbox add'
+        })
       } else {
         removeSelectedFiles(id);
+        ReactGA.event({
+            category: 'Bookmark',
+            action: 'Select Context',
+            label: 'Checkbox remove'
+        })
       }
     };
   

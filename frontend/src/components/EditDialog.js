@@ -3,7 +3,7 @@ import Dialog from '@mui/material/Dialog';
 import * as React from 'react';
 import { IconButton, Box, Typography, Button, Grid, FormControl, Select, InputLabel, Stack, Menu, MenuItem } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import { getAllFolders, updateBookmarkFolder } from '../services/service';
+import { getAllFolders, updateBookmarkFolder, deleteBookmarks } from '../services/service';
 import { useState, useEffect } from 'react';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 
@@ -92,16 +92,25 @@ function EditDialog({title, url, id, folder, open, setOpen, fetchBookmarks}){
 }
 
 export default function BookmarkMenu(props) {
+    const { title, url, id, i, fetchBookmarks, setAllBookmarks } = props;
     const [anchorEl, setAnchorEl] = React.useState(null);
     const openMenu= Boolean(anchorEl);
     const [ open, setOpen ] = React.useState(false);
 
     const handleClick = (event) => {
-      setAnchorEl(event.currentTarget);
+        setAnchorEl(event.currentTarget);
     };
     const handleClose = () => {
-      setAnchorEl(null);
+        setAnchorEl(null);
     };
+
+    const handleDelete = async () => {
+        await deleteBookmarks([id]);
+        setAllBookmarks((prevBookmarks) => prevBookmarks.filter((bookmark) => bookmark.id !== id));
+        setAnchorEl(null);
+        
+    };
+  
   
     return (
       <div>
@@ -119,11 +128,12 @@ export default function BookmarkMenu(props) {
             'aria-labelledby': 'basic-button',
           }}
         >
-          <MenuItem onClick={()=>{setOpen(true); handleClose()}} fetchBookmarks={props.fetchBookmarks}>Edit Bookmark</MenuItem>
-          <CopyToClipboard text={props.url}>
+          <MenuItem onClick={()=>{setOpen(true); handleClose()}} fetchBookmarks={fetchBookmarks}>Edit Bookmark</MenuItem>
+          <CopyToClipboard text={url}>
             <MenuItem onClick={handleClose}>Copy Link</MenuItem>
           </CopyToClipboard>
-          <MenuItem onClick={()=>{window.location.replace(props.url)}}>Visit Link</MenuItem>
+          <MenuItem onClick={()=>{window.location.replace(url)}}>Visit Link</MenuItem>
+          <MenuItem sx={{color: 'red'}} onClick={handleDelete}> Delete </MenuItem>
         </Menu>
       </div>
     );

@@ -18,6 +18,7 @@ import { useContext } from 'react';
 import { FileContext } from '../utils/FileContext';
 import FilterDrawer from './Mobile/FilterDrawer';
 import DesktopAdvancedSearch from './Desktop/DesktopAdvancedSearch';
+import ReactGA from "react-ga4";
 
 
 function SearchBar(props) {
@@ -82,14 +83,26 @@ function SearchBar(props) {
         
         {chatEnabled ? 
         <Tooltip title="Click to disable chat">
-        <IconButton sx={{p:1}} onClick={()=>enableChat(false)}>
+        <IconButton sx={{p:1}} onClick={()=>{
+            enableChat(false)
+            ReactGA.event({
+                category: 'Chat',
+                action: 'Disable Chat',
+            })
+        }}>
           <CommentIcon  sx={{fontSize: fontsize + 5}}/>
         </IconButton> 
         </Tooltip>
         
         :
         <Tooltip title="Click to enable chat">
-        <IconButton sx={{ p:1}} onClick={()=>enableChat(true)}>
+        <IconButton sx={{ p:1}} onClick={()=>{
+            enableChat(true)
+            ReactGA.event({
+                category: 'Chat',
+                action: 'Enable Chat',
+            })
+        }}>
           <CommentsDisabledIcon sx={{fontSize: fontsize + 5}}/>  
         </IconButton>
         </Tooltip>

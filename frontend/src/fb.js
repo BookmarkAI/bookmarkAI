@@ -37,7 +37,7 @@ export const signInWithGoogle = () => {
           "email": user.email,
           "name": user.displayName,
           "subscription_type": "free", 
-          "folders": ["unsorted",]
+          "folders": ["Unsorted",]
         });        
       }
       

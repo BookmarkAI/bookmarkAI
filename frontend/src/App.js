@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import HomeScreen from './pages/HomeScreen';
 import BrowseScreen from './pages/BrowseScreen';
 import Layout from './pages/Layout';
@@ -28,7 +28,8 @@ function App() {
           <BrowserRouter>
             <Desktop>
               <Routes>
-                <Route path="/" element={<ProtectedRoute><HomeScreen/></ProtectedRoute>} />
+                {/*<Route path="/" element={<ProtectedRoute><HomeScreen/></ProtectedRoute>} />*/}
+                <Route path="/" element={<Navigate to="/browse" />} />
                 <Route path="/login" element={<SignInPage/>}/>
                 <Route element={<ProtectedRoute><Layout/></ProtectedRoute>}>
                   <Route path="/browse" element={<ProtectedRoute><BrowseScreen/></ProtectedRoute>}/>
@@ -40,7 +41,8 @@ function App() {
 
             <Mobile>
               <Routes>
-                <Route path="/" element={<ProtectedRoute><HomeScreen/></ProtectedRoute>} />
+                {/*<Route path="/" element={<ProtectedRoute><HomeScreen/></ProtectedRoute>} />*/}
+                <Route path="/" element={<Navigate to="/browse" />} />
                 <Route path="/login" element={<SignInPage />}/>
                 <Route element={<ProtectedRoute><Layout/></ProtectedRoute>}>
                   <Route path="/browse" element={<ProtectedRoute><BrowseScreen/></ProtectedRoute>}/>

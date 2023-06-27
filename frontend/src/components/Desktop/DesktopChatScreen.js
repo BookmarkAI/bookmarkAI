@@ -26,9 +26,6 @@ export default function DesktopChatScreen({ responseMessages, sources, searchRes
     const [ display, setDisplay ] = useState(chatEnabled ? 'chat' : 'all')
     const [ contextUrl, setContextUrl] = useState([]);
 
-  
-
-    console.log(searchResult)
     const { id } = useParams();
 
     const [ question, setQuestion ] = useState("")
@@ -75,7 +72,7 @@ export default function DesktopChatScreen({ responseMessages, sources, searchRes
 
                 </Grid>
                 <Grid item xs={9.5}>
-                    <SearchTab setDisplay={setDisplay} display={display}/>
+                    {/*<SearchTab setDisplay={setDisplay} display={display}/>*/}
                     
                     {display==='chat' && <Box sx={{ maxHeight: 'calc(100vh - 150px)', overflow: "auto"}}>
                         <Box sx={{display: "flex", flexDirection: "column", pb: 2, mt: 3, mb: 3, mr: 8, borderBottom: 1, borderColor: '#bbbbbb'}}>

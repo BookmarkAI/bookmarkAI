@@ -82,7 +82,7 @@ function DesktopMiniBookmarkCard(props) {
 
 
 function DesktopBookmarkCard(props) {
-  const { title, url, id, i, fetchBookmarks } = props;
+  const { title, url, id, i, fetchBookmarks, setAllBookmarks } = props;
   const { selectedFiles, updateSelectedFiles, removeSelectedFiles } = useContext(FileContext);
 
   function handleClick(id) {

@@ -5,6 +5,10 @@ import { DesktopSearchBar } from '../../components/SearchBar';
 import HomeHeader from '../../components/HomeHeader';
 import { createTheme, ThemeProvider } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
+import { AuthContext } from '../context/AuthContext';
+import React, { useContext } from 'react';
+import { useState, useEffect } from 'react';
+import Modal from 'react-modal';
 
 const theme = createTheme({
     components: {
@@ -26,13 +30,49 @@ const theme = createTheme({
       },
 });
 
+
 export default function DesktopHomeScreen(props) {
     const navigate = useNavigate();
+    const authContext = useContext(AuthContext);
+    const { onboarded, setOnboardingStatus } = authContext;
+    console.log(onboarded);
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+
+    const OnboardingModal = ({ isOpen, onClose }) => {
+        Modal.setAppElement('#root');
+        return (
+          <Modal
+            isOpen={isOpen}
+            onRequestClose={onClose}
+            // Add additional props and styles as needed
+          >
+            {/* Modal content */}
+            <h2>Welcome to the app!</h2>
+            {/* Add more content or components as needed */}
+            <button onClick={onClose}>Close</button>
+          </Modal>
+        );
+      };
+
+    useEffect(() => {
+        // Check if onboarded is false and set modal visibility accordingly
+        if (!onboarded) {
+          setModalIsOpen(true);
+        }
+      }, [onboarded]);
+
+      const closeModal = () => {
+        setOnboardingStatus(true);
+        setModalIsOpen(false);
+      };
+
+
     return(
         <>
         
         <ThemeProvider theme={theme}>
             <CssBaseline/>
+            <OnboardingModal isOpen={modalIsOpen} onClose={closeModal} />
         <Box sx={{width: '100vw', height: '100vh', overflow: 'hidden'}}>
         <div style={{ overflow: 'hidden' }}>
         

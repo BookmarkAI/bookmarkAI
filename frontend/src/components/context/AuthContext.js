@@ -27,8 +27,15 @@ export const AuthProvider = ({ children }) => {
             .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");}
       });
 
+
       setUser(user);
-      setOnboarded(cookies.onboardingCookie.onboarded);
+      if (!cookies.onboardingCookie) {
+        setCookie("onboardingCookie", JSON.stringify({ displayName: user.displayName, uid: user.uid, onboarded: onboarded }));
+      } else if (cookies.onboardingCookie.onboarded === undefined) {
+        setCookie("onboardingCookie", JSON.stringify({ displayName: user.displayName, uid: user.uid, onboarded: onboarded }));
+      } else {
+        setOnboarded(cookies.onboardingCookie.onboarded);
+      }
       setCookie("userCookie", user ?
         JSON.stringify({ url: window.location.hostname,displayName: user.displayName, uid: user.uid })
         : JSON.stringify({ url: window.location.hostname, displayName: null, uid: null }),
@@ -50,7 +57,7 @@ export const AuthProvider = ({ children }) => {
 
 
     })
-  })
+  }, [])
 
   useEffect(() => {
       if (user) {
@@ -61,8 +68,9 @@ export const AuthProvider = ({ children }) => {
 
 
   function setOnboardingStatus(status) {
-    setOnboarded(status);
+    console.log(status);
     setCookie("onboardingCookie", JSON.stringify({ displayName: user.displayName, uid: user.uid, onboarded: status }));
+    setOnboarded(status);
   }
 
   if (isLoading) {

@@ -8,7 +8,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { AuthContext } from '../context/AuthContext';
 import React, { useContext } from 'react';
 import { useState, useEffect } from 'react';
-import Modal from 'react-modal';
+import OnboardingModal from '../modal/OnboardingModal';
 
 const theme = createTheme({
     components: {
@@ -35,44 +35,30 @@ export default function DesktopHomeScreen(props) {
     const navigate = useNavigate();
     const authContext = useContext(AuthContext);
     const { onboarded, setOnboardingStatus } = authContext;
-    console.log(onboarded);
     const [modalIsOpen, setModalIsOpen] = useState(false);
-
-    const OnboardingModal = ({ isOpen, onClose }) => {
-        Modal.setAppElement('#root');
-        return (
-          <Modal
-            isOpen={isOpen}
-            onRequestClose={onClose}
-            // Add additional props and styles as needed
-          >
-            {/* Modal content */}
-            <h2>Welcome to the app!</h2>
-            {/* Add more content or components as needed */}
-            <button onClick={onClose}>Close</button>
-          </Modal>
-        );
-      };
 
     useEffect(() => {
         // Check if onboarded is false and set modal visibility accordingly
         if (!onboarded) {
           setModalIsOpen(true);
         }
-      }, [onboarded]);
+      }, []);
 
-      const closeModal = () => {
+    const handleOnboarded = () => {
         setOnboardingStatus(true);
         setModalIsOpen(false);
-      };
-
+    }
 
     return(
         <>
         
         <ThemeProvider theme={theme}>
             <CssBaseline/>
-            <OnboardingModal isOpen={modalIsOpen} onClose={closeModal} />
+            <OnboardingModal
+                isOpen={modalIsOpen}
+                onRequestClose={() => setModalIsOpen(false)}
+                onClose={handleOnboarded}
+            />
         <Box sx={{width: '100vw', height: '100vh', overflow: 'hidden'}}>
         <div style={{ overflow: 'hidden' }}>
         

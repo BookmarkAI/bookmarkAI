@@ -1,5 +1,6 @@
     /*global chrome*/
-import React, {createContext, useEffect, useState} from 'react';
+import {createContext, useEffect, useState} from 'react';
+import React from 'react';
 import {useCookies} from "react-cookie";
 import {auth} from "../../fb";
 import ReactGA from "react-ga4";
@@ -13,7 +14,7 @@ export const AuthContext = createContext();
 // Define the provider
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [onboarded, setOnboarded] = useState(false);
+  const [onboarded, setOnboarded] = useState(true);
   const [cookies, setCookie] = useCookies(["user", "onboarding"]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -29,12 +30,12 @@ export const AuthProvider = ({ children }) => {
 
 
       setUser(user);
-      if (!cookies.onboardingCookie) {
+      if (user && !cookies.onboardingCookie) {
         setCookie("onboardingCookie", JSON.stringify({ displayName: user.displayName, uid: user.uid, onboarded: onboarded }));
-      } else if (cookies.onboardingCookie.onboarded === undefined) {
+      } else if (user && cookies.onboardingCookie.onboarded === undefined) {
         setCookie("onboardingCookie", JSON.stringify({ displayName: user.displayName, uid: user.uid, onboarded: onboarded }));
       } else {
-        setOnboarded(cookies.onboardingCookie.onboarded);
+        setOnboarded(cookies?.onboardingCookie?.onboarded || false);
       }
       setCookie("userCookie", user ?
         JSON.stringify({ url: window.location.hostname,displayName: user.displayName, uid: user.uid })

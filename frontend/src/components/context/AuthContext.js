@@ -31,9 +31,16 @@ export const AuthProvider = ({ children }) => {
 
       setUser(user);
       if (user && !cookies?.onboardingCookie) {
-        setCookie("onboardingCookie", JSON.stringify({ displayName: user.displayName, uid: user.uid, onboarded: onboarded }));
+        setCookie(
+            "onboardingCookie",
+            JSON.stringify({ displayName: user.displayName, uid: user.uid, onboarded: onboarded }),
+            {expires: new Date(2100, 1, 1)}
+        );
       } else if (user && cookies?.onboardingCookie.onboarded === undefined) {
-        setCookie("onboardingCookie", JSON.stringify({ displayName: user.displayName, uid: user.uid, onboarded: onboarded }));
+        setCookie(
+            "onboardingCookie",
+            JSON.stringify({ displayName: user.displayName, uid: user.uid, onboarded: onboarded }),
+            {expires: new Date(2100, 1, 1)});
       } else {
         setOnboarded(cookies?.onboardingCookie?.onboarded || false);
       }
@@ -70,7 +77,11 @@ export const AuthProvider = ({ children }) => {
 
   function setOnboardingStatus(status) {
     console.log(status);
-    setCookie("onboardingCookie", JSON.stringify({ displayName: user.displayName, uid: user.uid, onboarded: status }));
+    setCookie(
+        "onboardingCookie",
+        JSON.stringify({ displayName: user.displayName, uid: user.uid, onboarded: status }),
+        {expires: new Date(2100, 1, 1)}
+    );
     setOnboarded(status);
   }
 

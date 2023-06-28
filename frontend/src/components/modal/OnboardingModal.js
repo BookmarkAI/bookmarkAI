@@ -16,7 +16,7 @@ export default function OnboardingModal({ isOpen, onRequestClose, onClose }) {
 
         const handleExtensionOpen = () => {
             window.open("https://chrome.google.com/webstore/detail/smart-bookmarks-chat-with/hbgeccffpnlflcghlnajgdhidcikebmj");
-            setTimeout(onClose, 1000);
+            onClose();
         }
 
         return (
@@ -24,6 +24,17 @@ export default function OnboardingModal({ isOpen, onRequestClose, onClose }) {
             isOpen={isOpen}
             onRequestClose={onRequestClose}
             // Add additional props and styles as needed
+            style={{
+                content: {
+                    width: '80vw',
+                    height: '80vh',
+                    top: '10vh',
+                    left: '10vw',
+                },
+                overlay: {
+                    zIndex: 1200,
+                }
+            }}
           >
   
             <Box sx={{width: '100%', height: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexDirection: 'column'}}>

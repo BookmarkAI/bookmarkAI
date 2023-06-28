@@ -1,12 +1,35 @@
-import React, { useContext } from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import { Route, Navigate } from 'react-router-dom';
 import { AuthContext } from '../components/context/AuthContext';
+import OnboardingModal from "../components/modal/OnboardingModal";
 
 const ProtectedRoute = (props) => {
-  const { user } = useContext(AuthContext);
+  const { user, onboarded, setOnboardingStatus } = useContext(AuthContext);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  const handleOnboarded = () => {
+    setModalIsOpen(false);
+    setOnboardingStatus(true);
+  }
+  useEffect(() => {
+        console.log("onboarded: ", onboarded);
+        console.log("modalIsOpen: ", modalIsOpen);
+        // Check if onboarded is false and set modal visibility accordingly
+        setModalIsOpen(!onboarded);
+
+      }, [onboarded, modalIsOpen]);
 
   if (user) {
-    return props.children;
+    return (
+        <>
+            {props.children}
+            <OnboardingModal
+                isOpen={modalIsOpen}
+                onRequestClose={() => setModalIsOpen(false)}
+                onClose={handleOnboarded}
+            />
+        </>
+    );
   } 
   
   return <Navigate to="/login" replace />;

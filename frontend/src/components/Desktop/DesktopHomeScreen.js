@@ -5,10 +5,8 @@ import { DesktopSearchBar } from '../../components/SearchBar';
 import HomeHeader from '../../components/HomeHeader';
 import { createTheme, ThemeProvider } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
-import { AuthContext } from '../context/AuthContext';
 import React, { useContext } from 'react';
-import { useState, useEffect } from 'react';
-import OnboardingModal from '../modal/OnboardingModal';
+
 
 const theme = createTheme({
     components: {
@@ -33,32 +31,12 @@ const theme = createTheme({
 
 export default function DesktopHomeScreen(props) {
     const navigate = useNavigate();
-    const authContext = useContext(AuthContext);
-    const { onboarded, setOnboardingStatus } = authContext;
-    const [modalIsOpen, setModalIsOpen] = useState(false);
-
-    useEffect(() => {
-        // Check if onboarded is false and set modal visibility accordingly
-        if (!onboarded) {
-          setModalIsOpen(true);
-        }
-      }, [onboarded]);
-
-    const handleOnboarded = () => {
-        setOnboardingStatus(true);
-        setModalIsOpen(false);
-    }
 
     return(
         <>
         
         <ThemeProvider theme={theme}>
             <CssBaseline/>
-            <OnboardingModal
-                isOpen={modalIsOpen}
-                onRequestClose={() => setModalIsOpen(false)}
-                onClose={handleOnboarded}
-            />
         <Box sx={{width: '100vw', height: '100vh', overflow: 'hidden'}}>
         <div style={{ overflow: 'hidden' }}>
         

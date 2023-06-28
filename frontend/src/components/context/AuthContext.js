@@ -14,7 +14,7 @@ export const AuthContext = createContext();
 // Define the provider
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [onboarded, setOnboarded] = useState(true);
+  const [onboarded, setOnboarded] = useState(false);
   const [cookies, setCookie] = useCookies(["user", "onboarding"]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -30,9 +30,9 @@ export const AuthProvider = ({ children }) => {
 
 
       setUser(user);
-      if (user && !cookies.onboardingCookie) {
+      if (user && !cookies?.onboardingCookie) {
         setCookie("onboardingCookie", JSON.stringify({ displayName: user.displayName, uid: user.uid, onboarded: onboarded }));
-      } else if (user && cookies.onboardingCookie.onboarded === undefined) {
+      } else if (user && cookies?.onboardingCookie.onboarded === undefined) {
         setCookie("onboardingCookie", JSON.stringify({ displayName: user.displayName, uid: user.uid, onboarded: onboarded }));
       } else {
         setOnboarded(cookies?.onboardingCookie?.onboarded || false);

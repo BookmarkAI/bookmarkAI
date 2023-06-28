@@ -42,7 +42,7 @@ export default function DesktopHomeScreen(props) {
         if (!onboarded) {
           setModalIsOpen(true);
         }
-      }, []);
+      }, [onboarded]);
 
     const handleOnboarded = () => {
         setOnboardingStatus(true);

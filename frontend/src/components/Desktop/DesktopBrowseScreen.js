@@ -54,7 +54,6 @@ export default function DesktopBrowseScreen(props) {
 
     return(
         <>
-            <Toolbar/>
             <Grid container spacing={2} sx={{mt: 0.5}} >
                 <Grid item xs={2.5} sx={{ pr: 3}} >
                     <Box sx={{ maxHeight: 'calc(100vh - 110px)', overflow: "auto"}}>

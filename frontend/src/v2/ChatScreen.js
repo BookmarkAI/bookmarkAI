@@ -15,6 +15,11 @@ import AddIcon from '@mui/icons-material/Add';
 import Grid from '@mui/material/Grid'
 import Viewer from './Viewer'
 import Folder from './Folder'
+import ChatBar from './ChatBar'
+import ChatBox from './ChatBox'
+import Avatar from '@mui/material/Avatar';
+import UserMenu from '../components/UserMenu';
+import { useNavigate } from 'react-router';
 
 const drawerWidth = 240;
 const appbarHeight = 50;
@@ -85,10 +90,11 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
-export default function MiniDrawer() {
+export default function ChatScreen() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const [viewer, setViewer] = React.useState(null);
+  const navigate = useNavigate();
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -102,53 +108,37 @@ export default function MiniDrawer() {
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <AppBar elevation={0} sx={{minHeight: appbarHeight, height: appbarHeight, backgroundColor: '#181818'}} position="fixed">
-        <Box sx={{mt: 1.5, ml: 2, display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center'}}>
-            <img 
-                src={logo} 
-                alt="Bookmark Logo"
-                style={{
-                    width: 18
-                }}
-            />
+        <Box sx={{mt: 0.5, ml: 2, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+          <Box sx={{display: 'flex', flexDirection: 'row'}}>
+            <Box onClick={()=>navigate('/browse')} sx={{display: 'flex', alignItems: 'center'}}>
+              <img 
+                  src={logo} 
+                  alt="Bookmark Logo"
+                  style={{
+                      width: 18
+                  }}
+              />
+            </Box>
             <Box sx={{ml: 1, width: 250, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                 <Button sx={{ width: 200, fontSize: 12, color: 'white', borderRadius: 0, background: 'linear-gradient(to right, #cd5b95, #9846ca)', height: 25}} variant="contained">
                    <AddIcon sx={{mr: 1}} fontSize="100"/> New Chat
                 </Button>
-            </Box>    
+            </Box> 
+            </Box>  
+              <UserMenu>
+                <Avatar sx={{ width: 25, height: 25, mr: 2 }}/>
+              </UserMenu>      
         </Box>
       </AppBar>
       <Sidebar setViewer={setViewer}/>
-      {viewer && <Viewer url={viewer} setViewer={setViewer}/>}
-      <Box component="main" sx={{ flexGrow: 1, p: 3, border: viewer ? 1 : 0, width: '50%', height: '100vh'}}>
-        <DrawerHeader />
-        <Typography paragraph>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-          tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non
-          enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus
-          imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
-          Convallis convallis tellus id interdum velit laoreet id donec ultrices.
-          Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit
-          adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra
-          nibh cras. Metus vulputate eu scelerisque felis imperdiet proin fermentum
-          leo. Mauris commodo quis imperdiet massa tincidunt. Cras tincidunt lobortis
-          feugiat vivamus at augue. At augue eget arcu dictum varius duis at
-          consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa
-          sapien faucibus et molestie ac.
-        </Typography>
-        <Typography paragraph>
-          Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper
-          eget nulla facilisi etiam dignissim diam. Pulvinar elementum integer enim
-          neque volutpat ac tincidunt. Ornare suspendisse sed nisi lacus sed viverra
-          tellus. Purus sit amet volutpat consequat mauris. Elementum eu facilisis
-          sed odio morbi. Euismod lacinia at quis risus sed vulputate odio. Morbi
-          tincidunt ornare massa eget egestas purus viverra accumsan in. In hendrerit
-          gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem
-          et tortor. Habitant morbi tristique senectus et. Adipiscing elit duis
-          tristique sollicitudin nibh sit. Ornare aenean euismod elementum nisi quis
-          eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla
-          posuere sollicitudin aliquam ultrices sagittis orci a.
-        </Typography>
-      </Box>
+      <Grid container>
+      <Grid item xs={6}>
+        {viewer && <Viewer url={viewer} setViewer={setViewer}/>}
+      </Grid>
+      <Grid container xs={viewer ? 6 : 12} direction="column" alignItems="center">
+        <ChatBox viewer={viewer}/>
+      </Grid>
+      </Grid>
     </Box>
   );
 }

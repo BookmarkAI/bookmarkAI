@@ -11,7 +11,7 @@ import Stack from '@mui/material/Stack'
 
 export default function Viewer({url, setViewer}) {
     return (
-        <Box component="main" sx={{ flexGrow: 1, width: '50vw', height: '100vh'}}>
+        <Box component="main" sx={{ flexGrow: 1,  height: '100vh', borderRight: 1}}>
         <DrawerHeader />
         <Box sx={{width: '100%', height: 30, p: 1, mt: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
           <Box sx={{display: 'flex', flexDirection: 'row', alignItems: 'flex-end'}}> <LanguageOutlinedIcon fontSize="small" sx={{mr:1}}/> <Typography sx={{fontSize: 12}}> {displayUrl(url)} </Typography> </Box>

@@ -29,7 +29,9 @@ export const AuthProvider = ({ children }) => {
       });
 
       setUser(user);
-      Hotjar.identify(user.uid, { name: user.displayName, email: user.email });
+      if (user) {
+        Hotjar.identify(user.uid, { name: user.displayName, email: user.email })
+      }
       if (user && !cookies?.onboardingCookie) {
         setCookie(
             "onboardingCookie",

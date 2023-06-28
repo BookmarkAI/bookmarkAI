@@ -1,4 +1,6 @@
-import React, {createContext, useEffect, useState} from 'react';
+    /*global chrome*/
+import {createContext, useEffect, useState} from 'react';
+import React from 'react';
 import {useCookies} from "react-cookie";
 import {auth} from "../../fb";
 import ReactGA from "react-ga4";
@@ -12,7 +14,8 @@ export const AuthContext = createContext();
 // Define the provider
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [cookies, setCookie] = useCookies(["user"]);
+  const [onboarded, setOnboarded] = useState(true);
+  const [cookies, setCookie] = useCookies(["user", "onboarding"]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -25,7 +28,15 @@ export const AuthProvider = ({ children }) => {
             .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");}
       });
 
+
       setUser(user);
+      if (user && !cookies.onboardingCookie) {
+        setCookie("onboardingCookie", JSON.stringify({ displayName: user.displayName, uid: user.uid, onboarded: onboarded }));
+      } else if (user && cookies.onboardingCookie.onboarded === undefined) {
+        setCookie("onboardingCookie", JSON.stringify({ displayName: user.displayName, uid: user.uid, onboarded: onboarded }));
+      } else {
+        setOnboarded(cookies?.onboardingCookie?.onboarded || false);
+      }
       setCookie("userCookie", user ?
         JSON.stringify({ url: window.location.hostname,displayName: user.displayName, uid: user.uid })
         : JSON.stringify({ url: window.location.hostname, displayName: null, uid: null }),
@@ -47,7 +58,7 @@ export const AuthProvider = ({ children }) => {
 
 
     })
-  })
+  }, [])
 
   useEffect(() => {
       if (user) {
@@ -56,6 +67,12 @@ export const AuthProvider = ({ children }) => {
       }
   }, [user])
 
+
+  function setOnboardingStatus(status) {
+    console.log(status);
+    setCookie("onboardingCookie", JSON.stringify({ displayName: user.displayName, uid: user.uid, onboarded: status }));
+    setOnboarded(status);
+  }
 
   if (isLoading) {
     // Render loading indicator or any other desired UI element while isLoading is true
@@ -67,6 +84,8 @@ export const AuthProvider = ({ children }) => {
     <AuthContext.Provider
       value={{
         user: user,
+        onboarded: onboarded,
+        setOnboardingStatus: setOnboardingStatus,
         setUser: setUser,
         cookies: cookies,
         setCookie: setCookie,

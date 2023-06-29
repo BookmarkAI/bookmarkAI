@@ -28,7 +28,7 @@ export default function Bookmark(props){
         
             <Box sx={{mb: 0.5, display: "flex", alignItems: "center", justifyContent: "center"}}>
                     <img
-                    src={getIcon(url)}
+                    src={url ? getIcon(url) : ''}
                     alt={"icon"}
                     onError={addDefaultSrc}
                     style={{
@@ -48,7 +48,7 @@ export default function Bookmark(props){
             <Box onClick={()=>setViewer(url)} sx={{display: 'flex', flexDirection: 'row'}}>
                 <Box sx={{ minWidth: 10, display: "flex", alignItems: "center", justifyContent: "center", ml: 1, mr: 1}}>
                     <img
-                    src={getIcon(url)}
+                    src={url ? getIcon(url) : ''}
                     alt={"icon"}
                     onError={addDefaultSrc}
                     style={{

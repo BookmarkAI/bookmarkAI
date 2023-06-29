@@ -62,9 +62,11 @@ export default function Folder(props) {
         <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
           <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%'}}>
             <Typography sx={{fontSize: 11}}>{folder}</Typography>
-            <Typography sx={{fontSize: 11}}>{bookmarks.length}</Typography>
           </Box>
+          { expanded ? <BpCheckbox onClick={(event)=>event.stopPropagation()}  folder={folder} bookmarks={bookmarks.map(bookmark=>bookmark.id)}/> : 
+            <Typography sx={{fontSize: 11}}>{bookmarks.length}</Typography>}   
         </AccordionSummary>
+        
         <AccordionDetails>
             {bookmarks.map((bookmark)=> <Bookmark {...bookmark} setViewer={setViewer}/>)}
         </AccordionDetails>

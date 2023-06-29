@@ -61,7 +61,7 @@ function BookmarkCard(props) {
         <Box sx={{ display: "flex"}}>
           <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", ml: 1, mr: 1}}>
             <img
-              src={getIcon(url)}
+              src={url ? getIcon(url) : ''}
               alt={""}
               onError={addDefaultSrc}
               style={{

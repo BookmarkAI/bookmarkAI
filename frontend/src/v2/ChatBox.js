@@ -10,6 +10,7 @@ import MuiMarkdown from "mui-markdown";
 import { EventSourcePolyfill } from 'event-source-polyfill';
 import { DrawerHeader } from './DrawerHeader'
 import { useRef, useEffect } from "react";
+import Stack from '@mui/material/Stack';
 
 const BASE_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost:8000";
 const EventSource = EventSourcePolyfill;
@@ -26,7 +27,7 @@ function ChatMessage(props){
     const { message, type, viewer } = props;
     
     return(
-        <Box sx={{width: '100%', display: 'flex', justifyContent: 'center', borderBottom: 1, borderColor: "#DEDEDF", backgroundColor: type == 'query' ? 'white' : '#F7F7F8'}}>
+        <Box sx={{width: '100%', display: 'flex', justifyContent: 'center', borderBottom: 1, borderColor: "#DEDEDF", backgroundColor: type == 'query' ? '#F7F7F8' : 'white'}}>
         <Box sx={{width: viewer ? '90%' : {xs: 500, md: 600, lg: 650}, display: 'flex', pt: 1, pb: 1}}>
             <Typography sx={{fontSize: 13}}>
                 <MuiMarkdown overrides={{fontSize: 13}}>
@@ -98,6 +99,22 @@ export default function ChatBox(props){
         <>
         <Box sx={{width: '100%', height: '85vh', overflow: 'auto', pt: 3}}> 
         <DrawerHeader/>
+
+        <Box sx={{width: '100%', display: 'flex', justifyContent: 'center', borderBottom: 1, borderColor: "#DEDEDF", backgroundColor: 'white'}}>
+            <Box sx={{width: viewer ? '90%' : {xs: 500, md: 600, lg: 650}, display: 'flex', flexDirection: 'column', pt: 1, pb: 3}}>
+                <Typography sx={{fontSize: 13}}>
+                    Welcome to <b> Supermark</b>, your knowledge assistant that helps you understand bookmarks.
+                    <br/><br/>
+                </Typography>
+                <Stack spacing={1}>
+                    <Typography sx={{fontSize: 13}}><b>How to use it?</b></Typography>
+                    <Typography sx={{fontSize: 13}}> 📌 Select bookmarks that you want to chat with. 👈</Typography>
+                    <Typography sx={{fontSize: 13}}> 📚 By default, you will be chatting with <b>all</b> of your bookmarks</Typography>
+                    <Typography sx={{fontSize: 13}}> 📝 Ask a question, and get an answer!</Typography>
+                </Stack>
+            </Box>
+        </Box>
+        
         {chatMessages.map((msg)=>
             <ChatMessage  {...msg} viewer={viewer}/>
         )}

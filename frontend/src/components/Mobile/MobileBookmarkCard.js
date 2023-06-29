@@ -53,7 +53,7 @@ export default function MobileBookmarkCard(props) {
         <Box sx={{ display: "flex"}}>
           <Box sx={{ minWidth: 50, display: "flex", alignItems: "center", justifyContent: "center", ml: 1, mr: 1}}>
             <img
-              src={getIcon(url)}
+              src={url ? getIcon(url) : ''}
               alt={"icon"}
               onError={addDefaultSrc}
               style={{

@@ -52,26 +52,32 @@ const BpCheckedIcon = styled(BpIcon)({
 
 // Inspired by blueprintjs
 export default function BpCheckbox(props) {
-  const { id } = props
+  const { id, folder, bookmarks} = props
   const { selectedFiles, updateSelectedFiles, removeSelectedFiles } = useContext(FileContext)
 
   const handleChange = (event) => {
+    event.stopPropagation();
     if(event.target.checked) {
-      updateSelectedFiles(id);
+      if (id) {updateSelectedFiles(id)}
+      if (folder) {
+        bookmarks.map((id)=>updateSelectedFiles(id))
+      }
     } else {
-      removeSelectedFiles(id);
+      if (id) {removeSelectedFiles(id)}
+      if (folder) {bookmarks.map((id)=>removeSelectedFiles(id))}
     }
   };
 
   return (
     <Checkbox
+      zIndex={5000}
       sx={{
         '&:hover': { bgcolor: 'transparent' },
         p:0.5
       }}
       disableRipple
       color="default"
-      checked={selectedFiles.includes(id)}
+      checked={id ? selectedFiles.includes(id) : bookmarks.every(id => selectedFiles.includes(id))}
       onChange={handleChange}
       checkedIcon={<BpCheckedIcon />}
       icon={<BpIcon />}

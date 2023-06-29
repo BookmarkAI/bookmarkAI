@@ -64,7 +64,7 @@ function DesktopMiniBookmarkCard(props) {
             <Box sx={{display: "flex", flexDirection: "row",  pt: 1, alignItems: 'center', width: '100%', justifyContent: 'space-between' }}> 
                 <Box sx={{display: "flex", flexDirection: "row", alignItems: "center"}}>    
                     <img
-                        src={getIcon(url)}
+                        src={url ? getIcon(url) : ''}
                         onError={addDefaultSrc}
                         style={{
                             height: 15

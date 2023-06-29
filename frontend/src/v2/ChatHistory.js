@@ -9,9 +9,9 @@ function Chat(props) {
     const { question, id} = props;
     return(
         <Button  
-            sx={{textTransform: 'none', pl: 1, pr: 1, pb: 0.8, pt: 0.8, width: '100%', borderBottom: 1, borderRadius: 0, borderColor: '#dddddd', display: 'flex', justifyContent: 'flex-start'}}>
-            <ChatBubbleOutlineIcon sx={{fontSize: 12, color: '#181818'}}/>
-            <Typography noWrap sx={{ml: 0.8, fontSize: 12, overflow: 'hidden', textOverflow: 'ellipsis', color: 'black'}}>
+            sx={{textTransform: 'none', pl: 1, pr: 1, pb: 0.6, pt: 0.6, width: '100%', borderBottom: 1, borderRadius: 0, borderColor: '#dddddd', display: 'flex', justifyContent: 'flex-start'}}>
+            <ChatBubbleOutlineIcon sx={{fontSize: 11, color: '#181818'}}/>
+            <Typography noWrap sx={{ml: 0.8, fontSize: 11, overflow: 'hidden', textOverflow: 'ellipsis', color: 'black'}}>
                 {question} 
             </Typography>
         </Button>

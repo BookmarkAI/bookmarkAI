@@ -14,13 +14,13 @@ function DesktopBookMarkList({ spacing, select, topk, bookmarks, fetchBookmarks,
     
         <Grid
                 container
-                spacing={spacing}
+                spacing={0}
                 justify="center"
                 sx={style}
             >
 
             {bookmarks.map((doc, i) => (
-                <Grid item xs={12} sm={6} md={4} >
+                <Grid item xs={12} sm={6} md={3} >
                     <DesktopBookmarkCard select={select} {...doc} i={i} fetchBookmarks={fetchBookmarks} setAllBookmarks={setAllBookmarks}/>
                 </Grid>
             ))}

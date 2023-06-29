@@ -114,7 +114,7 @@ export default function BookmarkMenu(props) {
   
     return (
       <div>
-        <IconButton onClick={handleClick}>  
+        <IconButton sx={{mt: 0.5, p: 0.5}} onClick={handleClick}>  
             {props.children}
         </IconButton>
         <EditDialog {...props} open={open} setOpen={setOpen}/>
@@ -128,12 +128,12 @@ export default function BookmarkMenu(props) {
             'aria-labelledby': 'basic-button',
           }}
         >
-          <MenuItem onClick={()=>{setOpen(true); handleClose()}} fetchBookmarks={fetchBookmarks}>Edit Bookmark</MenuItem>
+          <MenuItem sx={{fontSize: 13}} onClick={()=>{setOpen(true); handleClose()}} fetchBookmarks={fetchBookmarks}>Change Folder</MenuItem>
           <CopyToClipboard text={url}>
-            <MenuItem onClick={handleClose}>Copy Link</MenuItem>
+            <MenuItem onClick={handleClose} sx={{fontSize: 13}}>Copy Link</MenuItem>
           </CopyToClipboard>
-          <MenuItem onClick={()=>{window.location.replace(url)}}>Visit Link</MenuItem>
-          <MenuItem sx={{color: 'red'}} onClick={handleDelete}> Delete </MenuItem>
+          <MenuItem sx={{fontSize: 13}} onClick={()=>{window.location.replace(url)}}>Visit Link</MenuItem>
+          <MenuItem  sx={{color: 'red', fontSize: 13}} onClick={handleDelete}> Delete </MenuItem>
         </Menu>
       </div>
     );

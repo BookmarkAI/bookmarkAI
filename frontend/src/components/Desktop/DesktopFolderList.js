@@ -24,7 +24,7 @@ function StyledButton(props){
         textTransform: "none",
         display: 'flex',
         justifyContent: 'space-between', 
-        p: 1.2, width: '100%', display: 'flex', justifyContent: 'space-between', textTransform: "none", color: "#959CA6",
+        pl: 1.5, pr: 1.2, pt: 0, pb: 0, width: '100%', display: 'flex', justifyContent: 'space-between', textTransform: "none", color: "#959CA6",
         '&:hover': {
             backgroundColor: '#E5F1FE',
             borderColor: 'transparent',
@@ -38,7 +38,7 @@ function StyledButton(props){
         boxShadow: 'none',
         color: "#959CA6",
         color: "#3D9DFF",
-        p: 1.2, width: '100%', display: 'flex', justifyContent: 'space-between', textTransform: "none", 
+        pl: 1.5, pr: 1.2, pt: 0, pb: 0, width: '100%', display: 'flex', justifyContent: 'space-between', textTransform: "none", 
         '&:hover': {
           backgroundColor: "#dddddd",
          
@@ -77,8 +77,8 @@ function DesktopFolder(props) {
     return(
         <StyledButton handleClick={handleClick} clicked={clicked}>
             <Box sx={{display: "flex", flexDirection: "row", alignItems: "center"}}>
-            <FolderIcon  sx={{ fontSize: 17 }}/>
-                    <Typography variant="h7" sx={{ml: 1, fontWeight: clicked? 500: 350, color: clicked? "#3D9DFF": "#333333"}}>
+            <FolderIcon  sx={{ fontSize: 14 }}/>
+                    <Typography variant="h7" sx={{ml: 1, fontSize: 12, fontWeight: clicked? 500: 350, color: clicked? "#3D9DFF": "#333333"}}>
                         {title}
                     </Typography>
             </Box>
@@ -95,9 +95,9 @@ function AllBookmarks(){
     }
     return(
         <StyledButton handleClick={handleClick} clicked={clicked}>
-            <Box sx={{display: "flex", flexDirection: "row", alignItems: "center"}}>
-            <BookmarkIcon sx={{fontSize: 17}}/>
-                    <Typography variant="h7" sx={{ml: 1, fontWeight: clicked? 500: 350, color: clicked? "#3D9DFF": "#333333"}}>
+            <Box sx={{display: "flex", flexDirection: "row", alignItems: "center", pt: 0.5, pb: 0.5}}>
+            <BookmarkIcon sx={{fontSize: 14}}/>
+                    <Typography variant="h7" sx={{ml: 1, fontSize: 12, fontWeight: clicked? 500: 350, color: clicked? "#3D9DFF": "#333333"}}>
                         All Bookmarks
                     </Typography>
             </Box>
@@ -135,8 +135,11 @@ export default function DesktopFolderList() {
                             <FolderMenu fetchFolderList={fetchFolderList} title={doc} setAllFolders={setAllFolders}/>
                         </DesktopFolder>
                     ))}
-
+                    <Box sx={{width: '100%', display: 'flex', justifyContent: 'center'}}>
                     <SimpleDialogDemo fetchFolderList={fetchFolderList}/>
+                    </Box>
+
+                    
                 </Stack>
         </>
     )

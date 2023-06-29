@@ -16,6 +16,7 @@ const AntTabs = styled(Tabs)({
 
 const AntTab = styled((props: StyledTabProps) => <Tab disableRipple {...props} />)(
   ({ theme }) => ({
+    paddingBottom:0.5,
     textTransform: 'none',
     minWidth: 0,
     [theme.breakpoints.up('sm')]: {
@@ -78,9 +79,9 @@ function BrowseTab() {
   const { handleTypeSelect } = useContext(TypeContext);
   return (
     <DesktopTab>
-      <AntTab onClick={()=>handleTypeSelect(null)} sx={{fontSize: '17px'}}  label="All" />
-      <AntTab onClick={()=>handleTypeSelect('url')} sx={{fontSize: '17px'}}  label="Text"  />
-      <AntTab onClick={()=>handleTypeSelect('pdf')} sx={{fontSize:'17px'}}  label="PDF"  />
+      <AntTab onClick={()=>handleTypeSelect(null)} sx={{fontSize: 15}}  label="All" />
+      <AntTab onClick={()=>handleTypeSelect('url')} sx={{fontSize: 15}}  label="Text"  />
+      <AntTab onClick={()=>handleTypeSelect('pdf')} sx={{fontSize:15}}  label="PDF"  />
     </DesktopTab>
   )
 }
@@ -90,10 +91,9 @@ function SearchTab(props) {
   const { chatEnabled } = useContext(FileContext);
   return (
     <DesktopTab>
-      {chatEnabled && <AntTab onClick={()=>setDisplay('chat')} sx={{fontSize: '17px'}}  label="Chat" />}
-      <AntTab onClick={()=>setDisplay('all')} sx={{fontSize: '17px'}}  label="All" />
-      <AntTab onClick={()=>setDisplay('url')} sx={{fontSize: '17px'}}  label="Text"  />
-      <AntTab onClick={()=>setDisplay('pdf')} sx={{fontSize:'17px'}}  label="PDF"  />
+      <AntTab onClick={()=>setDisplay(null)} sx={{fontSize: 15}}  label="All" />
+      <AntTab onClick={()=>setDisplay('url')} sx={{fontSize: 15}}  label="Text"  />
+      <AntTab onClick={()=>setDisplay('pdf')} sx={{fontSize:15}}  label="PDF"  />
     </DesktopTab>
   )
 }

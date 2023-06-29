@@ -57,7 +57,6 @@ export default function() {
                     </Box>
                 </AppBar>
                 <Header/>
-                <DesktopAppHeader/>
                 
             </Desktop>
 

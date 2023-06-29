@@ -64,16 +64,16 @@ function SearchBar(props) {
     <Paper
       component="form"
       sx={style}
+      elevation={0}
     >
-      <IconButton type="button"  aria-label="search" disabled>
-        <SearchIcon sx={{fontSize:'30px'}}/>
-      </IconButton>
+        <SearchIcon sx={{fontSize:'17px', color: '#71757C'}}/>
+
       <InputBase
         value={query}
         onChange={changeQuery}
         onKeyDown={keyPress}
         sx={{ ml: 1, flex: 1, fontSize: fontsize }}
-        placeholder={selectedFiles.length < 1 ? placeholder : `Chat with ${selectedFiles.length} Bookmarks`}
+        placeholder={'Search...'}
         inputProps={{ 'aria-label': 'search google maps' }}
       />
       
@@ -81,7 +81,7 @@ function SearchBar(props) {
         
         
         
-        {chatEnabled ? 
+        {/* {chatEnabled ? 
         <Tooltip title="Click to disable chat">
         <IconButton sx={{p:1}} onClick={()=>{
             enableChat(false)
@@ -108,19 +108,19 @@ function SearchBar(props) {
         </Tooltip>
         
         }
-       
+        */}
 
         {props.children}
       </Box>
 
     </Paper>  
            
-    {advanced && 
+    {/* {advanced && 
       
       <Stack sx={{display: 'flex', flexDirection: 'row', ml: 1}} spacing={1} direction="row">
         <DesktopAdvancedSearch/>
         <DesktopPromptGenerator setQuery={setQuery} query={query}/>
-      </Stack>}
+      </Stack>} */}
    </>
   );
 }
@@ -129,9 +129,9 @@ function SearchBar(props) {
 
 function DesktopSearchBar(props) {
   const { height, width, advanced } = props; 
-  const style = {height, width, display: 'flex', alignItems: 'center', justifyContent: 'center', border:1, pl: 1, pr:1, pt: 0.8, pb: 0.8,  borderColor: "#DFE1E5", borderRadius:1}
+  const style = {height: 23, width, display: 'flex', alignItems: 'center', justifyContent: 'center', pl: 1, pr:1, pt: 0.8, pb: 0.8,  backgroundColor: '#EFF1F4', borderRadius:1}
   return (
-    <SearchBar fontsize={18} style={style} placeholder={"Chat with your bookmarks"} advanced={advanced}/>
+    <SearchBar fontsize={13} style={style} placeholder={"Search..."} advanced={advanced}/>
   )
 }
 

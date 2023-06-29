@@ -93,9 +93,9 @@ export default function SimpleDialogDemo(props) {
 
   return (
     <>
-      <Button onClick={handleClickOpen} sx={{textTransform: "none", display: "flex", justifyContent: "flex-start", alignItems: "center"}}>
-            <AddIcon sx={{fontSize:"16px", mr: 0.5}}/>
-            <Typography variant="h7" >
+      <Button onClick={handleClickOpen} sx={{pt: 1.1, pb: 1.1,  width: '100%', textTransform: "none", display: "flex", justifyContent: "center", alignItems: "center"}}>
+            <AddIcon sx={{fontSize:12, mr: 0.5}}/>
+            <Typography sx={{fontSize: 12}} >
                 Create New Folder 
             </Typography>
       </Button>

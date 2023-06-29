@@ -53,50 +53,36 @@ export default function DesktopBrowseScreen(props) {
     
 
     return(
-        <>
-            <Grid container spacing={2} sx={{mt: 0.5}} >
-                <Grid item xs={2.5} sx={{ pr: 3}} >
+        <>  
+            <Grid container >
+                <Grid item xs={1.8} sx={{ borderRight: 1, height: 'calc(100vh - 40px)', borderColor: '#EFF1F4'}} >
                     <Box sx={{ maxHeight: 'calc(100vh - 110px)', overflow: "auto"}}>
-                        <Box sx={{pl:2, pr:2}}> 
-                            <Box sx={{ pb: 2,display: "flex", alignItems: "center", justifyContent: "space-between"}}>
-                                <Typography variant="h7" sx={{fontWeight: 700, color: "#222222"}}> Folders</Typography>
-                                <MoreHorizIcon sx={{color: "#222222"}}/>
+                        <Box> 
+                            <Box sx={{ pb:1,  display: "flex", alignItems: "center", justifyContent: "space-between"}}>
+                                <Typography sx={{ pt: 1.5, pl: 1.5, pr: 1.5, pb: 0.5, fontSize: 13, fontWeight: 500}}>Folders</Typography>
                             </Box>
                             <DesktopFolderList/>  
                         </Box>
                     </Box>
                 </Grid>
-                <Grid item xs={9.5}>
-                    <Box sx={{ maxHeight: 'calc(100vh - 110px)', overflow: "auto"}}>
-                        <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: "space-between", alignItems: "center", pr: 7}}>
-                            <Typography variant="h5" sx={{fontWeight: 550}}> 
+                <Grid item xs={10.2}>
+                    <Box sx={{width: '100%', borderBottom: 1, borderColor: '#EFF1F4', pt: 1.5, pb: 1.5, pl: 5}}>
+                        <DesktopSearchBar width={650}/>
+                    </Box>
+                    <Box sx={{ maxHeight: 'calc(100vh - 110px)', overflow: "auto", pt: 2, ml: 3}}>
+                        <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: "space-between", alignItems: "center", pr: 7, ml: 0.5}}>
+                            <Typography variant="h6" sx={{fontWeight: 550}}> 
                              { selectedFolder ? selectedFolder : "All Bookmarks" }
                             </Typography>
                                     
                             {selectedFolder && <AddBookmarksToFolder folder={selectedFolder} fetchBookmarks={fetchBookmarks}/>}
                         </Box>
                         
-                        <Box sx={{mt: 4}}>
+                        <Box>
                             <BrowseTab/>
                         </Box>
                     
                         <Box sx={{mt: 1}}>
-                        <Box sx={{display: 'flex', justifyContent: 'space-between', pr: 5}}>
-                        <Button onClick={()=>deselectAll()} sx={{color: "#458be9", textTransform: "none", '&:hover': {
-                            backgroundColor: 'white',
-                            borderColor: 'transparent',
-                            boxShadow: 'none',
-                        }}}>
-                            Deselect all             
-                        </Button>
-                            <Button onClick={selectAll} sx={{color: "#458be9", pl: 2, textTransform: "none", '&:hover': {
-                                backgroundColor: 'white',
-                                borderColor: 'transparent',
-                                boxShadow: 'none',
-                            }}}>
-                                Select All                    
-                            </Button>
-                        </Box>
                             <DesktopBookMarkList bookmarks={filteredBookmarks} fetchBookmarks={fetchBookmarks} setAllBookmarks={setAllBookmarks}/>           
                         </Box>
                     </Box>

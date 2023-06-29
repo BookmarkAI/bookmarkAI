@@ -55,7 +55,7 @@ export default function DesktopBrowseScreen(props) {
     return(
         <>  
             <Grid container >
-                <Grid item xs={1.8} sx={{ borderRight: 1, height: 'calc(100vh - 40px)', borderColor: '#EFF1F4'}} >
+                <Grid item xs={1.8} sx={{ borderRight: 1, height: 'calc(100vh - 50px)', borderColor: '#EFF1F4'}} >
                     <Box sx={{ maxHeight: 'calc(100vh - 110px)', overflow: "auto"}}>
                         <Box> 
                             <Box sx={{ pb:1,  display: "flex", alignItems: "center", justifyContent: "space-between"}}>
@@ -65,7 +65,7 @@ export default function DesktopBrowseScreen(props) {
                         </Box>
                     </Box>
                 </Grid>
-                <Grid item xs={10.2}>
+                <Grid item xs={10.2} sx={{height: 'calc(100vh - 50px)'}}>
                     <Box sx={{width: '100%', borderBottom: 1, borderColor: '#EFF1F4', pt: 1.5, pb: 1.5, pl: 5}}>
                         <DesktopSearchBar width={650}/>
                     </Box>

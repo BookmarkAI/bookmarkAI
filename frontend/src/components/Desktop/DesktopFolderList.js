@@ -51,7 +51,7 @@ function StyledButton(props){
         <>
        
         <Box sx={{borderRadius: 3, display:"flex", flexDirection: "row", justifyContent: 'space-between', alignItems: 'flex-end'}}>
-            <Button variant={clicked ? "contained" : "text"} onClick={handleClick} sx={getButtonStyles()}>   t s
+            <Button variant={clicked ? "contained" : "text"} onClick={handleClick} sx={getButtonStyles()}> 
                 {props.children}
             </Button>   
         </Box>

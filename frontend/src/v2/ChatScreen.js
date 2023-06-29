@@ -136,7 +136,7 @@ export default function ChatScreen() {
         {viewer && <Viewer url={viewer} setViewer={setViewer}/>}
       </Grid>
       <Grid container xs={viewer ? 6 : 12} direction="column" alignItems="center">
-        <ChatBox viewer={viewer}/>
+        <ChatBox viewer={viewer} setViewer={setViewer}/>
       </Grid>
       </Grid>
     </Box>

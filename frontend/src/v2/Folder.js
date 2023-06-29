@@ -63,7 +63,7 @@ export default function Folder(props) {
           <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%'}}>
             <Typography sx={{fontSize: 11}}>{folder}</Typography>
           </Box>
-          { expanded ? <BpCheckbox onClick={(event)=>event.stopPropagation()}  folder={folder} bookmarks={bookmarks.map(bookmark=>bookmark.id)}/> : 
+          { expanded && bookmarks.length > 0 ? <BpCheckbox onClick={(event)=>event.stopPropagation()}  folder={folder} bookmarks={bookmarks.map(bookmark=>bookmark.id)}/> : 
             <Typography sx={{fontSize: 11, mr: 1}}>{bookmarks.length}</Typography>}   
         </AccordionSummary>
         

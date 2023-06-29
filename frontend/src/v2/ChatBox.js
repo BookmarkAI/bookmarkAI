@@ -11,6 +11,14 @@ import { EventSourcePolyfill } from 'event-source-polyfill';
 import { DrawerHeader } from './DrawerHeader'
 import { useRef, useEffect } from "react";
 import Stack from '@mui/material/Stack';
+import Link from '@mui/material/Link';
+import ContentPasteIcon from '@mui/icons-material/ContentPaste';
+import IconButton from "@mui/material/IconButton";
+import ThumbUpIcon from '@mui/icons-material/ThumbUpOffAltOutlined';
+import ThumbDownIcon from '@mui/icons-material/ThumbDownOutlined';
+import ReactMarkdown from 'react-markdown'
+import {CopyToClipboard} from "react-copy-to-clipboard";
+import CheckIcon from '@mui/icons-material/Check';
 
 const BASE_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost:8000";
 const EventSource = EventSourcePolyfill;
@@ -24,23 +32,58 @@ function getQueryString(selectedFiles) {
 }
 
 function ChatMessage(props){
-    const { message, type, viewer } = props;
+    const [copied, setCopied] = useState(false)
+    const { message, type, viewer, source, setViewer} = props;
+
+    function handleCopy() {
+        setCopied(true)
+        
+        // Set a timeout to revert the button icon after 10 seconds
+        setTimeout(() => {
+            // Change the button icon back to the original icon
+            setCopied(false)
+        }, 3000); // 10 seconds in milliseconds
+    }
     
     return(
-        <Box sx={{width: '100%', display: 'flex', justifyContent: 'center', borderBottom: 1, borderColor: "#DEDEDF", backgroundColor: type == 'query' ? '#F7F7F8' : 'white'}}>
-        <Box sx={{width: viewer ? '90%' : {xs: 500, md: 600, lg: 650}, display: 'flex', pt: 1, pb: 1}}>
+        <Box sx={{width: '100%', display: 'flex', justifyContent: 'center', borderBottom: 1, borderColor: "#DEDEDF", backgroundColor: type == 'query' ? '#F7F7F8' : 'white', pt: 0.5, pb: 0.5}}>
+        <Box sx={{width: viewer ? '90%' : {xs: 500, md: 600, lg: 650}, display: 'flex', flexDirection: 'column'}}>
             <Typography sx={{fontSize: 13}}>
-                <MuiMarkdown overrides={{fontSize: 13}}>
+                <ReactMarkdown>
                 {message}
-                </MuiMarkdown>
+                {/* </MuiMarkdown> */}
+                </ReactMarkdown>
             </Typography>
+            {source && <Stack spacing={.5} sx={{mt: 1, mb: 1}}>
+                {source.length > 0 && <Typography sx={{fontSize: 13, fontWeight: 500}}> Source Bookmarks 🔎</Typography>}
+                {source.map((doc, i) => <Box sx={{pl: 0.5}}> 
+                    <Typography sx={{fontSize: 13}}> ✓   <Link onClick={()=>setViewer(doc.url)} sx={{fontSize: 13, mr: 0.8}} underline="hover" color="inherit">{doc.title}</Link><Link onClick={()=>window.open(doc.url)} sx={{fontSize: 13}}>(Visit link)  </Link> </Typography> 
+                    </Box>
+                )}
+            </Stack>}
+            
+            {type == 'answer' && 
+            <Box sx={{width: '100%', display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end', pb: 1}}>
+            <CopyToClipboard text={message}>
+                <IconButton onClick={()=>handleCopy()} sx={{p: 0.8, borderRadius: 1, p: 0.5, m: 0.1}}>
+                    {copied ? <CheckIcon sx={{fontSize: 15, color: '#AFAFBF'}}/> : <ContentPasteIcon sx={{fontSize: 15, color: '#AFAFBF'}}/>}
+                </IconButton>
+            </CopyToClipboard>
+            <IconButton sx={{p: 0.8, borderRadius: 1, p: 0.5, m: 0.1}}>
+                <ThumbUpIcon sx={{fontSize: 15, color: '#AFAFBF'}}/>
+            </IconButton>
+            <IconButton sx={{p: 0.8, borderRadius: 1, p: 0.5, m: 0.1}}>
+                <ThumbDownIcon sx={{fontSize: 15, color: '#AFAFBF'}}/>
+            </IconButton>
+            </Box>}
+            
         </Box>
         </Box>
     )   
 }
 
 export default function ChatBox(props){
-    const { viewer } = props;
+    const { viewer, setViewer } = props;
     const [ responseMessages, setResponseMessages ] = useState([])
     const { selectedFiles } = useContext(FileContext)
     const [ chatMessages, setChatMessages ] = useState([])
@@ -50,7 +93,6 @@ export default function ChatBox(props){
 
     useEffect(() => {
         if (scrollRef.current) {
-            console.log('hello')
             scrollRef.current.scrollIntoView({ behaviour: "smooth" });
           }
       }, [chatMessages]);
@@ -60,7 +102,30 @@ export default function ChatBox(props){
             const lastMessageIndex = prevMessages.length - 1;
             return prevMessages.map((message, index) => {
             if (index === lastMessageIndex) {
-                return { ...message, message: message.message + textToAppend };
+                return { ...message, message: message.message + textToAppend};
+            }
+            return message;
+            });
+        });
+    };
+
+    const appendSource = (documents) => {
+        const condensedList = documents.reduce((accumulator, currentObj) => {
+            const foundObj = accumulator.find(
+              (obj) => obj.url === currentObj.url && obj.title === currentObj.title
+            );
+            if (!foundObj) {
+              const { url, title } = currentObj;
+              accumulator.push({ url, title });
+            }
+            return accumulator;
+          }, []);
+
+        setChatMessages((prevMessages) => {
+            const lastMessageIndex = prevMessages.length - 1;
+            return prevMessages.map((message, index) => {
+            if (index === lastMessageIndex) {
+                return { ...message, message: message.message, source: condensedList, type: 'answer'};
             }
             return message;
             });
@@ -80,6 +145,7 @@ export default function ChatBox(props){
             const msg = JSON.parse(event.data);
             console.log(msg)
             if (msg.done) {
+                appendSource(msg.documents)
                 eventSource.close();
             } else {
                 // setResponseMessages((messages) => [...messages, msg]);
@@ -101,9 +167,9 @@ export default function ChatBox(props){
         <DrawerHeader/>
 
         <Box sx={{width: '100%', display: 'flex', justifyContent: 'center', borderBottom: 1, borderColor: "#DEDEDF", backgroundColor: 'white'}}>
-            <Box sx={{width: viewer ? '90%' : {xs: 500, md: 600, lg: 650}, display: 'flex', flexDirection: 'column', pt: 1, pb: 3}}>
+            <Box sx={{width: viewer ? '90%' : {xs: 500, md: 600, lg: 650}, display: 'flex', flexDirection: 'column', pt: 1, pb: 2.5}}>
                 <Typography sx={{fontSize: 13}}>
-                    Welcome to <b> Supermark</b>, your knowledge assistant that helps you understand bookmarks.
+                    👋 Welcome to <b> Supermark</b>, your knowledge assistant that helps you understand documents.
                     <br/><br/>
                 </Typography>
                 <Stack spacing={1}>
@@ -116,7 +182,7 @@ export default function ChatBox(props){
         </Box>
         
         {chatMessages.map((msg)=>
-            <ChatMessage  {...msg} viewer={viewer}/>
+            <ChatMessage  {...msg} viewer={viewer} setViewer={setViewer}/>
         )}
         <Box sx={{height: 10, width: 100}} ref={scrollRef}/>
         </Box>

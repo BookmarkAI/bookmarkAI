@@ -13,14 +13,14 @@ export default function Viewer({url, setViewer}) {
     return (
         <Box component="main" sx={{ flexGrow: 1,  height: '100vh', borderRight: 1}}>
         <DrawerHeader />
-        <Box sx={{width: '100%', height: 30, p: 1, mt: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+        <Box sx={{width: '100%', height: 30, p: 1.5, mt: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
           <Box sx={{display: 'flex', flexDirection: 'row', alignItems: 'flex-end'}}> <LanguageOutlinedIcon fontSize="small" sx={{mr:1}}/> <Typography sx={{fontSize: 12}}> {displayUrl(url)} </Typography> </Box>
           <Stack direction="row" spacing={1}>
             <LaunchIcon onClick={()=>{window.open(url)}} fontSize="small"/>
             <CloseOutlinedIcon onClick={()=>setViewer(null)} fontSize="small"/>
           </Stack>
         </Box>
-        <iframe width="100%" height='88%' src={`http://localhost:3000/api/viewer?url=${url}`} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+        <iframe width="100%" height='88.5%' src={`http://localhost:3000/api/viewer?url=${url}`} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
       </Box>
     )
 }

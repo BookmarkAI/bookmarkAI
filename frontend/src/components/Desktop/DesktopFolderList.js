@@ -52,13 +52,7 @@ function StyledButton(props){
        
         <Box sx={{borderRadius: 3, display:"flex", flexDirection: "row", justifyContent: 'space-between', alignItems: 'flex-end'}}>
             <Button variant={clicked ? "contained" : "text"} onClick={handleClick} sx={getButtonStyles()}>   
-                <Box sx={{display: "flex", flexDirection: "row", alignItems: "center"}}>
-                    {props.children}
-                    <Typography variant="h7" sx={{ml: 1, fontWeight: clicked? 500: 350, color: clicked? "#3D9DFF": "#333333"}}>
-                        {title}
-                    </Typography>
-                </Box>
-                <FolderMenu/>
+                {props.children}
             </Button>   
         </Box>
         
@@ -76,6 +70,7 @@ function DesktopFolder(props) {
     }
     return(
         <StyledButton handleClick={handleClick} clicked={clicked}>
+ 
             <Box sx={{display: "flex", flexDirection: "row", alignItems: "center"}}>
             <FolderIcon  sx={{ fontSize: 14 }}/>
                     <Typography variant="h7" sx={{ml: 1, fontSize: 12, fontWeight: clicked? 500: 350, color: clicked? "#3D9DFF": "#333333"}}>
@@ -83,6 +78,7 @@ function DesktopFolder(props) {
                     </Typography>
             </Box>
             {props.children}
+
         </StyledButton>
     )
 }

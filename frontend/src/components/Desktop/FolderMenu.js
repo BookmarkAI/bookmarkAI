@@ -38,7 +38,6 @@ export default function FolderMenu({title, setAllFolders}) {
       <div>
         <IconButton onClick={handleClick}>  
             <DeleteIcon  sx={{ fontSize: 17 }}/>
-            <MoreVertIcon/>
         </IconButton>
 
         <Menu

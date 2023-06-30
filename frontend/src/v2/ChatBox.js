@@ -33,6 +33,7 @@ function getQueryString(selectedFiles) {
 
 function ChatMessage(props){
     const [copied, setCopied] = useState(false)
+    const [thumb, setThumb] = useState(null)
     const { message, type, viewer, source, setViewer} = props;
 
     function handleCopy() {
@@ -69,12 +70,12 @@ function ChatMessage(props){
                     {copied ? <CheckIcon sx={{fontSize: 15, color: '#AFAFBF'}}/> : <ContentPasteIcon sx={{fontSize: 15, color: '#AFAFBF'}}/>}
                 </IconButton>
             </CopyToClipboard>
-            <IconButton sx={{p: 0.8, borderRadius: 1, p: 0.5, m: 0.1}}>
-                <ThumbUpIcon sx={{fontSize: 15, color: '#AFAFBF'}}/>
-            </IconButton>
-            <IconButton sx={{p: 0.8, borderRadius: 1, p: 0.5, m: 0.1}}>
-                <ThumbDownIcon sx={{fontSize: 15, color: '#AFAFBF'}}/>
-            </IconButton>
+            {thumb != "down" && <IconButton onClick={()=>setThumb("up")} sx={{p: 0.8, borderRadius: 1, p: 0.5, m: 0.1}}>
+                 <ThumbUpIcon sx={{fontSize: 15, color: thumb == "up" ? '#414250' : '#AFAFBF'}}/>
+            </IconButton>}
+            {thumb != "up" && <IconButton onClick={()=>setThumb("down")} sx={{p: 0.8, borderRadius: 1, p: 0.5, m: 0.1}}>
+                <ThumbDownIcon sx={{fontSize: 15, color: thumb == "down" ? '#414250' : '#AFAFBF'}}/>
+            </IconButton>}
             </Box>}
             
         </Box>

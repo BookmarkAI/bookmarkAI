@@ -49,7 +49,7 @@ export default function FolderMenu({title, setAllFolders}) {
             'aria-labelledby': 'basic-button',
           }}
         >
-          <MenuItem sx={{color: "red"}} onClick={handleCloseWithDelete}> Delete </MenuItem>
+          <MenuItem sx={{color: "red", fontSize: 13}} onClick={handleCloseWithDelete}> Delete </MenuItem>
         </Menu>
       </div>
     );

@@ -80,7 +80,7 @@ function BrowseTab() {
   return (
     <DesktopTab>
       <AntTab onClick={()=>handleTypeSelect(null)} sx={{fontSize: 15}}  label="All" />
-      <AntTab onClick={()=>handleTypeSelect('url')} sx={{fontSize: 15}}  label="Text"  />
+      <AntTab onClick={()=>handleTypeSelect('url')} sx={{fontSize: 15}}  label="Link"  />
       <AntTab onClick={()=>handleTypeSelect('pdf')} sx={{fontSize:15}}  label="PDF"  />
     </DesktopTab>
   )
@@ -92,7 +92,7 @@ function SearchTab(props) {
   return (
     <DesktopTab>
       <AntTab onClick={()=>setDisplay(null)} sx={{fontSize: 15}}  label="All" />
-      <AntTab onClick={()=>setDisplay('url')} sx={{fontSize: 15}}  label="Text"  />
+      <AntTab onClick={()=>setDisplay('url')} sx={{fontSize: 15}}  label="Link"  />
       <AntTab onClick={()=>setDisplay('pdf')} sx={{fontSize:15}}  label="PDF"  />
     </DesktopTab>
   )

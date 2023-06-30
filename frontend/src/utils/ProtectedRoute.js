@@ -24,8 +24,7 @@ const ProtectedRoute = (props) => {
         <>
             {props.children}
             <OnboardingModal
-                isOpen={modalIsOpen}
-                onRequestClose={() => setModalIsOpen(false)}
+                open={modalIsOpen}
                 onClose={handleOnboarded}
             />
         </>

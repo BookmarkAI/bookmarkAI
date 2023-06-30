@@ -74,7 +74,7 @@ export const handleSignInRedirect = async () => {
         "email": user.email,
         "name": user.displayName,
         "subscription_type": "free", 
-        "folders": ["unsorted"]
+        "folders": ["Unsorted"]
       });        
     }
   } catch (error) {

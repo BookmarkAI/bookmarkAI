@@ -33,7 +33,7 @@ function App() {
               <Routes>
                 {/*<Route path="/" element={<ProtectedRoute><HomeScreen/></ProtectedRoute>} />*/}
                 <Route path="/" element={<Navigate to="/browse" />} />
-                <Route path="/v2" element={<ChatScreen/>}/>
+                <Route path="/chat" element={<ChatScreen/>}/>
                 <Route path="/login" element={<SignInPage/>}/>
                 <Route element={<ProtectedRoute><Layout/></ProtectedRoute>}>
                   <Route path="/browse" element={<ProtectedRoute><BrowseScreen/></ProtectedRoute>}/>
@@ -44,8 +44,7 @@ function App() {
             </Desktop>
 
             <Mobile>
-              <Routes>
-                {/*<Route path="/" element={<ProtectedRoute><HomeScreen/></ProtectedRoute>} />*/}
+              {/* <Routes>
                 <Route path="/" element={<Navigate to="/browse" />} />
                 <Route path="/login" element={<SignInPage />}/>
                 <Route element={<ProtectedRoute><Layout/></ProtectedRoute>}>
@@ -54,7 +53,7 @@ function App() {
                   <Route path="/folders" element={<ProtectedRoute><MobileFoldersScreen/></ProtectedRoute>}/>
                   <Route path="/folder/:id" element={<ProtectedRoute><MobileFolderView/></ProtectedRoute>} />
                 </Route>
-              </Routes>
+              </Routes> */}
             </Mobile>
           </BrowserRouter>
           </ConversationProvider>

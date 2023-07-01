@@ -28,7 +28,7 @@ export default function AppHeader(){
         const response = await fetch(`${BASE_URL}/conversation`, requestOptions);
         const data = await response.json();
         setCurrentConversation(data)
-        navigate('/v2')
+        navigate('/chat')
     }
 
     return(

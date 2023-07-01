@@ -1,6 +1,6 @@
-from typing import List
+from typing import List, Any, Dict, Type
 
-from langchain.schema import Document
+from langchain.schema import Document, BaseMessage, _message_from_dict, _message_to_dict
 from pydantic import BaseModel
 
 from models.bookmark import VectorStoreBookmark, VectorStoreBookmarkMetadata
@@ -28,3 +28,21 @@ class ChatEndpointMessage(BaseModel):
     chat_response: str
     documents: List[VectorStoreBookmarkMetadata]
     done: bool
+
+
+class ConversationMessage(BaseModel):
+    message: Dict[str, Any]
+    used_context: List[VectorStoreBookmarkMetadata] | List[str] | None = None
+    timestamp: int
+
+    @classmethod
+    def parse_obj(cls: Type['ConversationMessage'], obj: Any) -> 'ConversationMessage':
+        if isinstance(obj, cls):
+            return obj
+        if isinstance(obj, dict):
+            return cls(
+                message=_message_to_dict(_message_from_dict(obj['message'])),
+                used_context=obj['used_context'],
+                timestamp=obj['timestamp']
+            )
+        raise TypeError(f'Cannot parse {cls} from {obj}')

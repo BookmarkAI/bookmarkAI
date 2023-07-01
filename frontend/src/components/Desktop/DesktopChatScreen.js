@@ -50,10 +50,10 @@ export default function DesktopChatScreen({ responseMessages, sources, searchRes
                     </Box>
                 </Grid>
                 <Grid item xs={10.2}>
-                <Box sx={{width: '100%', borderBottom: 1, borderColor: '#EFF1F4', pt: 1.5, pb: 1.5, pl: 5}}>
+                <Box sx={{width: '100%', borderBottom: 1, borderColor: '#EFF1F4', pt: 1.5, pb: 1.5, pl: 4}}>
                         <DesktopSearchBar width={650}/>
                     </Box>
-                <Box sx={{ maxHeight: 'calc(100vh - 110px)', overflow: "auto", ml: 3}}>
+                <Box sx={{ maxHeight: 'calc(100vh - 110px)', overflow: "auto", ml: 4}}>
                     
                     <SearchTab setDisplay={setDisplay} display={display}/>
 

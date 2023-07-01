@@ -27,7 +27,7 @@ export default function ChatBar(props) {
             setCurrentChat('')
 
             setChatMessages((messages) => [...messages, {message: '💬 &nbsp;', type: "ongoing", source: []}])
-            askChatGPT();
+            askChatGPT(currentChat);
             // add current message to list of chatMessages
         }
     }

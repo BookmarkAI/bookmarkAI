@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import { useState, useContext } from "react";
 import { AuthContext } from "../components/context/AuthContext";
 import Bookmark from "./Bookmark";
+import Stack from '@mui/material/Stack';
 
 const BASE_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost:8000";
 
@@ -48,9 +49,9 @@ return(
     <SearchBar query={query} setQuery={setQuery} fetchData={fetchData} getSearchResult={getSearchResult}/>
     <Box sx={{height: '58%', overflow: "auto"}}>
         
-        <Box sx={{height: '100%', p: 0.5}}>
+        <Stack spacing={0.5} sx={{height: '100%', p: 0.5}}>
         {searchResult.map((bookmark)=><Bookmark {...bookmark}/>)}
-        </Box>
+        </Stack>
     </Box> 
     </>
 

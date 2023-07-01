@@ -14,16 +14,21 @@ const fetchWebsite = (url) => {
 }
 
 
-app.get('/api/viewer', async (req, res) => {
-    try {
-        const { url } = req.query
-        fs.writeFileSync('site.html', '', () => console.log('Created site.html'));
-        fs.createReadStream('site.html').pipe(res);
-        fetchWebsite(url);
-    } catch {
-        next(err);
-    }
-  });
+app.get('/api/viewer', async (req, res, next) => {
+  try {
+      const { url } = req.query
+      fs.writeFileSync('site.html', '', () => console.log('Created site.html'));
+      fs.createReadStream('site.html').pipe(res);
+      fetchWebsite(url);
+  } catch (err) {
+      next(err);
+  }
+});
+
+app.use((err, req, res, next) => {
+  // Handle the error and send a response to the client
+  res.status(500).json({ error: 'Internal Server Error' });
+});
 
 
 app.listen(PORT, () => {console.log("Listening at port: ", PORT)} )

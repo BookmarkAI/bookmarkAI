@@ -13,7 +13,6 @@ import { useEffect } from 'react';
 import AddBookmarksToFolder from '../AddBookmarksToFolder';
 import FolderMenu from './FolderMenu';
 
-
 function StyledButton(props){
     const { title, clicked, handleClick } = props;
     
@@ -24,7 +23,7 @@ function StyledButton(props){
         textTransform: "none",
         display: 'flex',
         justifyContent: 'space-between', 
-        pl: 1.5, pr: 1.2, pt: 0, pb: 0, width: '100%', display: 'flex', justifyContent: 'space-between', textTransform: "none", color: "#959CA6",
+        pl: 1.5, pr: 0.5, pt: 0.2, pb: 0.2, width: '100%', display: 'flex', justifyContent: 'space-between', textTransform: "none", color: "#959CA6",
         '&:hover': {
             backgroundColor: '#E5F1FE',
             borderColor: 'transparent',
@@ -38,7 +37,7 @@ function StyledButton(props){
         boxShadow: 'none',
         color: "#959CA6",
         color: "#3D9DFF",
-        pl: 1.5, pr: 1.2, pt: 0, pb: 0, width: '100%', display: 'flex', justifyContent: 'space-between', textTransform: "none", 
+        pl: 1.5, pr: 0.5, pt: 0.2, pb: 0.2, width: '100%', display: 'flex', justifyContent: 'space-between', textTransform: "none", 
         '&:hover': {
           backgroundColor: "#dddddd",
          
@@ -72,7 +71,7 @@ function DesktopFolder(props) {
         <StyledButton handleClick={handleClick} clicked={clicked}>
  
             <Box sx={{display: "flex", flexDirection: "row", alignItems: "center"}}>
-            <FolderIcon  sx={{ fontSize: 14 }}/>
+            <FolderIcon  sx={{ fontSize: 14, color: 'inherit' }}/>
                     <Typography variant="h7" sx={{ml: 1, fontSize: 12, fontWeight: clicked? 500: 350, color: clicked? "#3D9DFF": "#333333"}}>
                         {title}
                     </Typography>
@@ -92,7 +91,7 @@ function AllBookmarks(){
     return(
         <StyledButton handleClick={handleClick} clicked={clicked}>
             <Box sx={{display: "flex", flexDirection: "row", alignItems: "center", pt: 0.5, pb: 0.5}}>
-            <BookmarkIcon sx={{fontSize: 14}}/>
+            <BookmarkIcon sx={{fontSize: 14, color: 'inherit'}}/>
                     <Typography variant="h7" sx={{ml: 1, fontSize: 12, fontWeight: clicked? 500: 350, color: clicked? "#3D9DFF": "#333333"}}>
                         All Bookmarks
                     </Typography>

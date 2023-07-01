@@ -66,11 +66,11 @@ export default function DesktopBrowseScreen(props) {
                     </Box>
                 </Grid>
                 <Grid item xs={10.2} sx={{height: 'calc(100vh - 50px)'}}>
-                    <Box sx={{width: '100%', borderBottom: 1, borderColor: '#EFF1F4', pt: 1.5, pb: 1.5, pl: 5}}>
+                    <Box sx={{width: '100%', borderBottom: 1, borderColor: '#EFF1F4', pt: 1.5, pb: 1.5, pl: 4}}>
                         <DesktopSearchBar width={650}/>
                     </Box>
-                    <Box sx={{ maxHeight: 'calc(100vh - 110px)', overflow: "auto", pt: 2, ml: 3}}>
-                        <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: "space-between", alignItems: "center", pr: 7, ml: 0.5}}>
+                    <Box sx={{ maxHeight: 'calc(100vh - 110px)', overflow: "auto", pt: 2, ml: 4}}>
+                        <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: "flex-start", alignItems: "center", pr: 7, ml: 0.5}}>
                             <Typography variant="h6" sx={{fontWeight: 550}}> 
                              { selectedFolder ? selectedFolder : "All Bookmarks" }
                             </Typography>

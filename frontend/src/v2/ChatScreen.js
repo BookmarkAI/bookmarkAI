@@ -8,18 +8,13 @@ import List from '@mui/material/List';
 import CssBaseline from '@mui/material/CssBaseline';
 import Typography from '@mui/material/Typography';
 import Sidebar from './Sidebar';
-import Button from '@mui/material/Button';
-import Topbar from './Topbar';
-import logo from '../assets/supermark_logo.png'
-import AddIcon from '@mui/icons-material/Add';
 import Grid from '@mui/material/Grid'
 import Viewer from './Viewer'
-import Folder from './Folder'
-import ChatBar from './ChatBar'
 import ChatBox from './ChatBox'
-import Avatar from '@mui/material/Avatar';
-import UserMenu from '../components/UserMenu';
 import { useNavigate } from 'react-router';
+import AppHeader from './AppHeader';
+import { getAllConversations } from '../services/service';
+import { useState, useEffect } from 'react';
 
 const drawerWidth = 240;
 const appbarHeight = 50;
@@ -96,40 +91,11 @@ export default function ChatScreen() {
   const [viewer, setViewer] = React.useState(null);
   const navigate = useNavigate();
 
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
 
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar elevation={0} sx={{minHeight: appbarHeight, height: appbarHeight, backgroundColor: '#181818'}} position="fixed">
-        <Box sx={{mt: 0.5, ml: 2, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-          <Box sx={{display: 'flex', flexDirection: 'row'}}>
-            <Box onClick={()=>navigate('/browse')} sx={{display: 'flex', alignItems: 'center'}}>
-              <img 
-                  src={logo} 
-                  alt="Bookmark Logo"
-                  style={{
-                      width: 18
-                  }}
-              />
-            </Box>
-            <Box sx={{ml: 1, width: 250, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                <Button sx={{ width: 200, fontSize: 12, color: 'white', borderRadius: 0, background: 'linear-gradient(to right, #cd5b95, #9846ca)', height: 25}} variant="contained">
-                   <AddIcon sx={{mr: 1}} fontSize="100"/> New Chat
-                </Button>
-            </Box> 
-            </Box>  
-              <UserMenu>
-                <Avatar sx={{ width: 25, height: 25, mr: 2 }}/>
-              </UserMenu>      
-        </Box>
-      </AppBar>
+      <AppHeader/>
       <Sidebar setViewer={setViewer}/>
       <Grid container>
       <Grid item xs={6}>

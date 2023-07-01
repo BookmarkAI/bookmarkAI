@@ -1,13 +1,19 @@
 import * as React from 'react';
 import Typography from '@mui/material/Typography';
-import {  Box, Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
+import {  Box, Dialog, DialogTitle, DialogContent, DialogActions, Button, Menu, MenuItem } from '@mui/material';
 import icon from '../assets/favicon.ico';
-import { getAllBookmarks } from '../services/service';
 import { useState, useEffect } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import CancelIcon from '@mui/icons-material/Close';
 import { updateBookmarkFolder } from '../services/service';
-
+import Bookmark from '../v2/Bookmark';
+import SortIcon from '@mui/icons-material/Sort';
+import Stack from '@mui/material/Stack';
+import Tooltip from '@mui/material/Tooltip'
+import IconButton from '@mui/material/IconButton';
+import { getAllFolders, getAllBookmarks } from '../services/service';
+import BpCheckbox from '../v2/CheckBox';
+import { useRef } from 'react';
 
 function formatDateTime(dateTime) {
   const formattedDateTime = dateTime.toLocaleString('en-US', {
@@ -34,74 +40,90 @@ function addDefaultSrc(ev) {
   ev.target.src = icon
 }
 
-function BookmarkCard(props) {
-  const { title, id, url, timestamp, folder, setSelected, selected} = props;
-  const clicked = selected.includes(id)
- 
-  function handleClick(event) {
-    event.stopPropagation();
-    if (clicked) {
-        setSelected((prevSelectedFiles) =>
-        prevSelectedFiles.filter((selectedFile) => selectedFile !== id)
-        );
 
-    } else {
-        setSelected((prevSelectedFiles) => [
-            ...prevSelectedFiles,
-            id
-        ]);
+
+
+function FilterMenu({folders, selectedFolders, setSelectedFolders, scrollToView}) {
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open = Boolean(anchorEl);
+
+    const handleClick = (event) => { 
+       setAnchorEl(event.currentTarget);
+    };
+    
+    const handleClose = () => {
+      setAnchorEl(null);
+    };
+
+    const handleChange = (folder) => {
+      if (selectedFolders.includes(folder)) {
+        setSelectedFolders(selectedFolders.filter((f) => f !== folder));   
+      } else {
+        setSelectedFolders((folders)=>[...folders, folder])
+        scrollToView()
+      }
     }
+  
+    return (
+      <div>
+
+        <Tooltip title="Filter by folder" placement="left-start">
+          <IconButton 
+            aria-controls={open ? 'basic-menu' : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? 'true' : undefined}
+            onClick={handleClick}
+            sx={{borderRadius:0, p: 0.5}}>
+            <SortIcon/>
+          </IconButton>
+        </Tooltip>
+
+        <Menu
+          id="basic-menu"
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          MenuListProps={{
+            'aria-labelledby': 'basic-button',
+          }}
+        > 
+          {folders.map((folder)=>
+            <MenuItem sx={{fontSize: 12, pt: 0.5, pb: 0.5, pl: 1.5, pr: 1.5, width: 150}}> 
+              <BpCheckbox checked={selectedFolders.includes(folder)} handleChange={()=>handleChange(folder)}/> 
+              <Box sx={{ml: 0.5}}> {folder} </Box> 
+            </MenuItem>)}
+        </Menu>
+      </div>
+    );
   }
 
-  return (
-  <>
-      <Box onClick={handleClick} sx={{ borderBottom: 1, borderColor: '#dddddd', display: "flex", justifyContent: 'space-between', background: clicked ? '#dddddd' : "white", }}>
-      
-        {/* Code to navigate to the link */}
-        <Box sx={{ display: "flex"}}>
-          <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", ml: 1, mr: 1}}>
-            <img
-              src={url ? getIcon(url) : ''}
-              alt={""}
-              onError={addDefaultSrc}
-              style={{
-                height: 25
-            }}
-            />
-          </Box>
-
-          <Box sx={{ pt: 1, pb: 1}} >
-            <Typography gutterBottom variant="subtitle" component="div"  style={{ fontSize: 12, color: "#808080"}}>
-            {url ? displayUrl(url) : ""}
-            </Typography>
-
-            <Typography gutterBottom variant="subtitle" component="div"  style={{ lineHeight: "18px" , fontSize: 14, fontWeight: 420}}>
-              {title ? title : "Title"}
-            </Typography>
-            
-            <Typography gutterBottom variant="subtitle" component="div"  style={{ fontSize: 12, color: "#808080"}}>
-            {folder} &nbsp; {formatDateTime(new Date(timestamp*1000))} 
-            </Typography>
-          </Box>
-        </Box>
-      </Box>
- </>
- 
-    
-  );
-}
-
 export default function SelectBookmarkCard({folder, fetchBookmarks}) {
+    const [ allFolders, setAllFolders ] = useState([])
     const [ allBookmarks, setAllBookmarks ] = useState([])
+    const [ selectedFolders, setSelectedFolders] = useState([])
     const [open, setOpen] = useState(false);
     const [ selected, setSelected ] = useState([])
 
     const handleClickOpen = (event) => {
-        event.stopPropagation();
+        console.log('hello')
         setOpen(true);
     };
 
-    const handleClose = async () => {
+    function handleChange(id) {
+      if (selected.includes(id)) {
+          setSelected((prevSelectedFiles) =>
+          prevSelectedFiles.filter((selectedFile) => selectedFile !== id)
+          );
+
+      } else {
+          setSelected((prevSelectedFiles) => [
+              ...prevSelectedFiles,
+              id
+          ]);
+      }
+    }
+
+    const handleAdd = async () => {
       const updatePromises = selected.map((file) => {
         return updateBookmarkFolder(file, folder);
       });
@@ -110,33 +132,76 @@ export default function SelectBookmarkCard({folder, fetchBookmarks}) {
       setSelected([])
       setOpen(false);
       fetchBookmarks();
+
     };
+
+    const handleClose = () => {
+      setSelected([])
+      setOpen(false);
+    }
+
+    const scrollRef = useRef(null);
+
+    const scrollToView = () =>{
+      if (scrollRef.current) {
+        scrollRef.current.scrollIntoView({ behaviour: "smooth" });
+      }
+    }
+
 
    
     useEffect(() => {
         getAllBookmarks().then((response) => setAllBookmarks(response));
+        getAllFolders().then((response)=> setAllFolders(response));
     }, []);
+
+    const filteredBookmarks = selectedFolders.length > 0 ? allBookmarks.filter((bookmark) => {
+      return selectedFolders.includes(bookmark.folder);
+    }).sort((a, b) => {
+      return selectedFolders.indexOf(a.folder) - selectedFolders.indexOf(b.folder);
+    }) : allBookmarks 
 
     return (
         <>
-        <AddIcon sx={{color: "#959CA6"}} onClick={handleClickOpen}/>
-        <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
+        <Tooltip title="Add bookmarks to folder" placement="right-start">
+          <IconButton sx={{ml: 1, p: 0.5}}>
+            <AddIcon sx={{color: '#3E434B'}} onClick={handleClickOpen}/>
+          </IconButton>
+        </Tooltip>
+        <Dialog open={open} onClose={handleClose} sx={{ "& .MuiDialog-container": {
+                alignItems: "flex-start",
+                justifyContent: 'center',
+                mt: 5
+              }
+            }}>
             <DialogTitle>
                 <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                    Select Bookmarks to add
-                    <CancelIcon onClick={handleClose}/>
+                <Typography sx={{fontSize: 16}}> <b>Select Bookmarks to add</b></Typography>
+                    <CancelIcon sx={{fontSize: 18}} onClick={handleClose}/>
                 </Box>
             </DialogTitle>
-            
-            <DialogContent sx={{overflowY: 'auto', maxHeight: 400,}}>
-            {allBookmarks.map((doc, i) => (
-                <BookmarkCard key={doc.id} {...doc} setSelected={setSelected} selected={selected}/>
-            ))}
+
+            <DialogContent sx={{overflowY: 'auto', height: 300, width: 350, pl: 2, pr: 2}}>
+            <Stack spacing={0.5}>
+              {filteredBookmarks.map((doc, i) => (
+                  <Bookmark key={doc.id} {...doc} setSelected={setSelected} selected={selected} checked={selected.includes(doc.id)} handleChange={()=>handleChange(doc.id)}/>
+              ))}
+              <div ref={scrollRef}></div>
+              
+            </Stack>
             </DialogContent>
-            <DialogActions sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', mb: 2}}>
-            <Button fullWidth onClick={handleClose} sx={{textTransform: 'none',borderRadius: 3,p:1,ml:2,mr:2, background: 'linear-gradient(to right, #cd5b95, #9846ca)'}} variant="contained">
-                Add {selected.length} bookmarks
-            </Button>
+            <DialogActions sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 0, pt: 2, ml:2, mb: 1.5, mr: 2}}>
+            <FilterMenu folders={allFolders} selectedFolders={selectedFolders} setSelectedFolders={setSelectedFolders} scrollToView={scrollToView}/>
+            
+            <Button  onClick={handleAdd} sx={{ textTransform: 'none', fontSize: 12, fontWeight: 440, borderRadius: 1, borderWeight: 200, 
+                        color: '#3E434B', borderColor: "#DFE1E4",
+                        '&:hover': {
+                            backgroundColor: '#F8F9FC',
+                            borderColor: '#DFE1E4'
+                        }}} variant="outlined">
+                    {selected.length == 0 && <AddIcon sx={{fontSize: 12, mr: 0.5}}/>}
+                    Add {selected.length > 0 && selected.length} Bookmarks
+              </Button>
             </DialogActions>
         </Dialog>
         </>

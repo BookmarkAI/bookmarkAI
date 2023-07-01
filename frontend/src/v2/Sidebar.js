@@ -8,7 +8,7 @@ import { styled, useTheme } from '@mui/material/styles';
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography';
 import Folder from './Folder'
-import { getAllFolders, getAllBookmarks } from '../services/service';
+import { getAllFolders, getAllBookmarks, getAllConversations } from '../services/service';
 import { useEffect } from 'react';
 import { FileContext } from '../utils/FileContext';
 import { useContext } from 'react';
@@ -17,6 +17,8 @@ import Button from '@mui/material/Button';
 import SearchBar from './SearchBar';
 import Search from './Search';
 import ChatHistory from './ChatHistory';
+import { ConversationContext } from '../utils/ConversationContext';
+
 
 
 const DrawerHeader = styled('div')(({ theme }) => ({
@@ -33,6 +35,18 @@ export default function Sidebar(props){
     const [allFolders, setAllFolders] = useState([]);
     const [allBookmarks, setAllBookmarks] = useState([]);
     const { selectedFiles, resetSelectedFiles } = useContext(FileContext)
+    const { currentConversation } = useContext(ConversationContext)
+
+    const [chatHistory, setChatHistory] = useState([]); 
+
+    function fetchChatHistory() {
+        getAllConversations().then((response) => setChatHistory(response));
+    }
+
+
+    useEffect(() => {
+        fetchChatHistory();
+    },[currentConversation])
 
     function fetchFolderList() {
         getAllFolders().then((response) => setAllFolders(response));
@@ -125,7 +139,7 @@ export default function Sidebar(props){
             }
 
             {open == "history" &&
-                <ChatHistory/>
+                <ChatHistory chatHistory={chatHistory}/>
             }
 
         

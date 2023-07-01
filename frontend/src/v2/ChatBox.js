@@ -19,6 +19,8 @@ import ThumbDownIcon from '@mui/icons-material/ThumbDownOutlined';
 import ReactMarkdown from 'react-markdown'
 import {CopyToClipboard} from "react-copy-to-clipboard";
 import CheckIcon from '@mui/icons-material/Check';
+import { ConversationContext } from "../utils/ConversationContext";
+import { getConversation } from "../services/service";
 
 const BASE_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost:8000";
 const EventSource = EventSourcePolyfill;
@@ -31,10 +33,23 @@ function getQueryString(selectedFiles) {
     }
 }
 
+
+
 function ChatMessage(props){
     const [copied, setCopied] = useState(false)
     const [thumb, setThumb] = useState(null)
     const { message, type, viewer, source, setViewer} = props;
+
+    const condensedList = source ? source.reduce((accumulator, currentObj) => {
+        const foundObj = accumulator.find(
+          (obj) => obj.url === currentObj.url && obj.title === currentObj.title
+        );
+        if (!foundObj) {
+          const { url, title } = currentObj;
+          accumulator.push({ url, title });
+        }
+        return accumulator;
+      }, []) : source
 
     function handleCopy() {
         setCopied(true)
@@ -57,7 +72,7 @@ function ChatMessage(props){
             </Typography>
             {source && <Stack spacing={.5} sx={{mt: 1, mb: 1}}>
                 {source.length > 0 && <Typography sx={{fontSize: 13, fontWeight: 500}}> Source Bookmarks 🔎</Typography>}
-                {source.map((doc, i) => <Box sx={{pl: 0.5}}> 
+                {condensedList.map((doc, i) => <Box sx={{pl: 0.5}}> 
                     <Typography sx={{fontSize: 13}}> ✓   <Link onClick={()=>setViewer(doc.url)} sx={{fontSize: 13, mr: 0.8}} underline="hover" color="inherit">{doc.title}</Link><Link onClick={()=>window.open(doc.url)} sx={{fontSize: 13}}>(Visit link)  </Link> </Typography> 
                     </Box>
                 )}
@@ -84,13 +99,55 @@ function ChatMessage(props){
 }
 
 export default function ChatBox(props){
+    const { currentConversation, setCurrentConversation } = useContext(ConversationContext);
     const { viewer, setViewer } = props;
     const [ responseMessages, setResponseMessages ] = useState([])
     const { selectedFiles } = useContext(FileContext)
     const [ chatMessages, setChatMessages ] = useState([])
     const { user } = useContext(AuthContext);
-    console.log(user.uid)
     const scrollRef = useRef(null);
+
+
+    async function getChatHistory(conversation_id) {
+        const messages=[]
+        if(user != null) {
+            const response = await fetch(`${BASE_URL}/chat-history?conversation_id=${conversation_id}` , {
+                method: 'GET',
+                headers: {
+                    'X-UID': user.uid,
+                }
+    
+            })
+
+            const data = await response.json();
+
+            data.forEach((doc) => {
+                // doc.data() is never undefined for query doc snapshots
+                const m = {
+                    message: doc.message.data.content,
+                    source: doc.used_context,
+                    type: doc.message.type == "human" ? "query" : "answer"
+                  };
+            
+                    messages.push(m);
+            
+              });
+        } 
+        
+        return messages
+    }
+
+
+    useEffect(()=>{
+        console.log(currentConversation)
+        if (currentConversation) {
+            getChatHistory(currentConversation).then((chatMessages)=>
+                setChatMessages(chatMessages)
+            )
+        } else {
+            startNewConversation()
+        }
+    }, [currentConversation])
 
     useEffect(() => {
         if (scrollRef.current) {
@@ -111,32 +168,32 @@ export default function ChatBox(props){
     };
 
     const appendSource = (documents) => {
-        const condensedList = documents.reduce((accumulator, currentObj) => {
-            const foundObj = accumulator.find(
-              (obj) => obj.url === currentObj.url && obj.title === currentObj.title
-            );
-            if (!foundObj) {
-              const { url, title } = currentObj;
-              accumulator.push({ url, title });
-            }
-            return accumulator;
-          }, []);
 
         setChatMessages((prevMessages) => {
             const lastMessageIndex = prevMessages.length - 1;
             return prevMessages.map((message, index) => {
             if (index === lastMessageIndex) {
-                return { ...message, message: message.message, source: condensedList, type: 'answer'};
+                return { ...message, message: message.message, source: documents, type: 'answer'};
             }
             return message;
             });
         });
     };
 
-    const askChatGPT = async (currentChat) => {
-        console.log("Debug")
 
-        const eventSource = new EventSource(`${BASE_URL}/chat?q=${currentChat}${getQueryString(selectedFiles)}`, {
+    async function startNewConversation() {
+        const requestOptions = {
+            method: 'PUT',
+            headers: { 'X-UID': user.uid },
+        };
+        const response = await fetch(`${BASE_URL}/conversation`, requestOptions);
+        const data = await response.json();
+        setCurrentConversation(data)
+        return data
+    }
+
+    const askChatGPT = async (currentChat) => {
+        const eventSource = new EventSource(`${BASE_URL}/chat?q=${currentChat}${getQueryString(selectedFiles)}&conversation_id=${currentConversation}`, {
             headers: {
                 'X-UID': user.uid
             }
@@ -144,14 +201,12 @@ export default function ChatBox(props){
 
         eventSource.onmessage = (event) => {
             const msg = JSON.parse(event.data);
-            console.log(msg)
             if (msg.done) {
                 appendSource(msg.documents)
                 eventSource.close();
             } else {
                 // setResponseMessages((messages) => [...messages, msg]);
                 appendToLastMessage(msg.chat_response)
-                console.log(msg)
             }
         };
 

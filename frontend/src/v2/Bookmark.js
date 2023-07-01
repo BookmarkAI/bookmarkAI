@@ -20,8 +20,9 @@ function addDefaultSrc(ev) {
   
 
 export default function Bookmark(props){
-    const { title, url, id, i, setViewer, oneline } = props;
-    const { selectedFiles, updateSelectedFiles, removeSelectedFiles } = useContext(FileContext)
+    const { title, url, id, i, setViewer, oneline, handleChange, checked} = props;
+    const { removeSelectedFiles } = useContext(FileContext)
+
 
     if (oneline) {
         return (
@@ -44,7 +45,7 @@ export default function Bookmark(props){
     } else {
     return(
 
-        <Box sx={{ mb: 0.5, display: 'flex', flexDirection: 'row', justifyContent: 'space-between',border:1, borderRadius: 1, borderColor: '#dddddd', p: 0.5}}>
+        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between',border:1, borderRadius: 1, borderColor: '#dddddd', p: 0.5}}>
             <Box onClick={()=>setViewer(url)} sx={{display: 'flex', flexDirection: 'row'}}>
                 <Box sx={{ minWidth: 10, display: "flex", alignItems: "center", justifyContent: "center", ml: 1, mr: 1}}>
                     <img
@@ -61,7 +62,7 @@ export default function Bookmark(props){
                     <Typography sx={{fontSize: 11}}>{displayUrl(url)}</Typography>
                 </Box>
             </Box>
-            <BpCheckbox id={id}/>
+            <BpCheckbox handleChange={handleChange} checked={checked}/>
           </Box>
         
     )

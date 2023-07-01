@@ -28,8 +28,10 @@ export const AuthProvider = ({ children }) => {
             .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");}
       });
 
-
       setUser(user);
+      if (user) {
+        Hotjar.identify(user.uid, { name: user.displayName, email: user.email })
+      }
       if (user && !cookies?.onboardingCookie) {
         setCookie(
             "onboardingCookie",
@@ -84,6 +86,11 @@ export const AuthProvider = ({ children }) => {
     );
     setOnboarded(status);
   }
+
+  useEffect(() => {
+      ReactGA.set({ userId: user?.uid })
+  }, [user])
+
 
   if (isLoading) {
     // Render loading indicator or any other desired UI element while isLoading is true

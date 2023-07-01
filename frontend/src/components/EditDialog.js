@@ -6,6 +6,9 @@ import CloseIcon from '@mui/icons-material/Close';
 import { getAllFolders, updateBookmarkFolder, deleteBookmarks } from '../services/service';
 import { useState, useEffect } from 'react';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
+import Link from '@mui/material/Link';
+
+
 
 
 function EditDialog({title, url, id, folder, open, setOpen, fetchBookmarks}){
@@ -25,9 +28,11 @@ function EditDialog({title, url, id, folder, open, setOpen, fetchBookmarks}){
         fetchFolderList();
     }, []);
   
-    const handleClose = async () => {
-        console.log(id)
-        console.log(selectedValue)
+    const handleClose = () => {
+        setOpen(false)
+    }
+    
+    const handleUpdate = async () => {
         updateBookmarkFolder(id, selectedValue)
         fetchBookmarks();
         setOpen(false); 
@@ -35,50 +40,57 @@ function EditDialog({title, url, id, folder, open, setOpen, fetchBookmarks}){
 
     return (
         <div>
-        <Dialog open={open} onClose={handleClose}>
-            <Box sx={{minWidth: '300px'}}>
+        <Dialog 
+            open={open} onClose={handleClose}
+            sx={{ "& .MuiDialog-container": {
+                alignItems: "flex-start",
+                mt: 5
+              }}}>
+            <Box sx={{ width: '400px'}}>
 
-           
-            
-               
             <DialogTitle>
                 <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                    Edit Bookmark
-                    <CloseIcon onClick={handleClose}/>
+                    <Typography sx={{fontSize: 17}}>
+                     <b>Edit Bookmark</b>
+                    </Typography>
+                    <CloseIcon sx={{fontSize: 18}} onClick={handleClose}/>
                 </Box>
             </DialogTitle>
         
     
             
-            <Grid sx={{m:3}}>  
-                <Typography gutterBottom variant="h6" component="div"  style={{ lineHeight: "25px" , fontWeight: 540}}>
+            <Grid sx={{m:3, mt: 1.5}}>  
+                <Typography gutterBottom component="div"  style={{ fontSize: 14, fontWeight: 540}}>
                     {title}
                 </Typography>
-                <Typography noWrap gutterBottom variant="subtitle" component="div"  style={{ fontSize: 12, color: "#808080"}}>
+                <Link onClick={()=>window.open(url)} color= "#808080" component="div"  style={{ fontSize: 12,  wordWrap: "break-word" }}>
                     {url}
-                </Typography>  
+                </Link>  
 
-                <Stack spacing={1} sx={{mt:4}}>
+                <Box sx={{mt: 3.5, pb: 2, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
                     <FormControl fullWidth size="small">
                         <InputLabel id="demo-simple-select-label">Folder</InputLabel>
                         <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
-                            label="Folder"
+                            label="Folder &nbsp;"
                             value={selectedValue} 
                             onChange={handleChange}
+                            sx={{fontSize: 13}}
                         >
                         
                             {allFolders.map((doc, i) => (              
-                                <MenuItem value={doc}>{doc}</MenuItem>
+                                <MenuItem sx={{fontSize: 13}} value={doc}>{doc}</MenuItem>
                             ))}
                       
                         </Select>
-                    </FormControl>        
-                </Stack>
-
-                <Box sx={{p: 0, display: 'flex', flexDirection: 'column'}}>
-                <Button onClick={handleClose} sx={{textTransform: 'none', mt: 2,  p: 1.2, borderRadius: 4, background: 'linear-gradient(to right, #cd5b95, #9846ca)'}} variant="contained">
+                    </FormControl> 
+                <Button onClick={handleUpdate} sx={{ ml: 1, width: 100, textTransform: 'none', fontSize: 13, fontWeight: 440, borderRadius: 1, borderWeight: 200, 
+                        color: '#3E434B', borderColor: "#DFE1E4",
+                        '&:hover': {
+                            backgroundColor: '#F8F9FC',
+                            borderColor: '#DFE1E4'
+                        }}} variant="outlined">
                     Save
                 </Button>
                 </Box>
@@ -114,7 +126,7 @@ export default function BookmarkMenu(props) {
   
     return (
       <div>
-        <IconButton onClick={handleClick}>  
+        <IconButton sx={{mt: 0.5, p: 0.5}} onClick={handleClick}>  
             {props.children}
         </IconButton>
         <EditDialog {...props} open={open} setOpen={setOpen}/>
@@ -128,12 +140,12 @@ export default function BookmarkMenu(props) {
             'aria-labelledby': 'basic-button',
           }}
         >
-          <MenuItem onClick={()=>{setOpen(true); handleClose()}} fetchBookmarks={fetchBookmarks}>Edit Bookmark</MenuItem>
+          <MenuItem sx={{fontSize: 13}} onClick={()=>{setOpen(true); handleClose()}} fetchBookmarks={fetchBookmarks}>Edit</MenuItem>
           <CopyToClipboard text={url}>
-            <MenuItem onClick={handleClose}>Copy Link</MenuItem>
+            <MenuItem onClick={handleClose} sx={{fontSize: 13}}>Copy Link</MenuItem>
           </CopyToClipboard>
-          <MenuItem onClick={()=>{window.location.replace(url)}}>Visit Link</MenuItem>
-          <MenuItem sx={{color: 'red'}} onClick={handleDelete}> Delete </MenuItem>
+          <MenuItem sx={{fontSize: 13}} onClick={()=>{window.location.replace(url)}}>Visit Link</MenuItem>
+          <MenuItem  sx={{color: 'red', fontSize: 13}} onClick={handleDelete}> Delete </MenuItem>
         </Menu>
       </div>
     );

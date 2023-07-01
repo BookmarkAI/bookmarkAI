@@ -15,6 +15,8 @@ import SignInPage from './pages/SignInPage';
 import { AuthProvider } from "./components/context/AuthContext";
 import ProtectedRoute from './utils/ProtectedRoute';
 import { TypeProvider } from './utils/TypeContext';
+import ChatScreen from './v2/ChatScreen';
+import { ConversationProvider } from './utils/ConversationContext';
 
 
 function App() {
@@ -25,11 +27,13 @@ function App() {
         <TypeProvider>
         {/* Folder provider is only relevant to desktop application */}
         <FolderProvider>
+          <ConversationProvider>
           <BrowserRouter>
             <Desktop>
               <Routes>
                 {/*<Route path="/" element={<ProtectedRoute><HomeScreen/></ProtectedRoute>} />*/}
                 <Route path="/" element={<Navigate to="/browse" />} />
+                <Route path="/v2" element={<ChatScreen/>}/>
                 <Route path="/login" element={<SignInPage/>}/>
                 <Route element={<ProtectedRoute><Layout/></ProtectedRoute>}>
                   <Route path="/browse" element={<ProtectedRoute><BrowseScreen/></ProtectedRoute>}/>
@@ -53,6 +57,7 @@ function App() {
               </Routes>
             </Mobile>
           </BrowserRouter>
+          </ConversationProvider>
         </FolderProvider>
       </TypeProvider>
     </FileProvider>

@@ -1,4 +1,3 @@
-import Modal from "react-modal";
 import React from "react";
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -8,11 +7,12 @@ import {Stepper, Step, StepLabel} from '@mui/material';
 import MobileStepper from '@mui/material/MobileStepper';
 import { useState } from "react";
 import extension from '../../assets/extension.png'
+import Modal from '@mui/material/Modal';
+import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 
 
-export default function OnboardingModal({ isOpen, onRequestClose, onClose }) {
+export default function OnboardingModal({ open, onClose }) {
         const [ activeStep, setActiveStep ] = useState(0);
-        Modal.setAppElement('#root');
 
         const handleExtensionOpen = () => {
             window.open("https://chrome.google.com/webstore/detail/smart-bookmarks-chat-with/hbgeccffpnlflcghlnajgdhidcikebmj");
@@ -21,27 +21,15 @@ export default function OnboardingModal({ isOpen, onRequestClose, onClose }) {
 
         return (
           <Modal
-            isOpen={isOpen}
-            onRequestClose={onRequestClose}
+            open={open}
+            onClose={onClose}
             // Add additional props and styles as needed
-            style={{
-                content: {
-                    width: '80vw',
-                    height: '80vh',
-                    top: '10vh',
-                    left: '10vw',
-                },
-                overlay: {
-                    zIndex: 1200,
-                }
-            }}
           >
-  
-            <Box sx={{width: '100%', height: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexDirection: 'column'}}>
+            <Box sx={{width: '100vw', height: '100vh', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexDirection: 'column', backgroundColor: 'white'}}>
              
                 <Box></Box>
               {activeStep === 0 &&
-                <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}} >
+                <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 7}} >
                 <img 
                     src={logo} 
                     alt="Bookmark Logo"
@@ -49,11 +37,11 @@ export default function OnboardingModal({ isOpen, onRequestClose, onClose }) {
                         width: 60,
                     }}
                 />
-                  <Typography variant="h3" sx={{fontWeight: 650, color: "#282A2F", mb: 2,mt:2}}>
+                  <Typography variant="h3" sx={{fontWeight: 650, color: "#282A2F", mb: 2, mt: 3}}>
                     Welcome to Supermark
                   </Typography>
                   <Typography sx={{color: "#8C9096"}}>
-                    Supermark helps you organize and extract insights from your bookmarks faster
+                    Supermark is a best-in-class Document Q&A solution
                   </Typography>
                   <Button size="large" sx={{m:5, mb: 8, background: 'linear-gradient(to right, #cd5b95, #9846ca)', textTransform: 'none', width: 300}} onClick={()=>setActiveStep(1)} variant="contained">
                     Get Started
@@ -86,12 +74,15 @@ export default function OnboardingModal({ isOpen, onRequestClose, onClose }) {
                   </Box>
                 }
 
-                <MobileStepper
-                variant="dots"
-                steps={2}
-                activeStep={activeStep}
-                position="relative"
-                sx={{'&.MuiMobileStepper-dot': {}}}/>
+                <Box sx={{mb: 6, display: 'flex', flexDirection: 'row'}}>
+                  <Box sx={{m: 0.3}}>
+                    <FiberManualRecordIcon sx={{fontSize: 15, color: activeStep == 0 ? '#90959D' : '#EFF1F4'}}/>
+                  </Box>
+                  <Box sx={{m: 0.3}}>
+                    <FiberManualRecordIcon sx={{fontSize: 15, color: activeStep == 1 ? '#90959D' : '#EFF1F4'}}/>
+                  </Box>
+                </Box>
+                
             </Box>
 
           </Modal>

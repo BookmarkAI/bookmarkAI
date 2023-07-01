@@ -2,7 +2,8 @@ import * as React from 'react';
 import { IconButton, Menu, MenuItem } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { getAllBookmarks, deleteBookmarks } from '../../services/service';
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import Tooltip from '@mui/material/Tooltip'
 
 export default function FolderMenu({title, setAllFolders}) {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -22,7 +23,7 @@ export default function FolderMenu({title, setAllFolders}) {
           setAllFolders((prevFolders) => prevFolders.filter((folder) => folder !== title));
         })
     }
-  
+
     const handleCloseWithDelete = async () => {
       getAllBookmarks().then((response) => deleteFolder(response, title))
       setAnchorEl(null);
@@ -32,13 +33,15 @@ export default function FolderMenu({title, setAllFolders}) {
     const handleClose = async () => {
       setAnchorEl(null);
     };
-    
+
   
     return (
       <div>
-        <IconButton onClick={handleClick}>  
-            <DeleteIcon  sx={{ fontSize: 17 }}/>
+        <Tooltip title="Delete Folder" placement="right-start">
+        <IconButton onClick={handleClick} sx={{borderRadius: 0, m: 0.8, p: 0.1}}>  
+            <DeleteIcon  sx={{ fontSize: 17, color: '#B6B6C5' }}/>
         </IconButton>
+        </Tooltip>
 
         <Menu
           id="basic-menu"
@@ -49,7 +52,7 @@ export default function FolderMenu({title, setAllFolders}) {
             'aria-labelledby': 'basic-button',
           }}
         >
-          <MenuItem sx={{color: "red"}} onClick={handleCloseWithDelete}> Delete </MenuItem>
+          <MenuItem sx={{color: "red", fontSize: 13}} onClick={handleCloseWithDelete}> Delete </MenuItem>
         </Menu>
       </div>
     );

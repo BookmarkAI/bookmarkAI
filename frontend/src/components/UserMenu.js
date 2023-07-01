@@ -44,8 +44,8 @@ export default function UserMenu(props) {
           'aria-labelledby': 'basic-button',
         }}
       >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
-        <MenuItem onClick={signOut}>Logout</MenuItem>
+        <MenuItem sx={{fontSize: 13}} onClick={handleClose}>Profile</MenuItem>
+        <MenuItem sx={{fontSize: 13}} onClick={signOut}><b>Logout</b></MenuItem>
       </Menu>
     </div>
   );

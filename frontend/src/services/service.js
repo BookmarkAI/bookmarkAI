@@ -5,22 +5,45 @@ const BASE_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost:8000";
 
 async function getAllConversations() {
     var conversations = []
+
     if (auth.currentUser != null) {
-        const q = query(collection(db, "users", auth.currentUser.uid, "conversations"));
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
+        const response = await fetch(
+            `${BASE_URL}/conversations`,
+            {
+                method: 'GET',
+                headers: {
+                    'X-UID': auth.currentUser.uid,
+                }
+            }
+        )
+
+        const data = await response.json();
+
+        data.forEach((doc) => {
             // doc.data() is never undefined for query doc snapshots
-            const conversation = {
-                id: doc.id,
-                ...doc.data(),
-              };
-        
-              conversations.push(conversation);
-        
-          });
+            if (doc.title) {
+                conversations.push(doc)
+            }
+        });
     }
 
-    conversations.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+    return conversations
+    // if (auth.currentUser != null) {
+    //     const q = query(collection(db, "users", auth.currentUser.uid, "conversations"));
+    //     const querySnapshot = await getDocs(q);
+    //     querySnapshot.forEach((doc) => {
+    //         // doc.data() is never undefined for query doc snapshots
+    //         const conversation = {
+    //             id: doc.id,
+    //             ...doc.data(),
+    //           };
+        
+    //           conversations.push(conversation);
+        
+    //       });
+    // }
+
+    // conversations.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 
     return conversations
 }
@@ -29,6 +52,7 @@ async function getConversation(conversationId) {
     if (auth.currentUser != null) {
         const docRef = doc(db, 'users', auth.currentUser.uid, "conversations", conversationId);
         const docSnapshot = await getDoc(docRef);
+        console.log(conversationId)
         return docSnapshot.data()
     }
 }
@@ -61,6 +85,7 @@ async function getAllBookmarks() {
     bookmarks.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
     return bookmarks
 }
+
 
 async function getAllFolders() {
     var folders = []

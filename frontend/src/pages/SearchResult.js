@@ -69,42 +69,42 @@ export default function SearchResult() {
 
     }, [searchParams])
 
-    useEffect(() => {
-        setResponseMessages([])
+    // useEffect(() => {
+    //     setResponseMessages([])
 
-        if (q) {
-            const eventSource = new EventSource(`${BASE_URL}/chat?q=${q}${getQueryString(selectedFiles)}`, {
-                headers: {
-                    'X-UID': user.uid
-                }
-            });
-            eventSource.onmessage = (event) => {
-                const msg = JSON.parse(event.data);
-                if (msg.done) {
-                    eventSource.close();
-                } else {
-                    setResponseMessages((messages) => [...messages, msg]);
-                }
-              };
+    //     if (q) {
+    //         const eventSource = new EventSource(`${BASE_URL}/chat?q=${q}${getQueryString(selectedFiles)}`, {
+    //             headers: {
+    //                 'X-UID': user.uid
+    //             }
+    //         });
+    //         eventSource.onmessage = (event) => {
+    //             const msg = JSON.parse(event.data);
+    //             if (msg.done) {
+    //                 eventSource.close();
+    //             } else {
+    //                 setResponseMessages((messages) => [...messages, msg]);
+    //             }
+    //           };
 
-          // Cleanup on component unmount
-          return () => {
-            eventSource.close();
-          }
-        }
-    }, [searchParams])
+    //       // Cleanup on component unmount
+    //       return () => {
+    //         eventSource.close();
+    //       }
+    //     }
+    // }, [searchParams])
 
-    useEffect(() => {
-        setSources(
-            Array.from(
-                responseMessages.flatMap(
-                    mes => mes.documents
-                ).reduce(
-                    (map, doc) => map.set(doc.url, doc), new Map()
-                ).values()
-            )
-        )
-    }, [responseMessages])
+    // useEffect(() => {
+    //     setSources(
+    //         Array.from(
+    //             responseMessages.flatMap(
+    //                 mes => mes.documents
+    //             ).reduce(
+    //                 (map, doc) => map.set(doc.url, doc), new Map()
+    //             ).values()
+    //         )
+    //     )
+    // }, [responseMessages])
 
     useEffect(() => {
         if (q) {

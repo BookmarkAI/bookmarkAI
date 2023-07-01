@@ -13,126 +13,67 @@ import {CopyToClipboard} from 'react-copy-to-clipboard';
 import CopySnackbar from '../Mobile/CopySnackbar';
 import { getAllConversations, getConversation } from '../../services/service';
 import { FileContext } from '../../utils/FileContext';
+import { DesktopSearchBar } from '../SearchBar';
+import DesktopFolderList from './DesktopFolderList';
+import { FolderContext } from '../../utils/FolderContext';
 
 
 
 export default function DesktopChatScreen({ responseMessages, sources, searchResult}) {
     const { chatEnabled } = useContext(FileContext)
+    const { selectedFolder } = useContext(FolderContext);
 
     const [ searchParams ] = useSearchParams();
     const [ openSnackbar, setOpenSnackbar ] = useState(false);
     const [ chatHistory, setChatHistory ] = useState([]);
 
-    const [ display, setDisplay ] = useState(chatEnabled ? 'chat' : 'all')
+    const [ display, setDisplay ] = useState(null)
     const [ contextUrl, setContextUrl] = useState([]);
 
     const { id } = useParams();
 
     const [ question, setQuestion ] = useState("")
     const [ answer, setAnswer ] = useState(null)
-    
-
-    useEffect(() => {
-        setDisplay(chatEnabled ? 'chat' : 'all')
-    }, [chatEnabled]);
-
-
-    function fetchChatHistory() {
-        getAllConversations().then((response) => setChatHistory(response));
-    }
-
-    useEffect(() => {
-        fetchChatHistory();
-        if (id) {
-            getConversation(id).then((response) => {
-                setQuestion(response.question);
-                setAnswer(response.answer);
-                setContextUrl(response.context_urls);
-            })
-        } else {
-            setQuestion(searchParams.get('q'));
-        }
-    }, [id,searchParams]);
-
    
     return(
         <>
             <CopySnackbar open={openSnackbar} setOpen={setOpenSnackbar}/>
-            <Grid container spacing={2} sx={{mt: 2}} >
-                <Grid item xs={2.5} sx={{  pr: 3}} >
-                   <Box sx={{ maxHeight: 'calc(100vh - 150px)',pl: 2, overflow: "auto"}}>
+            <Grid container >
+                <Grid item xs={1.8} sx={{ borderRight: 1, height: 'calc(100vh - 40px)', borderColor: '#EFF1F4'}} >
+                    <Box sx={{ maxHeight: 'calc(100vh - 110px)', overflow: "auto"}}>
                         <Box> 
-                            <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between"}}>
-                                <Typography variant="h7" sx={{fontWeight: 700, color: "#222222", pl: 1, pb: 1}}> Search History</Typography>
+                            <Box sx={{ pb:1,  display: "flex", alignItems: "center", justifyContent: "space-between"}}>
+                                <Typography sx={{ pt: 1.5, pl: 1.5, pr: 1.5, pb: 0.5, fontSize: 13, fontWeight: 500}}>Folders</Typography>
                             </Box>
-                            <DesktopChatList chatHistory={chatHistory}/>
-                            
+                            <DesktopFolderList/>  
                         </Box>
                     </Box>
-
                 </Grid>
-                <Grid item xs={9.5}>
-                    {/*<SearchTab setDisplay={setDisplay} display={display}/>*/}
+                <Grid item xs={10.2}>
+                <Box sx={{width: '100%', borderBottom: 1, borderColor: '#EFF1F4', pt: 1.5, pb: 1.5, pl: 4}}>
+                        <DesktopSearchBar width={650}/>
+                    </Box>
+                <Box sx={{ maxHeight: 'calc(100vh - 110px)', overflow: "auto", ml: 4}}>
                     
-                    {display==='chat' && <Box sx={{ maxHeight: 'calc(100vh - 150px)', overflow: "auto"}}>
-                        <Box sx={{display: "flex", flexDirection: "column", pb: 2, mt: 3, mb: 3, mr: 8, borderBottom: 1, borderColor: '#bbbbbb'}}>
-                                <Typography variant="h6">{question}</Typography>
-                                <Typography variant="body1" fontSize='20px' sx={{mr:1, mt: 1}}>
-                                    💬 &nbsp;
-                                    <MuiMarkdown>
-                                     {id ? 
-                                        answer
-                                        : 
-                                        responseMessages.map(mes => mes.chat_response).join('')
-                                    }
-                                    </MuiMarkdown>
-                                </Typography>  
-                                <Box sx={{display: "flex", justifyContent: "flex-end", pr: 2}}>
-                                    <CopyToClipboard text={id ? responseMessages.map(mes => mes.chat_response).join('') : answer}>
-                                        <ContentCopyIcon onClick={()=>setOpenSnackbar(true)} sx={{fontSize:"20px", m: 1}}/> 
-                                    </CopyToClipboard>
-                                    
-                                    <ThumbUpOffAltIcon sx={{fontSize:"20px", m: 1}}/>
-                                    <ThumbDownOffAltIcon sx={{fontSize:"20px", m: 1}}/>
-                                </Box>
-                        </Box>
-                        <Typography variant="h6" sx={{fontWeight: 500}}gutterBottom>
-                            Source Bookmarks
-                        </Typography>
+                    <SearchTab setDisplay={setDisplay} display={display}/>
 
-                        {id && 
-                        <Stack spacing={1}>
-                            {contextUrl.map((url, i) => (              
-                            <Link href={url}>
-                                [{i+1}] {url}
-                            </Link>))}
-                        </Stack>
+                    <Box sx={{display: "flex", flexDirection: "column", pb: 2, mt: 1, mb: 3}}>
+                        <DesktopBookMarkList
+                        bookmarks={
+                            display
+                            ? searchResult.filter((bookmark) => {
+                                if (selectedFolder) {
+                                    return bookmark.type === display && bookmark.folder === selectedFolder;
+                                } else {
+                                    return bookmark.type === display;
+                                }
+                                })
+                            : searchResult
                         }
-
-                        <DesktopBookMarkList bookmarks={sources}/>
+                        />
                     </Box>
-                    }
 
-                    {display === 'all' && 
-                        <Box sx={{display: "flex", flexDirection: "column", pb: 2, mt: 3, mb: 3, mr: 8}}>
-                        <DesktopBookMarkList bookmarks={searchResult}/>
-                        </Box>
-                    }
-
-                    {display === 'url' && 
-                    <Box sx={{display: "flex", flexDirection: "column", pb: 2, mt: 3, mb: 3, mr: 8}}>
-                        <DesktopBookMarkList bookmarks={searchResult.filter((bookmark) => bookmark.type === 'url')}/>
-                        </Box>
-                    }
-                    
-
-                    {display === 'pdf' && 
-                    <Box sx={{display: "flex", flexDirection: "column", pb: 2, mt: 3, mb: 3, mr: 8}}>
-                        <DesktopBookMarkList bookmarks={searchResult.filter((bookmark) => bookmark.type === 'pdf')}/>
-                    </Box>
-                    }
-
-
+                </Box>
 
                 </Grid>
             </Grid>

@@ -34,28 +34,14 @@ export default function DesktopAppHeader() {
     
     <AppBar position="sticky" elevation="0" sx={{ backgroundColor: "transparent"}}>
         <Toolbar sx={{backgroundColor: "rgba(255,255,255,0.8)", justifyContent: 'space-between'}}>
-            <Box sx={{display: 'flex', pt: 1, alignItems: 'center'}}>
-                    <Box onClick={onClickHandler} sx={{mr:3}}>
-                        <img 
-                            src={logo} 
-                            alt="Supermark Logo" 
-                            style={{
-                                width: 200
-
-                            }}
-                        />
-                    </Box>
-                
+            <Box sx={{display: 'flex', pt: 1, alignItems: 'center', ml: 35}}>
                     <DesktopSearchBar height={32} width={650} refresh={refresh} advanced={true}/>                
             </Box>
             
-            <UserMenu>
-                <Avatar sx={{ width: 40, height: 40 }}/>
-            </UserMenu>
 
         </Toolbar>
-        <Box sx={{ml: 30}}>
-        <Button onClick={()=>resetSelectedFiles()} sx={{color: "#458be9", textTransform: "none", '&:hover': {
+
+        {/* <Button onClick={()=>resetSelectedFiles()} sx={{color: "#458be9", textTransform: "none", '&:hover': {
             backgroundColor: 'white',
             borderColor: 'transparent',
             boxShadow: 'none',
@@ -66,8 +52,8 @@ export default function DesktopAppHeader() {
           Deselect {selectedFiles.length} bookmarks
       
                   
-      </Button> 
-      </Box>
+      </Button>  */}
+    
     
     
     </AppBar>

@@ -5,7 +5,7 @@ class VectorStoreBookmarkMetadata(BaseModel):
     url: str
     title: str
     id: str
-    similarity_score: float
+    similarity_score: float | None = None
 
     def __hash__(self):
         return hash(self.id)

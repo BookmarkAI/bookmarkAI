@@ -33,8 +33,8 @@ class NumpyEncoder(json.JSONEncoder):
 async def sse_generator(messages_generator: AsyncGenerator[ChatServiceMessage, None],
                         question: str,
                         conversation_service: ConversationService,
-                        conversation_id: str,
-                        chat_history_service: ChatHistoryService):
+                        conversation_id: str | None = None,
+                        chat_history_service: ChatHistoryService | None = None):
     async for msg in messages_generator:
         msg_dict = ChatEndpointMessage(
             chat_response=msg.msg,
@@ -43,34 +43,37 @@ async def sse_generator(messages_generator: AsyncGenerator[ChatServiceMessage, N
         ).dict()
         if msg.done:
             yield f"data: {json.dumps(msg_dict, cls=NumpyEncoder)}\n\n"
-            await chat_history_service.add_chat_message(
-                conversation_id,
-                AIMessage(
-                    content=msg.msg,
-                ),
-                used_context=[d for d in msg.relevant_documents]
-            )
-            # conversation_service.store_conversation(
-            #     question=question,
-            #     context=[d for d in msg.relevant_documents],
-            #     answer=msg.msg,
-            # )
+            if conversation_id and chat_history_service:
+                await chat_history_service.add_chat_message(
+                    conversation_id,
+                    AIMessage(
+                        content=msg.msg,
+                    ),
+                    used_context=[d for d in msg.relevant_documents]
+                )
+            else:
+                conversation_service.store_conversation(
+                    question=question,
+                    context=[d for d in msg.relevant_documents],
+                    answer=msg.msg,
+                )
         else:
             yield f"data: {json.dumps(msg_dict, cls=NumpyEncoder)}\n\n"
 
 
 @router.get('/chat', responses={200: {"content": {"text/event-stream": {}}}})
-async def chat(q: str, conversation_id: str, selected_context: Annotated[list[str] | None, Query()] = None, x_uid: Annotated[str | None, Header()] = None):
+async def chat(q: str, conversation_id: str | None = None, selected_context: Annotated[list[str] | None, Query()] = None, x_uid: Annotated[str | None, Header()] = None):
     if not (x_uid):
         raise Exception("user not authenticated")
     conversation_service = ConversationService(context_service=context_service, uid=x_uid)
     chat_history_service = ChatHistoryService(x_uid)
-    await chat_history_service.add_chat_message(
-        conversation_id,
-        HumanMessage(
-            content=q
+    if conversation_id:
+        await chat_history_service.add_chat_message(
+            conversation_id,
+            HumanMessage(
+                content=q
+            )
         )
-    )
     completion = conversation_service.chat(
         message=q,
         selected_context=selected_context,

@@ -39,7 +39,7 @@ export default function Viewer({url, setViewer}) {
           </Stack>
         </Box>
          {!iframeLoaded && <LinearProgress/>}
-        <iframe position="relative" zIndex={1000} width="100%" height='88.5%' src={`http://localhost:3000/api/viewer?url=${url}`} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+        <iframe position="relative" zIndex={1000} width="100%" height='88.5%' src={`https://supermark-viewer-607e6edec527.herokuapp.com/api/viewer?url=${url}`} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
       </Box>
     )
 }

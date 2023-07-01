@@ -43,7 +43,7 @@ def get_vectorstore() -> weaviate.Client:
     print(f'Connecting to Weaviate at {config.weaviate_url}')
     weaviate_client = weaviate.Client(
         config.weaviate_url,
-        auth_client_secret=weaviate.AuthApiKey(config.weaviate_key),
+        auth_client_secret=weaviate.AuthApiKey(config.weaviate_key) if config.weaviate_key else None,
         additional_headers={
             "X-OpenAI-Api-Key": Config().openai_api_key
         }

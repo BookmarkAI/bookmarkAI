@@ -33,9 +33,9 @@ function App() {
               <Routes>
                 {/*<Route path="/" element={<ProtectedRoute><HomeScreen/></ProtectedRoute>} />*/}
                 <Route path="/" element={<Navigate to="/browse" />} />
-                <Route path="/chat" element={<ChatScreen/>}/>
                 <Route path="/login" element={<SignInPage/>}/>
                 <Route element={<ProtectedRoute><Layout/></ProtectedRoute>}>
+                  <Route path="/chat" element={<ChatScreen/>}/>
                   <Route path="/browse" element={<ProtectedRoute><BrowseScreen/></ProtectedRoute>}/>
                   <Route path="/search" element={<ProtectedRoute><SearchResult/></ProtectedRoute>}/>
                   <Route path="/search/:id" element={<ProtectedRoute><SearchResult/></ProtectedRoute>}/>
@@ -44,6 +44,11 @@ function App() {
             </Desktop>
 
             <Mobile>
+              <Routes>
+              <Route path='/privacy-policy' component={
+                  window.location.href = 'https://www.supermark.ai/'
+                }/>
+              </Routes>
               {/* <Routes>
                 <Route path="/" element={<Navigate to="/browse" />} />
                 <Route path="/login" element={<SignInPage />}/>

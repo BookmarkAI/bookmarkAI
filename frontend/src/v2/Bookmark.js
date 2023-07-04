@@ -59,9 +59,9 @@ export default function Bookmark(props){
                 </Box>
                 <Box>
                     <Typography sx={{width: '100%', fontSize: 11, overflow: 'hidden', textOverflow: 'ellipsis',  display: '-webkit-box',
-        overflow: 'hidden',
-        WebkitBoxOrient: 'vertical',
-        WebkitLineClamp: 1}}>{title}</Typography>
+                    overflow: 'hidden',
+                    WebkitBoxOrient: 'vertical',
+                    WebkitLineClamp: 2}}>{title}</Typography>
                     <Typography sx={{fontSize: 11}}>{displayUrl(url)}</Typography>
                 </Box>
             </Box>

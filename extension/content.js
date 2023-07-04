@@ -21,7 +21,6 @@ function fetchPDFBytes(url) {
     return fetch(url)
       .then(response => response.arrayBuffer())
       .then(arrayBuffer => new Uint8Array(arrayBuffer));
-
   }
 
 // this is the listener for the consoleLog function, simply logs req.message

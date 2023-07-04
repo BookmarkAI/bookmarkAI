@@ -85,14 +85,14 @@ function EditDialog({title, url, id, folder, open, setOpen, fetchBookmarks}){
                       
                         </Select>
                     </FormControl> 
-                <Button onClick={handleUpdate} sx={{ ml: 1, width: 100, textTransform: 'none', fontSize: 13, fontWeight: 440, borderRadius: 1, borderWeight: 200, 
-                        color: '#3E434B', borderColor: "#DFE1E4",
-                        '&:hover': {
-                            backgroundColor: '#F8F9FC',
-                            borderColor: '#DFE1E4'
-                        }}} variant="outlined">
-                    Save
-                </Button>
+                    <Button onClick={handleUpdate} sx={{ ml: 1, width: 100, textTransform: 'none', fontSize: 13, fontWeight: 440, borderRadius: 1, borderWeight: 200, 
+                            color: '#3E434B', borderColor: "#DFE1E4",
+                            '&:hover': {
+                                backgroundColor: '#F8F9FC',
+                                borderColor: '#DFE1E4'
+                            }}} variant="outlined">
+                        Save
+                    </Button>
                 </Box>
             </Grid>
             </Box>

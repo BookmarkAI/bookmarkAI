@@ -13,17 +13,23 @@ import { getAllBookmarks, getAllConversations } from '../../services/service'
 import AddBookmarksToFolder from '../AddBookmarksToFolder';
 import { DesktopSearchBar } from '../SearchBar';
 
+import { AuthContext } from '../context/AuthContext';
+import UploadFileModal from './UploadFileModal';
+
+
+
 export default function DesktopBrowseScreen(props) {
     const { selectedFiles, resetSelectedFiles, removeSelectedFiles, updateSelectedFiles} = useContext(FileContext);
     const { selectedFolder } = useContext(FolderContext);
     const { selectedType } = useContext(TypeContext);
+    const { user } = useContext(AuthContext);
 
     const [ allBookmarks, setAllBookmarks ] = useState([]);
 
+    
 
-
+ 
     function fetchBookmarks() {
-        console.log("test")
         getAllBookmarks().then((response) => setAllBookmarks(response));
     }
 
@@ -74,7 +80,8 @@ export default function DesktopBrowseScreen(props) {
                             <Typography variant="h6" sx={{fontWeight: 550}}> 
                              { selectedFolder ? selectedFolder : "All Bookmarks" }
                             </Typography>
-                                    
+                            {!selectedFolder && <UploadFileModal fetchBookmarks={fetchBookmarks}/>}
+                            
                             {selectedFolder && <AddBookmarksToFolder folder={selectedFolder} fetchBookmarks={fetchBookmarks}/>}
                         </Box>
                         

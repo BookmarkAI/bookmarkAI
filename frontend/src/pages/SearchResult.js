@@ -58,7 +58,7 @@ export default function SearchResult() {
       
           fetchData().then(data => { 
             const updatedData = data.map(bookmark => {
-              const type = bookmark.url.endsWith(".pdf") ? "pdf" : "url";
+              const type = bookmark.url.endsWith(".pdf") || bookmark.url.startsWith("https://firebasestorage.googleapis.com/") ? "pdf" : "url";
               return { ...bookmark, type };
             });
             setSearchResult(updatedData);

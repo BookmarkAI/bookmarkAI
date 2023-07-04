@@ -20,7 +20,7 @@ function DesktopBookMarkList({ spacing, select, topk, bookmarks, fetchBookmarks,
             >
 
             {bookmarks.map((doc, i) => (
-                <Grid item xs={12} sm={6} md={3} >
+                <Grid item xs={12} sm={6} md={4} lg={3} >
                     <DesktopBookmarkCard select={select} {...doc} i={i} fetchBookmarks={fetchBookmarks} setAllBookmarks={setAllBookmarks}/>
                 </Grid>
             ))}
@@ -39,7 +39,7 @@ function MobileBookMarkList({ spacing, select, bookmarks, fetchBookmarks}) {
         >
 
             {bookmarks.map((doc, i) => (
-                <Grid item xs={12}>
+                <Grid item xs={12} md={4}>
                      <Box sx={{display: "flex", flexDirection: "column", borderBottom: 0.2, borderColor: "#d3d3d3" }}>
                     <MobileBookmarkCard select={select} {...doc}>
                         <Box sx={{ mt:3 }}>

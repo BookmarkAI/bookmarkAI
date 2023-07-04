@@ -34,8 +34,8 @@ function App() {
                 {/*<Route path="/" element={<ProtectedRoute><HomeScreen/></ProtectedRoute>} />*/}
                 <Route path="/" element={<Navigate to="/browse" />} />
                 <Route path="/login" element={<SignInPage/>}/>
+                <Route path="/chat" element={<ProtectedRoute><ChatScreen/></ProtectedRoute>}/>
                 <Route element={<ProtectedRoute><Layout/></ProtectedRoute>}>
-                  <Route path="/chat" element={<ChatScreen/>}/>
                   <Route path="/browse" element={<ProtectedRoute><BrowseScreen/></ProtectedRoute>}/>
                   <Route path="/search" element={<ProtectedRoute><SearchResult/></ProtectedRoute>}/>
                   <Route path="/search/:id" element={<ProtectedRoute><SearchResult/></ProtectedRoute>}/>
@@ -45,9 +45,12 @@ function App() {
 
             <Mobile>
               <Routes>
-              <Route path='/privacy-policy' component={
-                  window.location.href = 'https://www.supermark.ai/'
-                }/>
+              <Route element={<ProtectedRoute><Layout/></ProtectedRoute>}>
+                  <Route path="/browse" element={<ProtectedRoute><BrowseScreen/></ProtectedRoute>}/>
+                  <Route path="/search" element={<ProtectedRoute><SearchResult/></ProtectedRoute>}/>
+                  <Route path="/folders" element={<ProtectedRoute><MobileFoldersScreen/></ProtectedRoute>}/>
+                  <Route path="/folder/:id" element={<ProtectedRoute><MobileFolderView/></ProtectedRoute>} />
+                </Route>
               </Routes>
               {/* <Routes>
                 <Route path="/" element={<Navigate to="/browse" />} />

@@ -176,7 +176,7 @@ export default function SelectBookmarkCard({folder, fetchBookmarks}) {
             }}>
             <DialogTitle>
                 <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                <Typography sx={{fontSize: 16}}> <b>Select Bookmarks to add</b></Typography>
+                <Typography sx={{fontSize: 16}}> <b>Add Bookmarks To Folder</b></Typography>
                     <CancelIcon sx={{fontSize: 18}} onClick={handleClose}/>
                 </Box>
             </DialogTitle>

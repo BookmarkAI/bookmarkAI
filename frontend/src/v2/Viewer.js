@@ -12,7 +12,7 @@ import { useEffect } from "react";
 
 // var perf =require('./test.html');
 
-export default function Viewer({url, setViewer}) {
+export default function Viewer({url, setViewer, type}) {
   const [iframeLoaded, setIframeLoaded] = useState(false);
 
   const handleIframeLoad = () => {
@@ -22,6 +22,14 @@ export default function Viewer({url, setViewer}) {
   }, 2000); // 10 seconds in milliseconds
     
   };
+
+  function getUrl(url) {
+    if (url.startsWith('https://firebasestorage.googleapis.com/')){
+      return url
+    } else {
+      return `https://supermark-viewer-607e6edec527.herokuapp.com/api/viewer?url=${url}`
+    }
+  }
 
   useEffect(() => {
     setIframeLoaded(false);
@@ -39,7 +47,7 @@ export default function Viewer({url, setViewer}) {
           </Stack>
         </Box>
          {!iframeLoaded && <LinearProgress/>}
-        <iframe position="relative" zIndex={1000} width="100%" height='88.5%' src={`https://supermark-viewer-607e6edec527.herokuapp.com/api/viewer?url=${url}`} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+        <iframe position="relative" zIndex={1000} width="100%" height='88.5%' src={getUrl(url)} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
       </Box>
     )
 }

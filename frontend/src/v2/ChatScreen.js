@@ -15,6 +15,7 @@ import { useNavigate } from 'react-router';
 import AppHeader from './AppHeader';
 import { getAllConversations } from '../services/service';
 import { useState, useEffect } from 'react';
+import PdfViewer from './PdfViewer';
 
 const drawerWidth = 240;
 const appbarHeight = 50;

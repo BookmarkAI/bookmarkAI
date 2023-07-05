@@ -40,6 +40,7 @@ function ChatMessage(props){
     const [copied, setCopied] = useState(false)
     const [thumb, setThumb] = useState(null)
     const { message, type, viewer, source, setViewer, mobile} = props;
+    const fontSize = mobile ? 15 : 13
 
     const condensedList = source ? source.reduce((accumulator, currentObj) => {
         const foundObj = accumulator.find(
@@ -65,16 +66,16 @@ function ChatMessage(props){
     return(
         <Box sx={{width: '100%', display: 'flex', justifyContent: 'center', borderBottom: 1, borderColor: "#DEDEDF", backgroundColor: type == 'query' ? '#F7F7F8' : 'white', pt: 0.5, pb: 0.5}}>
         <Box sx={{width: viewer ? '90%' : {xs: 500, md: 600, lg: 650}, display: 'flex', flexDirection: 'column', pl: mobile ? 2 : 0, pr: mobile ? 2 : 0}}>
-            <Typography sx={{fontSize: 13}}>
+            <Typography sx={{fontSize: fontSize}}>
                 <ReactMarkdown>
                 {message}
                 {/* </MuiMarkdown> */}
                 </ReactMarkdown>
             </Typography>
             {source && <Stack spacing={.5} sx={{mt: 1, mb: 1}}>
-                {source.length > 0 && <Typography sx={{fontSize: 13, fontWeight: 500}}> Source Bookmarks 🔎</Typography>}
+                {source.length > 0 && <Typography sx={{fontSize: fontSize, fontWeight: 500}}> Source Bookmarks 🔎</Typography>}
                 {condensedList.map((doc, i) => <Box sx={{pl: 0.5}}> 
-                    <Typography sx={{fontSize: 13}}> ✓   <Link onClick={()=>setViewer(doc.url)} sx={{fontSize: 13, mr: 0.8}} underline="hover" color="inherit">{doc.title}</Link><Link onClick={()=>window.open(doc.url)} sx={{fontSize: 13}}>(Visit link)  </Link> </Typography> 
+                    <Typography sx={{fontSize: fontSize}}> ✓   <Link onClick={()=>setViewer(doc.url)} sx={{fontSize: 13, mr: 0.8}} underline="hover" color="inherit">{doc.title}</Link><Link onClick={()=>window.open(doc.url)} sx={{fontSize: 13}}>(Visit link)  </Link> </Typography> 
                     </Box>
                 )}
             </Stack>}
@@ -107,6 +108,7 @@ export default function ChatBox(props){
     const [ chatMessages, setChatMessages ] = useState([])
     const { user } = useContext(AuthContext);
     const scrollRef = useRef(null);
+    const fontSize = mobile ? 15 : 13
 
 
     async function getChatHistory(conversation_id) {
@@ -225,15 +227,15 @@ export default function ChatBox(props){
 
         <Box sx={{width: '100%', display: 'flex', justifyContent: 'center', borderBottom: 1, borderColor: "#DEDEDF", backgroundColor: 'white'}}>
             <Box sx={{width: viewer ? '90%' : {xs: 500, md: 600, lg: 650}, display: 'flex', flexDirection: 'column', pt: 1, pb: 2.5, pl: mobile ? 2 : 0, pr: mobile ? 2 : 0}}>
-                <Typography sx={{fontSize: 13}}>
-                    👋 Welcome to <b> Supermark</b>, your knowledge assistant that helps you understand documents.
+                <Typography sx={{fontSize: fontSize}}>
+                    👋 Welcome to <b> Supermark</b>, your knowledge assistant that helps you understand documents faster.
                     <br/><br/>
                 </Typography>
                 <Stack spacing={1}>
-                    <Typography sx={{fontSize: 13}}><b>How to use it?</b></Typography>
-                    <Typography sx={{fontSize: 13}}> 📌 Select bookmarks that you want to chat with. 👈</Typography>
-                    <Typography sx={{fontSize: 13}}> 📚 By default, you will be chatting with <b>all</b> of your bookmarks</Typography>
-                    <Typography sx={{fontSize: 13}}> 📝 Ask a question, and get an answer!</Typography>
+                    <Typography sx={{fontSize: fontSize}}><b>How to use it?</b></Typography>
+                    <Typography sx={{fontSize: fontSize}}> 📌 Select bookmarks that you want to chat with. 👈</Typography>
+                    <Typography sx={{fontSize: fontSize}}> 📚 By default, you will be chatting with <b>all</b> of your bookmarks</Typography>
+                    <Typography sx={{fontSize: fontSize}}> 📝 Ask a question, and get an answer!</Typography>
                 </Stack>
             </Box>
         </Box>
@@ -250,9 +252,9 @@ export default function ChatBox(props){
             <ChatBar height={25} askChatGPT={askChatGPT} setChatMessages={setChatMessages} mobile={true}/>
             </Box>
             <Box sx={{display: 'flex', justifyContent: 'center', p: 1}}>
-                <Typography sx={{fontSize: 12, color: '#666877'}}>
+                <Typography sx={{fontSize: 13, color: '#666877'}}>
                     {selectedFiles.length == 0 ? 
-                        "☝️ Open drawer to select documents to chat with"
+                        "☝️ Open drawer to select documents"
                     :
                         `Ask questions about ${selectedFiles.length} document(s)`
                     }

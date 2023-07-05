@@ -14,7 +14,7 @@ import { auth, db} from '../fb.js';
 
 export default function ChatBar(props) {
     const [ currentChat, setCurrentChat ] = useState('')
-    const {setChatMessages, askChatGPT, height } = props;
+    const {setChatMessages, askChatGPT, height, mobile} = props;
 
     function changeCurrentChat(e){
         setCurrentChat(e.target.value);    
@@ -43,8 +43,8 @@ export default function ChatBar(props) {
         value={currentChat}
         onChange={changeCurrentChat}
         onKeyDown={keyPress}
-        sx={{flex: 1, fontSize: 13}}
-        placeholder={'Send a Message'}
+        sx={{flex: 1, fontSize: mobile ? 17 : 13}}
+        placeholder={'Send a message'}
         inputProps={{ 'aria-label': 'search google maps' }}
         noWrap
         multiline

@@ -42,7 +42,7 @@ export default function OnboardingModal({ open, onClose }) {
                     Welcome to Supermark
                   </Typography>
                   <Typography sx={{color: "#8C9096"}}>
-                    Supermark is a best-in-class Document Q&A solution
+                    Save documents, and ask questions! 
                   </Typography>
                   <Button size="large" sx={{m:5, mb: 8, background: 'linear-gradient(to right, #cd5b95, #9846ca)', textTransform: 'none', width: 300}} onClick={()=>setActiveStep(1)} variant="contained">
                     Get Started

@@ -33,7 +33,7 @@ function App() {
             <Desktop>
               <Routes>
                 {/*<Route path="/" element={<ProtectedRoute><HomeScreen/></ProtectedRoute>} />*/}
-                <Route path="/" element={<Navigate to="/browse" />} />
+                <Route path="/" element={<Navigate to="/chat" />} />
                 <Route path="/login" element={<SignInPage/>}/>
                 <Route path="/chat" element={<ProtectedRoute><ChatScreen/></ProtectedRoute>}/>
                 <Route element={<ProtectedRoute><Layout/></ProtectedRoute>}>

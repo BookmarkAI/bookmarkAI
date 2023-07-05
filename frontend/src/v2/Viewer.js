@@ -12,12 +12,12 @@ import { useEffect } from "react";
 
 // var perf =require('./test.html');
 function getUrl(url) {
-  if (url.startsWith('https://firebasestorage.googleapis.com/')){
-    return url
-  } else {
-    return `https://supermark-viewer-607e6edec527.herokuapp.com/api/viewer?url=${url}`
+    if (url.startsWith('https://firebasestorage.googleapis.com/')){
+      return url
+    } else {
+      return `http://localhost:3000/api/viewer?url=${url}`
+    }
   }
-}
 
 export default function Viewer({url, setViewer, type}) {
   const [iframeLoaded, setIframeLoaded] = useState(false);
@@ -29,8 +29,6 @@ export default function Viewer({url, setViewer, type}) {
   }, 2000); // 10 seconds in milliseconds
     
   };
-
-  
 
   useEffect(() => {
     setIframeLoaded(false);

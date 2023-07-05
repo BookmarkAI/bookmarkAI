@@ -20,7 +20,7 @@ function addDefaultSrc(ev) {
   
 
 export default function Bookmark(props){
-    const { title, url, id, i, setViewer, oneline, handleChange, checked} = props;
+    const { title, url, id, i, setViewer, oneline, handleChange, checked, mobile} = props;
     const { removeSelectedFiles } = useContext(FileContext)
 
 
@@ -58,7 +58,7 @@ export default function Bookmark(props){
                     />
                 </Box>
                 <Box>
-                    <Typography sx={{width: '100%', fontSize: 11, overflow: 'hidden', textOverflow: 'ellipsis',  display: '-webkit-box',
+                    <Typography sx={{width: '100%', fontSize: mobile ? 13: 11, overflow: 'hidden', textOverflow: 'ellipsis',  display: '-webkit-box',
                     overflow: 'hidden',
                     WebkitBoxOrient: 'vertical',
                     WebkitLineClamp: 2}}>{title}</Typography>

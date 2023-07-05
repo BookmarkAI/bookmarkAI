@@ -14,7 +14,7 @@ import { auth, db} from '../fb.js';
 
 export default function ChatBar(props) {
     const [ currentChat, setCurrentChat ] = useState('')
-    const {setChatMessages, askChatGPT } = props;
+    const {setChatMessages, askChatGPT, height } = props;
 
     function changeCurrentChat(e){
         setCurrentChat(e.target.value);    
@@ -36,7 +36,7 @@ export default function ChatBar(props) {
     
     <Paper
       component="form"
-      sx={{minHeight: 40, display: 'flex', border:1, borderRadius: 2,  borderColor: "#dddddd",  pl: 2, pr: 2, pt: 1, pb: 1}}
+      sx={{minHeight: height ? height : 40, height: height ? height : 20, display: 'flex', border:1, borderRadius: 2,  borderColor: "#dddddd",  pl: 2, pr: 2, pt: 1, pb: 1}}
       elevation={3}
     >
       <InputBase

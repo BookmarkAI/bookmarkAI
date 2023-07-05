@@ -21,6 +21,7 @@ import {CopyToClipboard} from "react-copy-to-clipboard";
 import CheckIcon from '@mui/icons-material/Check';
 import { ConversationContext } from "../utils/ConversationContext";
 import { getConversation } from "../services/service";
+import { Desktop, Mobile } from '../utils/MediaQuery.js';
 
 const BASE_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost:8000";
 const EventSource = EventSourcePolyfill;
@@ -38,7 +39,7 @@ function getQueryString(selectedFiles) {
 function ChatMessage(props){
     const [copied, setCopied] = useState(false)
     const [thumb, setThumb] = useState(null)
-    const { message, type, viewer, source, setViewer} = props;
+    const { message, type, viewer, source, setViewer, mobile} = props;
 
     const condensedList = source ? source.reduce((accumulator, currentObj) => {
         const foundObj = accumulator.find(
@@ -63,7 +64,7 @@ function ChatMessage(props){
     
     return(
         <Box sx={{width: '100%', display: 'flex', justifyContent: 'center', borderBottom: 1, borderColor: "#DEDEDF", backgroundColor: type == 'query' ? '#F7F7F8' : 'white', pt: 0.5, pb: 0.5}}>
-        <Box sx={{width: viewer ? '90%' : {xs: 500, md: 600, lg: 650}, display: 'flex', flexDirection: 'column'}}>
+        <Box sx={{width: viewer ? '90%' : {xs: 500, md: 600, lg: 650}, display: 'flex', flexDirection: 'column', pl: mobile ? 2 : 0, pr: mobile ? 2 : 0}}>
             <Typography sx={{fontSize: 13}}>
                 <ReactMarkdown>
                 {message}
@@ -100,7 +101,7 @@ function ChatMessage(props){
 
 export default function ChatBox(props){
     const { currentConversation, setCurrentConversation } = useContext(ConversationContext);
-    const { viewer, setViewer } = props;
+    const { viewer, setViewer, mobile } = props;
     const [ responseMessages, setResponseMessages ] = useState([])
     const { selectedFiles } = useContext(FileContext)
     const [ chatMessages, setChatMessages ] = useState([])
@@ -219,11 +220,11 @@ export default function ChatBox(props){
 
     return(
         <>
-        <Box sx={{width: '100%', height: '85vh', overflow: 'auto', pt: 3}}> 
-        <DrawerHeader/>
+        <Box sx={{width: '100%', height: '85vh', overflow: 'auto', pt: mobile ? 1: 3}}> 
+        <Desktop><DrawerHeader/></Desktop>
 
         <Box sx={{width: '100%', display: 'flex', justifyContent: 'center', borderBottom: 1, borderColor: "#DEDEDF", backgroundColor: 'white'}}>
-            <Box sx={{width: viewer ? '90%' : {xs: 500, md: 600, lg: 650}, display: 'flex', flexDirection: 'column', pt: 1, pb: 2.5}}>
+            <Box sx={{width: viewer ? '90%' : {xs: 500, md: 600, lg: 650}, display: 'flex', flexDirection: 'column', pt: 1, pb: 2.5, pl: mobile ? 2 : 0, pr: mobile ? 2 : 0}}>
                 <Typography sx={{fontSize: 13}}>
                     👋 Welcome to <b> Supermark</b>, your knowledge assistant that helps you understand documents.
                     <br/><br/>
@@ -238,14 +239,33 @@ export default function ChatBox(props){
         </Box>
         
         {chatMessages.map((msg)=>
-            <ChatMessage  {...msg} viewer={viewer} setViewer={setViewer}/>
+            <ChatMessage  {...msg} viewer={viewer} setViewer={setViewer} mobile={mobile}/>
         )}
-        <Box sx={{height: 10, width: 100}} ref={scrollRef}/>
+        <Box sx={{height: mobile ? 70: 10, width: 100}} ref={scrollRef}/>
         </Box>
 
-        <Box sx={{flexGrow: 1, position: 'fixed', bottom: 40, width: viewer ? 550 : 700 }} fullWidth>
-        <ChatBar askChatGPT={askChatGPT} setChatMessages={setChatMessages}/>
+        <Mobile>
+        <Box sx={{position: 'fixed', width: '100%', bottom: 0, display: 'flex', justifyContent: 'center', flexDirection: 'column', backgroundColor: 'white'}}>
+            <Box sx={{flexGrow: 1, pl: 1.5, pr: 1.5, pt: 0.5}} fullWidth>
+            <ChatBar height={25} askChatGPT={askChatGPT} setChatMessages={setChatMessages}/>
+            </Box>
+            <Box sx={{display: 'flex', justifyContent: 'center', p: 1}}>
+                <Typography sx={{fontSize: 12, color: '#666877'}}>
+                    {selectedFiles.length == 0 ? 
+                        "☝️ Open drawer to select documents to chat with"
+                    :
+                        `Ask questions about ${selectedFiles.length} document(s)`
+                    }
+                </Typography>
+            </Box>
         </Box>
+        </Mobile>
+
+        <Desktop>
+            <Box sx={{flexGrow: 1, position: 'fixed', bottom: 40, width: viewer ? 550 : 700 }} fullWidth>
+            <ChatBar askChatGPT={askChatGPT} setChatMessages={setChatMessages}/>
+            </Box> 
+        </Desktop>
         </>
     )
 }

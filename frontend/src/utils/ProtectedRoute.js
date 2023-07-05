@@ -2,6 +2,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import { Route, Navigate } from 'react-router-dom';
 import { AuthContext } from '../components/context/AuthContext';
 import OnboardingModal from "../components/modal/OnboardingModal";
+import { Desktop } from './MediaQuery'
 
 const ProtectedRoute = (props) => {
   const { user, onboarded, setOnboardingStatus } = useContext(AuthContext);
@@ -23,10 +24,12 @@ const ProtectedRoute = (props) => {
     return (
         <>
             {props.children}
+            <Desktop>
             <OnboardingModal
                 open={modalIsOpen}
                 onClose={handleOnboarded}
             />
+            </Desktop>
         </>
     );
   } 

@@ -247,7 +247,7 @@ export default function ChatBox(props){
         <Mobile>
         <Box sx={{position: 'fixed', width: '100%', bottom: 0, display: 'flex', justifyContent: 'center', flexDirection: 'column', backgroundColor: 'white'}}>
             <Box sx={{flexGrow: 1, pl: 1.5, pr: 1.5, pt: 0.5}} fullWidth>
-            <ChatBar height={25} askChatGPT={askChatGPT} setChatMessages={setChatMessages}/>
+            <ChatBar height={25} askChatGPT={askChatGPT} setChatMessages={setChatMessages} mobile={true}/>
             </Box>
             <Box sx={{display: 'flex', justifyContent: 'center', p: 1}}>
                 <Typography sx={{fontSize: 12, color: '#666877'}}>

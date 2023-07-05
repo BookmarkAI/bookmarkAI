@@ -65,9 +65,9 @@ export default function MobileChatScreen() {
 
   
 
-      <Grid sx={{display: 'flex', justifyContent: 'center'}}>
+     
         <ChatBox mobile={true}/>
-      </Grid>
+    
       <Drawer
         anchor='left'
         open={open}

@@ -9,6 +9,7 @@ import { useState } from "react";
 import extension from '../../assets/extension.png'
 import Modal from '@mui/material/Modal';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+import pin from '../../assets/pin.png';
 
 
 export default function OnboardingModal({ open, onClose }) {
@@ -16,7 +17,7 @@ export default function OnboardingModal({ open, onClose }) {
 
         const handleExtensionOpen = () => {
             window.open("https://chrome.google.com/webstore/detail/smart-bookmarks-chat-with/hbgeccffpnlflcghlnajgdhidcikebmj");
-            onClose();
+            setActiveStep(2)
         }
 
         return (
@@ -74,12 +75,41 @@ export default function OnboardingModal({ open, onClose }) {
                   </Box>
                 }
 
+                {activeStep === 2 &&
+                  <Box sx={{width: '70%',  height: '60%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                    <Box sx={{p: 5}}>
+
+                      <Typography variant="h6" sx={{color: "#282A2F", fontWeight: 530}}>
+                        Pin the extension
+                      </Typography>
+                      <Typography sx={{mt: 1}}>
+                      Please pin the 📌 extension to use it conveniently
+                      </Typography>
+                      <Button
+                          onClick={onClose}
+                          sx={{textTransform: 'none', mt: 2, background: 'linear-gradient(to right, #cd5b95, #9846ca)', width: 250}}
+                          variant="contained"
+                      >
+                        I'm ready to start ❤️️
+                      </Button>
+                    </Box>
+                      <img 
+                        src={pin} 
+                        alt="Bookmark Logo"
+                        style={{width: 450, height: 370}}
+                    />
+                  </Box>
+                }
+
                 <Box sx={{mb: 6, display: 'flex', flexDirection: 'row'}}>
                   <Box sx={{m: 0.3}}>
                     <FiberManualRecordIcon sx={{fontSize: 15, color: activeStep == 0 ? '#90959D' : '#EFF1F4'}}/>
                   </Box>
                   <Box sx={{m: 0.3}}>
                     <FiberManualRecordIcon sx={{fontSize: 15, color: activeStep == 1 ? '#90959D' : '#EFF1F4'}}/>
+                  </Box>
+                  <Box sx={{m: 0.3}}>
+                    <FiberManualRecordIcon sx={{fontSize: 15, color: activeStep == 2 ? '#90959D' : '#EFF1F4'}}/>
                   </Box>
                 </Box>
                 

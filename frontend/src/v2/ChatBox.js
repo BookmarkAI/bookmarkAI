@@ -243,7 +243,7 @@ export default function ChatBox(props){
         {chatMessages.map((msg)=>
             <ChatMessage  {...msg} viewer={viewer} setViewer={setViewer} mobile={mobile}/>
         )}
-        <Box sx={{height: mobile ? 70: 10, width: 100}} ref={scrollRef}/>
+        {chatMessages.length > 0 && <Box sx={{height: mobile ? 70: 10, width: 100}} ref={scrollRef}/>}
         </Box>
 
         <Mobile>

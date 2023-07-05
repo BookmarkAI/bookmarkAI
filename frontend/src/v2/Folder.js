@@ -74,15 +74,15 @@ export default function Folder(props) {
     <Accordion expanded={expanded} onChange={()=>setExpanded(!expanded)}>
         <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
           <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%'}}>
-            <Typography sx={{fontSize: mobile ? 13 :  11}}>{folder}</Typography>
+            <Typography sx={{fontSize: mobile ? 15 :  11}}>{folder}</Typography>
           </Box>
           { expanded && bookmarks.length > 0 ? 
             <BpCheckbox onClick={(event)=>event.stopPropagation()} handleChange={handleChange} checked={bookmarks.every(bookmark => selectedFiles.includes(bookmark.id))}/> : 
-            <Typography sx={{fontSize: mobile ? 13 :  11, mr: 1}}>{bookmarks.length}</Typography>}   
+            <Typography sx={{fontSize: mobile ? 15 :  11, mr: 1}}>{bookmarks.length}</Typography>}   
         </AccordionSummary>
         
         <AccordionDetails>
-            <Stack spacing={0.5}>
+            <Stack spacing={1.5}>
             {bookmarks.map((bookmark)=> 
                  <Bookmark {...bookmark} setViewer={setViewer} border={1} handleChange={
                     (event) => {

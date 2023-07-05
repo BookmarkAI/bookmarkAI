@@ -75,7 +75,7 @@ export default function MobileChatScreen() {
       >
         <Box sx={{width: '80vw', p: 1, display: 'flex', flexDirection: 'column'}}>
           <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', pb: 1}}>
-          <Typography sx={{ pt: 1.5, pl: 1.5, pr: 1.5, pb: 0.5, fontSize: 15, fontWeight: 500}}> Select Bookmarks </Typography>
+          <Typography sx={{ pt: 1.5, pl: 1.5, pr: 1.5, pb: 0.5, fontSize: 17, fontWeight: 600}}> Select Bookmarks </Typography>
           <IconButton onClick={()=>setOpen(false)}>
             <CloseIcon sx={{fontSize: 18}}/>
           </IconButton>
@@ -85,7 +85,7 @@ export default function MobileChatScreen() {
 
           {allBookmarks.length == 0 ? 
           <Box sx={{pl: 2, pr: 2}}>
-            <Typography sx={{fontSize: 14}}>
+            <Typography sx={{fontSize: 15}}>
               You don't have any bookmarks yet. Please visit out desktop website to start adding documents. You can either upload PDF files or bookmark documents online using our chrome extension.
             </Typography>
           </Box>

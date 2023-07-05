@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
+from middleware.clean_path import CleanPathMiddleware
 from views.chat_view import router as chat_router
 from views.extension_view import router as extension_router
 
@@ -13,6 +14,9 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+)
+app.add_middleware(
+    CleanPathMiddleware,
 )
 
 app.include_router(chat_router)

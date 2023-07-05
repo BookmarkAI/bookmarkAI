@@ -264,7 +264,7 @@ export default function ChatBox(props){
         </Mobile>
 
         <Desktop>
-             <Box sx={{flexGrow: 1, position: 'fixed', bottom: 40, width: {sm: viewer ? 200: 500, md: viewer ? 300 : 700, lg: viewer ? 500 : 700} }} fullWidth>
+             <Box sx={{flexGrow: 1, position: 'fixed', bottom: 40, width: {sm: viewer ? 200: 500, md: viewer ? 300 : 700, lg: viewer ? 400 : 700} }} fullWidth>
             <ChatBar askChatGPT={askChatGPT} setChatMessages={setChatMessages}/>
              </Box> 
         </Desktop>

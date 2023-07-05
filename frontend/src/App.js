@@ -17,6 +17,7 @@ import ProtectedRoute from './utils/ProtectedRoute';
 import { TypeProvider } from './utils/TypeContext';
 import ChatScreen from './v2/ChatScreen';
 import { ConversationProvider } from './utils/ConversationContext';
+import MobileChatScreen from './v2/mobile/MobileChatScreen';
 
 
 function App() {
@@ -44,24 +45,19 @@ function App() {
             </Desktop>
 
             <Mobile>
-              <Routes>
-              <Route element={<ProtectedRoute><Layout/></ProtectedRoute>}>
-                  <Route path="/browse" element={<ProtectedRoute><BrowseScreen/></ProtectedRoute>}/>
-                  <Route path="/search" element={<ProtectedRoute><SearchResult/></ProtectedRoute>}/>
-                  <Route path="/folders" element={<ProtectedRoute><MobileFoldersScreen/></ProtectedRoute>}/>
-                  <Route path="/folder/:id" element={<ProtectedRoute><MobileFolderView/></ProtectedRoute>} />
-                </Route>
-              </Routes>
               {/* <Routes>
-                <Route path="/" element={<Navigate to="/browse" />} />
-                <Route path="/login" element={<SignInPage />}/>
-                <Route element={<ProtectedRoute><Layout/></ProtectedRoute>}>
-                  <Route path="/browse" element={<ProtectedRoute><BrowseScreen/></ProtectedRoute>}/>
-                  <Route path="/search" element={<ProtectedRoute><SearchResult/></ProtectedRoute>}/>
-                  <Route path="/folders" element={<ProtectedRoute><MobileFoldersScreen/></ProtectedRoute>}/>
-                  <Route path="/folder/:id" element={<ProtectedRoute><MobileFolderView/></ProtectedRoute>} />
-                </Route>
+              <Route path="/login" element={<SignInPage/>}/>
+              <Route element={<ProtectedRoute><Layout/></ProtectedRoute>}>
+                <Route path="/" element={<ProtectedRoute><BrowseScreen/></ProtectedRoute>}/>
+              </Route>
               </Routes> */}
+              <Routes>
+                <Route path="/login" element={<SignInPage />}/>
+                <Route path="/" element={<ProtectedRoute><MobileChatScreen/></ProtectedRoute>} />
+                <Route path="/browse" element={<Navigate to="/"/>}/>
+                <Route path="/search" element={<Navigate to="/"/>}/>
+                <Route path="/search" element={<Navigate to="/"/>}/>  
+              </Routes>
             </Mobile>
           </BrowserRouter>
           </ConversationProvider>

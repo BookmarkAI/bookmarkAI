@@ -55,15 +55,7 @@ export default function Sidebar(props){
     function fetchBookmarks() {
         getAllBookmarks().then((response) => setAllBookmarks(response));
     }
-
-    function handleSelect(newItem) {
-        if (open == newItem) {
-            setOpen(null)
-        }else {
-            setOpen(newItem)
-        }
-    }
-
+    
     useEffect(() => {
         fetchBookmarks();
         fetchFolderList();
@@ -72,6 +64,14 @@ export default function Sidebar(props){
     const filteredBookmarks = selectedFiles.map(id => {
         return allBookmarks.find(bookmark => bookmark.id === id);
       });
+
+    function handleSelect(newItem) {
+        if (open == newItem) {
+            setOpen(null)
+        }else {
+            setOpen(newItem)
+        }
+    }
 
     return(
         <>

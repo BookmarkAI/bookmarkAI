@@ -15,7 +15,7 @@ function getUrl(url) {
     if (url.startsWith('https://firebasestorage.googleapis.com/')){
       return url
     } else {
-      return `http://viewer.supermark.ai/api/viewer?url=${url}`
+      return `http://localhost:3000/api/viewer?url=${url}`
     }
   }
 

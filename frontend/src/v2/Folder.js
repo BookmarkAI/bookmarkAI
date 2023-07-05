@@ -57,7 +57,7 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 }));
 
 export default function Folder(props) {
-  const { folder, bookmarks, setViewer } = props
+  const { folder, bookmarks, setViewer, mobile } = props
   const [expanded, setExpanded] = React.useState(false);
   const { selectedFiles, updateSelectedFiles, removeSelectedFiles } = useContext(FileContext)
 
@@ -74,11 +74,11 @@ export default function Folder(props) {
     <Accordion expanded={expanded} onChange={()=>setExpanded(!expanded)}>
         <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
           <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%'}}>
-            <Typography sx={{fontSize: 11}}>{folder}</Typography>
+            <Typography sx={{fontSize: mobile ? 13 :  11}}>{folder}</Typography>
           </Box>
           { expanded && bookmarks.length > 0 ? 
             <BpCheckbox onClick={(event)=>event.stopPropagation()} handleChange={handleChange} checked={bookmarks.every(bookmark => selectedFiles.includes(bookmark.id))}/> : 
-            <Typography sx={{fontSize: 11, mr: 1}}>{bookmarks.length}</Typography>}   
+            <Typography sx={{fontSize: mobile ? 13 :  11, mr: 1}}>{bookmarks.length}</Typography>}   
         </AccordionSummary>
         
         <AccordionDetails>
@@ -95,6 +95,7 @@ export default function Folder(props) {
                   }
                  }
                  checked={selectedFiles.includes(bookmark.id)}
+                 mobile={mobile}
                  />
              )
             }

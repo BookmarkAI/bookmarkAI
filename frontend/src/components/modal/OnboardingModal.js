@@ -10,6 +10,7 @@ import extension from '../../assets/extension.png'
 import Modal from '@mui/material/Modal';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import pin from '../../assets/pin.png';
+import demo from '../../assets/demo_supermark.gif'
 
 
 export default function OnboardingModal({ open, onClose }) {
@@ -25,6 +26,7 @@ export default function OnboardingModal({ open, onClose }) {
             open={open}
             onClose={onClose}
             // Add additional props and styles as needed
+            sx={{zIndex: 500000}}
           >
             <Box sx={{width: '100vw', height: '100vh', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexDirection: 'column', backgroundColor: 'white'}}>
              
@@ -86,11 +88,11 @@ export default function OnboardingModal({ open, onClose }) {
                       Please pin the 📌 extension to use it conveniently
                       </Typography>
                       <Button
-                          onClick={onClose}
+                          onClick={()=>setActiveStep(3)}
                           sx={{textTransform: 'none', mt: 2, background: 'linear-gradient(to right, #cd5b95, #9846ca)', width: 250}}
                           variant="contained"
                       >
-                        I'm ready to start ❤️️
+                        One last step
                       </Button>
                     </Box>
                       <img 
@@ -101,6 +103,25 @@ export default function OnboardingModal({ open, onClose }) {
                   </Box>
                 }
 
+                {activeStep === 3 &&
+                  <Box sx={{width: '70%',  height: '80%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center'}}>
+                  
+                     <img 
+                        src={demo} 
+                        alt="Bookmark Logo"
+                        style={{width: 960, height: 540}}
+                    />
+
+                      <Button
+                          onClick={()=>onClose()}
+                          sx={{textTransform: 'none', mt: 2, background: 'linear-gradient(to right, #cd5b95, #9846ca)', width: 250}}
+                          variant="contained"
+                      >
+                        I'm ready to start
+                      </Button>
+                    </Box>
+                } 
+
                 <Box sx={{mb: 6, display: 'flex', flexDirection: 'row'}}>
                   <Box sx={{m: 0.3}}>
                     <FiberManualRecordIcon sx={{fontSize: 15, color: activeStep == 0 ? '#90959D' : '#EFF1F4'}}/>
@@ -110,6 +131,9 @@ export default function OnboardingModal({ open, onClose }) {
                   </Box>
                   <Box sx={{m: 0.3}}>
                     <FiberManualRecordIcon sx={{fontSize: 15, color: activeStep == 2 ? '#90959D' : '#EFF1F4'}}/>
+                  </Box>
+                  <Box sx={{m: 0.3}}>
+                    <FiberManualRecordIcon sx={{fontSize: 15, color: activeStep == 3 ? '#90959D' : '#EFF1F4'}}/>
                   </Box>
                 </Box>
                 

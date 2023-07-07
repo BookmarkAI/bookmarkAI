@@ -111,14 +111,28 @@ export default function OnboardingModal({ open, onClose }) {
                         alt="Bookmark Logo"
                         style={{width: 960, height: 540}}
                     />
+                      <Typography sx={{mt: 1}}>
+                      Click on <b>NEW CHAT</b> to start chatting with bookmarks.
+                      </Typography>
+                      <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: 410}}>
 
                       <Button
                           onClick={()=>onClose()}
-                          sx={{textTransform: 'none', mt: 2, background: 'linear-gradient(to right, #cd5b95, #9846ca)', width: 250}}
+                          sx={{textTransform: 'none', background: 'linear-gradient(to right, #cd5b95, #9846ca)', width: 200}}
                           variant="contained"
                       >
                         I'm ready to start
                       </Button>
+            
+                      <Button  onClick={()=>window.open("https://www.loom.com/share/61541afb9d234a0f8d81078930d853fb?sid=39a40ed6-1ddb-43e5-9c41-efa2a5b8cc35")} sx={{ textTransform: 'none', fontWeight: 440, borderRadius: 1, borderWeight: 300, width: 200,
+                        color: '#3E434B', borderColor: "#DFE1E4",
+                        '&:hover': {
+                            backgroundColor: '#F8F9FC',
+                            borderColor: '#DFE1E4'
+                        }}} variant="outlined">
+                        Watch 3 min tutorial
+                      </Button>
+                      </Box>
                     </Box>
                 } 
 

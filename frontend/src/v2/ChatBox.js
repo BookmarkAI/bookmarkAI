@@ -236,6 +236,7 @@ export default function ChatBox(props){
                     <Typography sx={{fontSize: fontSize}}> 📌 Select bookmarks that you want to chat with. 👈</Typography>
                     <Typography sx={{fontSize: fontSize}}> 📚 By default, you will be chatting with <b>all</b> of your bookmarks</Typography>
                     <Typography sx={{fontSize: fontSize}}> 📝 Ask a question, and get an answer!</Typography>
+                    <Typography sx={{fontSize: fontSize}}> ❤️️ If something's not working, leave a message at <b>415-499-2006</b>. We are eager to help 🤗</Typography>
                 </Stack>
             </Box>
         </Box>

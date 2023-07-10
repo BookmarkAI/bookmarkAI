@@ -4,6 +4,7 @@ import tiktoken
 import weaviate
 from config import Config
 from models.bookmark import VectorStoreBookmark
+from utils.llm import get_num_tokens
 
 config = Config()
 
@@ -126,12 +127,11 @@ class ContextService:
     def __limit_context(cls, context: List[VectorStoreBookmark], token_limit: int) -> List[VectorStoreBookmark]:
         ctx = []
         used_tokens = 0
-        encoding = tiktoken.encoding_for_model(config.fast_llm_model)
         for doc in context:
-            tokens = encoding.encode(doc.page_content)
-            if used_tokens + len(tokens) > token_limit:
+            tokens = get_num_tokens(doc.page_content, config.fast_llm_model)
+            if used_tokens + tokens > token_limit:
                 break
             ctx.append(doc)
-            used_tokens += len(tokens)
+            used_tokens += tokens
 
         return ctx

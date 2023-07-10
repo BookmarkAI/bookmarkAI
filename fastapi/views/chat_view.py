@@ -33,7 +33,6 @@ class NumpyEncoder(json.JSONEncoder):
 async def sse_generator(messages_generator: AsyncGenerator[ChatServiceMessage, None],
                         question: str,
                         conversation_service: ConversationService,
-
                         conversation_id: str | None = None,
                         chat_history_service: ChatHistoryService | None = None):
 
@@ -85,6 +84,7 @@ async def chat(q: str, conversation_id: str | None = None, selected_context: Ann
     completion = conversation_service.chat(
         message=q,
         selected_context=selected_context,
+        conversation_id=conversation_id
     )
     sse = StreamingResponse(
         sse_generator(completion, q, conversation_service, conversation_id, chat_history_service),
@@ -127,4 +127,4 @@ async def get_chat_history(conversation_id: str, x_uid: Annotated[str, Header()]
     chat_history_service = ChatHistoryService(x_uid)
     chat_history = await chat_history_service.get_chat_history(conversation_id)
 
-    return chat_history
+    return [m.to_dict() for m in chat_history]

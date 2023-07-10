@@ -39,12 +39,12 @@ class ChatHistoryService:
                 doc = doc.to_dict()
                 return [
                     ConversationMessage(
-                        message=_message_to_dict(HumanMessage(content=doc.get('question'))),
+                        message=HumanMessage(content=doc.get('question')),
                         used_context=[],
                         timestamp=doc.get('timestamp'),
                     ),
                     ConversationMessage(
-                        message=_message_to_dict(AIMessage(content=doc.get('answer'))),
+                        message=AIMessage(content=doc.get('answer')),
                         used_context=[VectorStoreBookmarkMetadata(url=url, title='', id='') for url in doc.get('context_urls', [])],
                         timestamp=doc.get('timestamp'),
                     )
@@ -64,10 +64,10 @@ class ChatHistoryService:
                 'title': message.content[:250] + '...' if len(message.content) > 250 else message.content
             })
         await conversation_doc_ref.collection('messages').add(ConversationMessage(
-            message=_message_to_dict(message),
+            message=message,
             timestamp=int(datetime.now().timestamp()),
             used_context=[bookmark.metadata.dict() for bookmark in used_context] if used_context else None
-        ).dict())
+        ).to_dict())
 
     async def get_conversations(self):
         user_doc_ref = self.__get_user_document()

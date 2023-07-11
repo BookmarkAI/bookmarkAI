@@ -22,12 +22,8 @@ log = logging.getLogger(__name__)
 
 class ConversationService:
     __system_prompt = """
-       You are a helpful, creative, clever, and very friendly assistant. The user will be giving you a PROMPT, 
-       and CONTEXT will be provided from a source. You may use information from the provided 
-       context to respond to the prompt. Always assume that the prompt is referring to the provided context.
-       You can ignore the context only if it is not relevant to the prompt.
-
-       Use markdown format if beneficial.
+      You're an AI assistant helping users extract information from documents provided as CONTEXT.
+      You are expected to produce an exhaustive answer to the user instruction or query given in PROMPT.
     """
 
     __base_prompt = """
@@ -74,7 +70,7 @@ class ConversationService:
         history_tokens = sum([get_num_tokens(m.content, llm.model_name) for m in history_messages])
         while history_tokens + necessary_tokens > token_limit * 0.9:
             history_messages = history_messages.pop(0)
-            history_tokens = llm.get_num_tokens_from_messages(history_messages)
+            history_tokens = sum([get_num_tokens(m.content, llm.model_name) for m in history_messages])
 
         print('using history: ', '\n'.join([m.content for m in history_messages]))
 
@@ -123,9 +119,9 @@ class ConversationService:
         return doc_ref.id
 
     async def chat(self, message: str, conversation_id: str, selected_context: List[str] | None):
-        context = self.context_service.get_context(message=message, user_id=self.uid, selected_context=selected_context)
-        full_response = ''
         history = await self.chat_history_service.get_chat_history(conversation_id)
+        context = self.context_service.get_context(message=message, user_id=self.uid, history=history, selected_context=selected_context)
+        full_response = ''
 
         token_generator = self._get_message_generator(
             context=context,

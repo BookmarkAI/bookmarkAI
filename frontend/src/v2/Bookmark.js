@@ -20,7 +20,9 @@ function addDefaultSrc(ev) {
   
 
 export default function Bookmark(props){
-    const { title, url, id, i, setViewer, oneline, handleChange, checked, mobile} = props;
+    const { setViewer, bookmark, oneline, handleChange, checked, mobile} = props;
+    console.log(bookmark)
+    const { title, url, id } = bookmark;
     const { removeSelectedFiles } = useContext(FileContext)
 
 
@@ -46,7 +48,7 @@ export default function Bookmark(props){
     return(
 
         <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between',border:1, borderRadius: 1, borderColor: '#dddddd', p: 0.5}}>
-            <Box onClick={()=>setViewer(url)} sx={{display: 'flex', flexDirection: 'row'}}>
+            <Box onClick={()=>setViewer(bookmark)} sx={{display: 'flex', flexDirection: 'row'}}>
                 <Box sx={{ minWidth: 10, display: "flex", alignItems: "center", justifyContent: "center", ml: 1, mr: 1}}>
                     <img
                     src={url ? getIcon(url) : ''}

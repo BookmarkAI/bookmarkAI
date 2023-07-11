@@ -70,11 +70,11 @@ function DesktopFolder(props) {
     return(
         <StyledButton handleClick={handleClick} clicked={clicked}>
  
-            <Box sx={{display: "flex", flexDirection: "row", alignItems: "center"}}>
+            <Box sx={{display: "flex", flexDirection: "row", alignItems: "center", width: '80%'}}>
             <FolderIcon  sx={{ fontSize: 14, color: 'inherit' }}/>
-                    <Typography variant="h7" sx={{ml: 1, fontSize: 12, fontWeight: clicked? 500: 350, color: clicked? "#3D9DFF": "#333333"}}>
-                        {title}
-                    </Typography>
+            <Typography variant="h7" noWrap sx={{overflow: "hidden", textOverflow: "ellipsis", textOverflow: 'ellipsis', ml: 1, fontSize: 12, fontWeight: clicked? 500: 350, color: clicked? "#3D9DFF": "#333333"}}>
+                {title}
+            </Typography>
             </Box>
             {props.children}
 

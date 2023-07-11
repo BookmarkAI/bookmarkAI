@@ -18,6 +18,14 @@ document.getElementById('extractButton').addEventListener('click', async () => {
   });
 });
 
+// document.addEventListener('DOMContentLoaded', function() {
+//   var link = document.getElementById('simplify-button');
+//   // onClick's logic below:
+//   link.addEventListener('click', function() {
+//     chrome.runtime.sendMessage({"command": "simplifyArticle"});
+//   });
+// });
+
 async function getCookies(domain) {
   try {
     const cookies = await chrome.cookies.getAll({domain: domain});

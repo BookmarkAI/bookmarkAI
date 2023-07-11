@@ -4,6 +4,10 @@
   "manifest_version": 3,
   "permissions": ["activeTab", "cookies"],
   "host_permissions": ["<all_urls>"],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+},
   "action": {
     "default_popup": "popup.html"
   },
@@ -26,6 +30,18 @@
     {
       "resources": [ "pdfjs/build/pdf.worker.js" ],
       "matches": [ "https://*/*" ]
+    },
+    {
+      "resources": [ "Readability.js" ],
+      "matches": [ "https://*/*" ]
+    },
+    {
+      "resources": [ "pageScript.js"],
+      "matches": [ "https://*/*" ]
     }
-  ]
+  ],
+  "content_security_policy": {
+    "extension_pages":"script-src 'self' http://localhost:8000; object-src 'self'"
+  }
+  
 }

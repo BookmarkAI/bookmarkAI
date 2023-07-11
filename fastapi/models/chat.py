@@ -1,3 +1,4 @@
+import json
 from typing import List, Any, Dict, Type
 
 from langchain.schema import Document, BaseMessage, _message_from_dict, _message_to_dict
@@ -31,7 +32,7 @@ class ChatEndpointMessage(BaseModel):
 
 
 class ConversationMessage(BaseModel):
-    message: Dict[str, Any]
+    message: BaseMessage
     used_context: List[VectorStoreBookmarkMetadata] | List[str] | None = None
     timestamp: int
 
@@ -41,8 +42,18 @@ class ConversationMessage(BaseModel):
             return obj
         if isinstance(obj, dict):
             return cls(
-                message=_message_to_dict(_message_from_dict(obj['message'])),
+                message=_message_from_dict(obj['message']),
                 used_context=obj['used_context'],
                 timestamp=obj['timestamp']
             )
         raise TypeError(f'Cannot parse {cls} from {obj}')
+
+    def to_dict(self) -> Dict[str, Any]:
+        return {
+            'message': _message_to_dict(self.message),
+            'used_context': [ctx.dict() for ctx in self.used_context] if self.used_context else None,
+            'timestamp': self.timestamp
+        }
+
+    def to_json(self) -> str:
+        return json.dumps(self.to_dict())

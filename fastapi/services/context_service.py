@@ -1,19 +1,29 @@
+import logging
 from typing import List, Dict, Any
 
-import tiktoken
 import weaviate
 from config import Config
 from models.bookmark import VectorStoreBookmark
+from models.chat import ConversationMessage
+from services.query_builder_service import QueryBuilderService
+from utils.llm import get_num_tokens
 
 config = Config()
-
+log = logging.getLogger(__name__)
 
 class ContextService:
     def __init__(self, client: weaviate.Client):
         self.client = client
+        self.query_service = QueryBuilderService()
 
-    def get_context(self, message: str, user_id: str, selected_context: List[str] | None = None,  certainty: float = 0.8) -> List[VectorStoreBookmark]:
-        relevant_docs = self.__get_relevant_documents(message, user_id, selected_context, certainty)
+    def get_context(self, message: str, user_id: str, history: List[ConversationMessage],
+                    selected_context: List[str] | None = None,  certainty: float = 0.8) -> List[VectorStoreBookmark]:
+        try:
+            query = self.query_service.build_query(message, history)
+        except BaseException as e:
+            log.warning(f"Could not build context query - {e}")
+            query = message
+        relevant_docs = self.__get_relevant_documents(query, user_id, selected_context, certainty)
         limited_context = self.__limit_context(relevant_docs, config.max_tokens)
         return limited_context
 
@@ -126,12 +136,11 @@ class ContextService:
     def __limit_context(cls, context: List[VectorStoreBookmark], token_limit: int) -> List[VectorStoreBookmark]:
         ctx = []
         used_tokens = 0
-        encoding = tiktoken.encoding_for_model(config.fast_llm_model)
         for doc in context:
-            tokens = encoding.encode(doc.page_content)
-            if used_tokens + len(tokens) > token_limit:
+            tokens = get_num_tokens(doc.page_content, config.fast_llm_model)
+            if used_tokens + tokens > token_limit:
                 break
             ctx.append(doc)
-            used_tokens += len(tokens)
+            used_tokens += tokens
 
         return ctx

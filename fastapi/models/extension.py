@@ -23,3 +23,4 @@ class ExtensionPDFDocument(BaseModel):
     title: str
     timestamp: int
     folder: str
+    content: str

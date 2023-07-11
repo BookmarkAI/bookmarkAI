@@ -22,11 +22,7 @@ function extractText(node) {
     return text.trim();
 }
 
-function fetchPDFBytes(url) {
-    return fetch(url)
-      .then(response => response.arrayBuffer())
-      .then(arrayBuffer => new Uint8Array(arrayBuffer));
-  }
+
 
 // this is the listener for the consoleLog function, simply logs req.message
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -95,6 +91,12 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     }
   });
 
+function fetchPDFBytes(url) {
+return fetch(url)
+    .then(response => response.arrayBuffer())
+    .then(arrayBuffer => new Uint8Array(arrayBuffer));
+}
+
 // the extension sends this post req to the backend: 
 // { raw_text: str, url: str, UID: str, title: str, image_urls: str[] }
 chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
@@ -115,7 +117,8 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
                 url: url,
                 title: title,
                 timestamp: Math.round(timestamp / 1000),
-                folder: request.folder
+                folder: request.folder,
+                content: ''
             }
 
             return fetch(`${_BACKEND_URL}/storepdf`, {
@@ -223,65 +226,7 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
             });
     
             // Indicate that the response will be sent asynchronously
-            return true;
-
-                // Listen for messages from the page
-            window.addEventListener("message", function(event) {
-                // Only accept messages from the same frame
-                if (event.source !== window) {
-                    return;
-                }
-
-                let message = event.data;
-
-                // Only accept messages that we sent to ourselves
-                if (typeof message !== "object" || message === null || message.type !== "FROM_PAGE") {
-                    return;
-                }
-
-                // Clear the current document body
-                document.body.innerHTML = "";
-
-                // Set the body's innerHTML to the simplified content
-                document.body.innerHTML = message.text;
-
-                console.log(message.text)
-
-                // Send the readable content back to the extension
-                sendResponse({content: message.text});
-
-                const obj = {
-                    raw_text: text,
-                    url: url,
-                    UID: request.UID,
-                    title: title,
-                    image_urls: [],
-                    timestamp: Math.round(timestamp / 1000),
-                    folder: request.folder,
-                    content: message.text  // Save the simplified content
-                }
-
-                return fetch(`${_BACKEND_URL}/store`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-UID': request.UID,
-                    },
-                    body: JSON.stringify(obj)
-
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        // Process the response from the POST request
-                        console.log("data");
-                        console.log(data);
-                    })
-                    .catch(error => {
-                        // Handle any errors
-                        console.error(error);
-                    });
-            });
-            return true;
+            return true;  
         }
     }
 });

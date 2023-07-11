@@ -20,8 +20,8 @@ function getUrl(url) {
     }
   }
 
-export default function Viewer({viewer, setViewer, type }) {
-  const { content, url } = viewer;
+export default function Viewer({viewer, setViewer }) {
+  const { content, url, type } = viewer;
   const [iframeLoaded, setIframeLoaded] = useState(false);
 
   const handleIframeLoad = () => {
@@ -43,9 +43,9 @@ export default function Viewer({viewer, setViewer, type }) {
         return;
       }
 
-      if (name === 'img' && attribs.height && parseInt(attribs.height) < 150) {
-        return null;  // Exclude this image from the output
-      }
+      // if (name === 'img' && attribs.height && parseInt(attribs.height) < 150) {
+      //   return null;  // Exclude this image from the output
+      // }
 
       // if (attribs.class === 'code') {
       //   return <pre>{domToReact(children, options)}</pre>;
@@ -53,7 +53,8 @@ export default function Viewer({viewer, setViewer, type }) {
     },
   };
 
-  const html = content ? parse(content, options) : '';
+  const html = content && type == 'url' ? parse(content, options) : null;
+  console.log(content)
 
     return (
         <Box component="main" sx={{ flexGrow: 1,  height: '100vh', borderRight: 1}}>
@@ -66,8 +67,8 @@ export default function Viewer({viewer, setViewer, type }) {
           </Stack>
         </Box>
         
-         {!iframeLoaded && <LinearProgress/>}
-        {content ? 
+         {/* {!iframeLoaded && <LinearProgress/>} */}
+        {html ? 
         <>
       <Box
         sx={{ 
@@ -123,7 +124,7 @@ export default function Viewer({viewer, setViewer, type }) {
         
         
         </> : 
-        <iframe position="relative" zIndex={1000} width="100%" height='88.5%' src={getUrl(url)} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>}
+        <iframe position="relative" zIndex={1000} width="100%" height='88.5%' src={content ? content : getUrl(url)} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>}
       </Box>
     )
 }

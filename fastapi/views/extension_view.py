@@ -10,6 +10,7 @@ from models.extension import ExtensionDocument, ExtensionPDFDocument, UrlMetadat
 from services.bookmark_store_service import AsyncBookmarkStoreService
 from services.context_service import ContextService
 from utils.db import get_vectorstore, firebase_app as db
+from firebase_admin import storage
 import PyPDF2
 
 router = APIRouter()
@@ -25,6 +26,7 @@ async def store(document: ExtensionDocument, x_uid: Annotated[str, Header()]):
         chunk_size=config.chunk_size, chunk_overlap=config.chunk_overlap, separator='.'
     ).split_text(document.raw_text)
     log.info(f'created {len(chunks)} chunks')
+
     bookmark_service = AsyncBookmarkStoreService()
     bookmark_ref = await bookmark_service.add_bookmark(user_id, document)
 
@@ -65,6 +67,24 @@ async def store_pdf(document: ExtensionPDFDocument, x_uid: Annotated[str, Header
         chunk_size=config.chunk_size, chunk_overlap=config.chunk_overlap, separator='.'
     ).split_text(pdf_text)
     log.info(f'created {len(chunks)} chunks')
+
+    # Create the filename based on UID, folder, and title
+    filename = f"{user_id}/{document.folder}/{document.title}.pdf"
+
+    # Initialize the storage client
+    bucket = storage.bucket()
+
+    # Upload the PDF
+    blob = bucket.blob(filename)
+    blob.upload_from_file(io.BytesIO(pdf_bytes), content_type='application/pdf')
+
+    # Generate download URL
+    blob.make_public()
+
+
+    # Use the URL as content
+    document.content = blob.public_url
+
     bookmark_store_service = AsyncBookmarkStoreService()
     bookmark_ref = await bookmark_store_service.add_bookmark(user_id, document)
 

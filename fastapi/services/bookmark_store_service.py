@@ -63,8 +63,10 @@ class AsyncBookmarkStoreService(BaseBookmarkStoreService):
             'timestamp': document.timestamp,
             'url': document.url,
             'title': document.title,
+            'content': document.content,
             'type': "pdf" if isinstance(document, ExtensionPDFDocument) else "url"
         }
+        print(firebase_data)
         add_bookmark_task = user_doc_ref.collection('bookmarks').add(firebase_data)
         create_new_folder_task = user_doc_ref.update({
             'folders': ArrayUnion([document.folder])

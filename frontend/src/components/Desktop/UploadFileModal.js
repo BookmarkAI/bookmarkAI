@@ -46,77 +46,54 @@ export default function UploadFileModal(props) {
         setFile(event.target.files[0]);
     }
  
-    const handleUpload = () => {
-        setPercent(1)
-        const storageRef = ref(storage, `/files/${file.name}`);
- 
-        // progress can be paused and resumed. It also exposes progress updates.
-        // Receives the storage reference and the file to upload.
-        const uploadTask = uploadBytesResumable(storageRef, file);
- 
-        uploadTask.on(
-            "state_changed",
-            (snapshot) => {
-                const percent = Math.round(
-                    (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-                );
- 
-                // update progress
-                setPercent(percent);
-            },
-            (err) => console.log(err),
-            // () => {
-            //     // download url
-            //     getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-            //         console.log(url);
-            //     });
-            // }
-            async () => {
-                try {
-                  // Retrieve the download URL
-                  const url = await getDownloadURL(uploadTask.snapshot.ref);
-                  const buffer = await file.arrayBuffer();
-                  const bytes = new Uint8Array(buffer);
-                  const formattedPDFBytes = Array.from(bytes)
-                  const obj = {
+    async function handleUpload() {
+            setPercent(1)
+        
+
+            try {
+                // Retrieve the download URL
+                const buffer = await file.arrayBuffer();
+                const bytes = new Uint8Array(buffer);
+                const formattedPDFBytes = Array.from(bytes)
+
+                const title = file.name
+                const titleWithoutExtension = title.slice(0, title.lastIndexOf('.'));
+
+                const obj = {
                     pdf_bytes: formattedPDFBytes,
-                    url: url,
-                    title: file.name,
+                    url: '',
+                    content: '', 
+                    title: titleWithoutExtension,
                     timestamp: 1000,
                     folder: folder ? folder : "Unsorted"
-                   }
-
-           
-                  
-                  // Send the POST request to your backend with the download URL
-                  await fetch(`${BASE_URL}/storepdf`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-UID':user.uid,
-                        },
-                        body: JSON.stringify(obj)
-            
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        // Process the response from the POST request
-                        console.log("data");
-                        console.log(data);
-                        handleClose();
-                    })
-                    .catch(error => {
-                        // Handle any errors
-                        console.error(error);
-                    });
-                  console.log(url);
-                  console.log('File uploaded and request sent successfully');
-                } catch (error) {
-                  console.error('Error uploading file:', error);
                 }
-              }
-        );
 
+        
+                // Send the POST request to your backend with the download URL
+                await fetch(`${BASE_URL}/storepdf`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-UID':user.uid,
+                    },
+                    body: JSON.stringify(obj)
+        
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Process the response from the POST request
+                    console.log("data");
+                    console.log(data);
+                    handleClose();
+                })
+                .catch(error => {
+                    // Handle any errors
+                    console.error(error);
+                });
+                console.log('File uploaded and request sent successfully');
+            } catch (error) {
+                console.error('Error uploading file:', error);
+            }
        
     };
 

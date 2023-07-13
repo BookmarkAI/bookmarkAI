@@ -84,7 +84,7 @@ export default function Folder(props) {
         <AccordionDetails>
             <Stack spacing={1.5}>
             {bookmarks.map((bookmark)=> 
-                 <Bookmark {...bookmark} setViewer={setViewer} border={1} handleChange={
+                 <Bookmark bookmark={bookmark} setViewer={setViewer} border={1} handleChange={
                     (event) => {
                       event.stopPropagation();
                       if(event.target.checked) {

@@ -100,7 +100,7 @@ export default function ChatScreen() {
       <Sidebar setViewer={setViewer}/>
       <Grid container>
       <Grid item xs={6}>
-        {viewer && <Viewer url={viewer} setViewer={setViewer}/>}
+        {viewer && <Viewer viewer={viewer} setViewer={setViewer}/>}
       </Grid>
       <Grid container xs={viewer ? 6 : 12} direction="column" alignItems="center">
         <ChatBox viewer={viewer} setViewer={setViewer}/>

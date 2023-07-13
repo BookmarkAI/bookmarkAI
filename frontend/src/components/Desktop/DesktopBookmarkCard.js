@@ -134,7 +134,7 @@ function DesktopBookmarkCard(props) {
                     {title ? title : "Title"}
                 </Typography>
                 <Typography sx={{ color: "gray", fontSize: 12}}>
-                    {type == 'url' && displayUrl(url)}
+                    {url ? displayUrl(url) : ""}
                 </Typography> 
             </Box>
           </Box>

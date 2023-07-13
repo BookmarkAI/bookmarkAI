@@ -151,7 +151,7 @@ export default function Sidebar(props){
                 </Box>
                 
                 {selectedFiles.length > 0 && filteredBookmarks.map((bookmark)=> 
-                    <Bookmark {...bookmark} oneline/>
+                    <Bookmark bookmark={bookmark} oneline/>
                 )}
             </Box>}
         </Box>}
